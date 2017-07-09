@@ -1,20 +1,10 @@
 from django.contrib import admin
 
-from .models import Profile, Service
+from .models import Profile, Service, Content, ServiceContent, UserSubscription
 
+# Register your models here.
 admin.site.register(Profile)
 admin.site.register(Service)
-# Register your models here.
-'''
-from django.contrib import admin
-
-# Register your models here
-from .models import Program,ProgramData,ProgramScenario, Company, CompanyData
-
-admin.site.register(Company)
-admin.site.register(CompanyData)
-
-admin.site.register(Program)
-admin.site.register(ProgramData)
-admin.site.register(ProgramScenario)
-'''
+admin.site.register(Content)
+admin.site.register(UserSubscription)
+admin.site.register(ServiceContent)
