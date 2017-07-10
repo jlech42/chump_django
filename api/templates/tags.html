@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+
+{% block main %}
+      {% for tag in tags %}
+        <div>
+          {{ tag.name }}
+        </div>
+      {% endfor %}
+{% endblock %}

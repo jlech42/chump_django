@@ -31,7 +31,7 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
     #services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
     class Meta:
         model = Content
-        fields = ('pk','url', 'name')
+        fields = ('pk','url', 'name','trailer','description','image_url')
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     #services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())

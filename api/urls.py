@@ -14,7 +14,9 @@ router.register(r'usersubscriptions', views.UserSubscriptionViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^createuser', views.TestView),
+    url(r'^createuser', views.CreateUser),
+    url(r'^usersubscriptions/manual/create', views.CreateUserSubscription),
+    url(r'^getcontent', views.GetContent),
     url(r'^webviews/$', views.Webviews),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

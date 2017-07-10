@@ -33,6 +33,9 @@ class Content(models.Model):
     name = models.CharField(max_length=128)
     content_type = models.CharField(max_length=128)
     tag = models.ManyToManyField(Tag, through='ContentTag')
+    image_url = models.CharField(max_length=512, default="" )
+    description = models.CharField(max_length=128, default="")
+    trailer = models.CharField(max_length=512, default="")
     def __str__(self):
         return self.name
 
@@ -46,11 +49,17 @@ class Service(models.Model):
 class UserSubscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ('user', 'service',)
 
 class ServiceContent(models.Model):
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ('content', 'service',)
 
 class ContentTag(models.Model):
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ('content', 'tag',)
