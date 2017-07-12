@@ -199,18 +199,11 @@ def GetContentBlocksFromTags(request):
     parsed_response = json.loads(req_body)
     elements = get_elements(parsed_response)
     chatfuel_response = {
-        "messages": [
-            {
-                "attachment":{
-                    "type":"template",
-                    "payload":{
-                        "template_type":"generic",
-                        "elements":elements
-                    }
-                }
-            }
-        ]
-    }
+ "messages": [
+   {"text": "Welcome to our store!"},
+   {"text": "How can I help you?"}
+ ]
+}
     print(chatfuel_response)
     return JsonResponse(chatfuel_response)
 
