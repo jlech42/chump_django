@@ -8,76 +8,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+import requests
+import json
 
 from .models import Profile, Service, Content, UserSubscription, Tag, Content, ContentTag
 from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, ServiceSerializer, ContentSerializer, UserSubscriptionSerializer
 from django.contrib.auth.models import User, Group
 
-
-def CreateContentElement(content_obj):
-    title = content_obj.name
-    image_url = content_obj.image_url
-    subtitle = content_obj.description
-    trailer = content_obj.trailer
-    element = {
-            "title": title,
-            "image_url": image_url,
-            "subtitle": subtitle,
-            "buttons":[
-                {
-                    "type": "web_url",
-                    "url": trailer,
-                    "title":"Trailer"
-                },
-                {
-                    "type": "web_url",
-                    "url": "http://8fc5ec0d.ngrok.io/api/webviews/",
-                    "title": "Already seen"
-                }
-                ]
-            }
-    return element
-
-def GetContentFromTagAndService(tag, services):
-    tag_obj = Tag.objects.get(name=tag)
-    tag_id = tag_obj.id
-
-    # all content associated with tag
-    content_for_tag = ContentTag.objects.all().filter(tag_id=tag_id)
-    elements = []
-    # iterate through and display
-    for content_tag in content_for_tag:
-        content_id = content_tag.content_id
-        content_obj = Content.objects.get(id=content_id)
-        element = CreateContentElement(content_obj)
-        elements.append(element)
-
-    ## need to filter by service
-    return elements
-
-@api_view(['GET'])
-def GetContent(request):
-    print(request)
-    chatfuel_tag_id = 'content_tag'
-    tag = request.GET.get(chatfuel_tag_id)
-    # array of user services
-    services = [1,2,3]
-    elements = GetContentFromTagAndService(tag, services)
-    chatfuel_response = {
-        "messages": [
-            {
-                "attachment":{
-                "type":"template",
-                "payload":{
-                "template_type":"generic",
-                "elements": elements
-                    }
-                }
-            }
-            ]
-        }
-
-    return JsonResponse(chatfuel_response)
 
 @api_view(['POST'])
 @csrf_exempt
@@ -133,6 +70,7 @@ def Webviews(request):
 @csrf_exempt
 #@permission_classes((AllowAny,))
 def CreateUser(request):
+    print('testing user')
     data = request.POST
     first_name = data.get('first name')
     last_name = data.get('last name')
@@ -191,12 +129,122 @@ class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
+
+def get_elements(parsed_response):
+    i = 0
+    elements = []
+    for cont_obj in parsed_response:
+        title = cont_obj['title']
+        image_link = cont_obj['image_link']
+        trailer_link = cont_obj['trailer_link']
+        logline = cont_obj['logline']
+        element = {
+          "title": title,
+          "image_url":image_link,
+          "subtitle": logline,
+          "buttons":[
+            {
+              "type":"web_url",
+              "url": trailer_link,
+              "title":"Trailer"
+            },
+            {
+              "type":"web_url",
+              "url":"",
+              "title":"Already seen"
+            }
+          ]
+        }
+        if i <5:
+            elements.append(element)
+            i = i + 1
+        else:
+            break
+
+    return elements
+
+def GetSubscriptionFromMessengerID(id):
+    user_id = User.objects.get(username=id).id
+    user_subscriptions = UserSubscription.objects.all().filter(user_id=user_id)
+    user_subs = []
+    params = []
+    for sub in user_subscriptions:
+        user_subs.append(Service.objects.get(id=sub.service_id).name)
+    filtered_content = {}
+    # Need to add case where content is on multiple
+    if ("Netflix" in user_subs) == False:
+        filtered_content['on_netflix'] = False
+    if ("Amazon" in user_subs) == False:
+        filtered_content['on_amazon'] = False
+    if ("Hulu" in user_subs) == False:
+        filtered_content['on_hulu'] = False
+    if ("HBO" in user_subs) == False:
+        filtered_content['on_hbo'] = False
+    return filtered_content
+
+@api_view(['GET'])
+def GetContentBlocksFromTags(request):
+    req_body = ''
+    payload = {}
+    content_tag = request.GET.get('content_tag')
+    payload['content_tag'] = content_tag
+    messenger_user_id = request.GET.get('messenger user id')
+    filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
+    payload = {**payload, **filtered_services}
+
+    if request.method == 'GET':
+        r = requests.get('http://localhost:8000/api/content', params=payload)
+        req_body = r.text
+    parsed_response = json.loads(req_body)
+    elements = get_elements(parsed_response)
+    chatfuel_response = {
+        "messages": [
+            {
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements":elements
+                    }
+                }
+            }
+        ]
+    }
+    return JsonResponse(chatfuel_response)
+
 class ContentViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows Content to be viewed or edited.
     """
-    queryset = Content.objects.all()
     serializer_class = ContentSerializer
+    def get_queryset(self):
+        '''
+        Optionally restricts the returned content to a given user,
+        by filtering against a `username` query parameter in the URL +
+        filters by tags.
+        '''
+        queryset = Content.objects.all()
+
+        # filter for tags
+        tag = self.request.query_params.get('content_tag', None)
+        # filter for user services - needs to be tested
+        on_netflix = self.request.query_params.get('on_netflix', None)
+        on_hulu = self.request.query_params.get('on_hulu', None)
+        on_hbo = self.request.query_params.get('on_hbo', None)
+        on_amazon = self.request.query_params.get('on_amazon', None)
+        if on_netflix is not None:
+            queryset = queryset.filter(on_netflix=False)
+        if on_amazon is not None:
+            queryset = queryset.filter(on_amazon=False)
+        if on_hulu is not None:
+            queryset = queryset.filter(on_hulu=False)
+        if on_hbo is not None:
+            queryset = queryset.filter(on_hbo=False)
+        if tag is not None:
+            queryset = queryset.filter(topic_one=tag)
+
+        return queryset
+
 
 class UserSubscriptionViewSet(viewsets.ModelViewSet):
     """

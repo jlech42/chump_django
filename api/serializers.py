@@ -22,16 +22,15 @@ class ServiceSerializer(serializers.HyperlinkedModelSerializer):
         model = Service
         fields = ('pk','url', 'name', 'users', 'content')
 
-class UserSubscriptionSerializer(serializers.HyperlinkedModelSerializer):
+class UserSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSubscription
         fields = ('pk','url', 'service', 'user')
 
-class ContentSerializer(serializers.HyperlinkedModelSerializer):
-    #services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
+class ContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Content
-        fields = ('pk','url', 'name','trailer','description','image_url')
+        fields = '__all__'
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     #services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
