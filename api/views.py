@@ -193,7 +193,7 @@ def GetContentBlocksFromTags(request):
     payload = {**payload, **filtered_services}
 
     if request.method == 'GET':
-        r = requests.get('http://localhost:8000/api/content', params=payload)
+        r = requests.get('http://desolate-basin-19172.herokuapp.com/api/content', params=payload)
         req_body = r.text
     parsed_response = json.loads(req_body)
     elements = get_elements(parsed_response)
