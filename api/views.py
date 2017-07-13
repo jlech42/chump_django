@@ -191,19 +191,26 @@ def GetContentBlocksFromTags(request):
     messenger_user_id = request.GET.get('messenger user id')
     filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
     payload = {**payload, **filtered_services}
-    print('about to send')
+    print('about to send', payload)
     if request.method == 'GET':
-        r = requests.get('http://desolate-basin-19172.herokuapp.com/api/content', params=payload)
+        r = requests.get('http://desolate-basin-19172.herokuapp.com/api/content/', params=payload)
         req_body = r.text
-        print(req_body)
+        print('body',req_body)
     parsed_response = json.loads(req_body)
     elements = get_elements(parsed_response)
     chatfuel_response = {
- "messages": [
-   {"text": "Welcome to our store!"},
-   {"text": "How can I help you?"}
- ]
-}
+        "messages": [
+            {
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements":elements
+                    }
+                }
+            }
+        ]
+    }
     print(chatfuel_response)
     return JsonResponse(chatfuel_response)
 
@@ -219,6 +226,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         filters by tags.
         '''
         queryset = Content.objects.all()
+        print('viewset')
 
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)
