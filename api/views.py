@@ -198,19 +198,13 @@ def GetContentBlocksFromTags(request):
         print('body',req_body)
     parsed_response = json.loads(req_body)
     elements = get_elements(parsed_response)
-    chatfuel_response = {
-        "messages": [
-            {
-                "attachment":{
-                    "type":"template",
-                    "payload":{
-                        "template_type":"generic",
-                        "elements":elements
-                    }
-                }
-            }
-        ]
-    }
+    chatfuel_response = {'messages': [{'attachment': {'type': 'template', 'payload':
+    {'template_type': 'generic', 'elements': [
+    {'title': 'Test', 'image_url': 'https://image.tmdb.org/t/p/w700_and_h392_bestv2//xIt4DDYipMPNu2HDBrhUS4ndSYb.jpg', 'subtitle': 'tegeraa', 'buttons':
+        [{'type': 'web_url', 'url': 'https://youtu.be/3TfxHdVhz0M', 'title': 'Trailer'}, {'type': 'web_url', 'url': 'https://youtu.be/3TfxHdVhz0M', 'title': 'Already seen'}]},
+    {'title': 'Test2', 'image_url': 'https://image.tmdb.org/t/p/w700_and_h392_bestv2//xIt4DDYipMPNu2HDBrhUS4ndSYb.jpg', 'subtitle': 'feafewa',
+        'buttons': [{'type': 'web_url', 'url': 'https://youtu.be/3TfxHdVhz0M', 'title': 'Trailer'},
+                    {'type': 'web_url', 'url': 'https://youtu.be/3TfxHdVhz0M', 'title': 'Already seen'}]}]}}}]}
     print(chatfuel_response)
     return JsonResponse(chatfuel_response)
 
