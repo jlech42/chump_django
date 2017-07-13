@@ -198,19 +198,7 @@ def GetContentBlocksFromTags(request):
         print('body',req_body)
     parsed_response = json.loads(req_body)
     elements = get_elements(parsed_response)
-    chatfuel_response = {
-        "messages": [
-            {
-                "attachment":{
-                    "type":"template",
-                    "payload":{
-                        "template_type":"generic",
-                        "elements":elements
-                    }
-                }
-            }
-        ]
-    }
+    chatfuel_response = {'messages': [{'attachment': {'type': 'template', 'payload': {'template_type': 'generic', 'elements': [{'title': 'Test', 'image_url': 'http://www.smashbros.com/images/og/link.jpg', 'subtitle': 'feafewa', 'buttons': [{'type': 'web_url', 'url': 'www.google.com', 'title': 'Trailer'}, {'type': 'web_url', 'url': '', 'title': 'Already seen'}]}]}}}]}
     print(chatfuel_response)
     return JsonResponse(chatfuel_response)
 
