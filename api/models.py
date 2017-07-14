@@ -8,8 +8,8 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=100)
-    chatfuel_user_id = models.BigIntegerField # from chatfuel
-    messenger_user_id = models.BigIntegerField # from chatfuel
+    #chatfuel_user_id = models.BigIntegerField # from chatfuel
+    #messenger_user_id = models.BigIntegerField # from chatfuel
     def __str__(self):
         return self.user.username
 
@@ -79,6 +79,14 @@ class ServiceContent(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     class Meta:
         unique_together = ('content', 'service',)
+
+class UserContent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.ForeignKey(Content, on_delete=models.CASCADE)
+    on_watchlist = models.BooleanField(default=False)
+    already_seen = models.BooleanField(default=False)
+    class Meta:
+        unique_together = ('content', 'user',)
 
 class ContentTag(models.Model):
     content = models.ForeignKey(Content, on_delete=models.CASCADE)

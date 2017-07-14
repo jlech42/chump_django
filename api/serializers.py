@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User, Group
-from .models import Profile, Service, Content, UserSubscription, Tag, ContentTag, ServiceContent
+from .models import Profile, Service, Content, UserSubscription, Tag, ContentTag, ServiceContent, UserContent
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -30,6 +30,11 @@ class UserSubscriptionSerializer(serializers.ModelSerializer):
 class ContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Content
+        fields = '__all__'
+
+class UserContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserContent
         fields = '__all__'
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):

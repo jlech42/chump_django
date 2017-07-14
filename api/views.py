@@ -10,9 +10,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 import requests
 import json
+from rest_framework.decorators import detail_route, list_route
 
-from .models import Profile, Service, Content, UserSubscription, Tag, Content, ContentTag
-from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, ServiceSerializer, ContentSerializer, UserSubscriptionSerializer
+from .models import Profile, Service, Content, UserSubscription, Tag, Content, ContentTag, UserContent
+from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, ServiceSerializer, ContentSerializer, UserSubscriptionSerializer, UserContentSerializer
 from django.contrib.auth.models import User, Group
 
 
@@ -150,7 +151,7 @@ def get_elements(parsed_response):
             },
             {
               "type":"web_url",
-              "url": "https://youtu.be/3TfxHdVhz0M",
+              "url": "https://www.netflix.com/watch/80121865",
               "title":"Already seen"
             }
           ]
@@ -261,6 +262,35 @@ class ContentViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+
+
+class UserContentViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = UserContent.objects.all()
+    serializer_class = UserContentSerializer
+    '''
+    def perform_create(self, request, pk=None):
+        data = request.data
+        print(data)
+        payload = {
+            'content': data['content'],
+            'on_watchlist': data['on_watchlist'],
+            'already_seen': data['already_seen'],
+            'user': data['user']
+        }
+        print(payload)
+        serializer = self.get_serializer(data=payload)
+        if serializer.is_valid():
+            print('valid')
+            serializer.save()
+            return Response({'status': 'password set'}
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def create(self, serializer):
+        serializer.save()
+    '''
 
 class UserSubscriptionViewSet(viewsets.ModelViewSet):
     """
