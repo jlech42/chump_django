@@ -26,7 +26,7 @@ if 'ROOT_URL' in os.environ:
 
 def Test(request):
     print('testing',request.GET['content_id'])
-    print('testing',request.GET['messenger_id'])
+    print('testing',request.GET['user_id'])
     return JsonResponse({})
 
 @api_view(['POST'])
@@ -73,72 +73,6 @@ def CreateUserSubscription(request):
 def getUserFromMessengerID(messenger_id):
     user = User.objects.get(username=messenger_id)
     return user
-
-@csrf_exempt
-def Webviews(request):
-    tags = Tag.objects.all()
-    return render(request, 'tags.html' ,{'tags': tags})
-
-@api_view(['POST'])
-@csrf_exempt
-#@permission_classes((AllowAny,))
-def CreateUser(request):
-    data = request.POST
-    first_name = data.get('first name')
-    last_name = data.get('last name')
-    username = data.get('chatfuel user id')
-    messenger_user_id = data.get('messenger user id')
-    password = 'admin'
-    user_json = {
-        'first_name': first_name,
-        'last_name': last_name,
-        'username': username,
-        'password': password
-    }
-    serialized = UserSerializer(data=user_json)
-    if serialized.is_valid():
-        serialized.save()
-        return Response(serialized.data, status=status.HTTP_201_CREATED)
-    else:
-        active_user = User.objects.get(username=username)
-        user_profile = active_user.profile
-        user_profile.status = "test"
-        user_profile.save()
-        #CreateUserProfile(request)
-        return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
-
-def CreateUserProfile(request):
-    messenger_user_id = data.get('messenger user id')
-    #serialized = ProfileSerializer(data=)
-    return
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-
-class ProfileViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows profiles to be viewed or edited.
-    """
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
-class ServiceViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
 
 
 def get_elements(parsed_response, **kwargs):
@@ -274,6 +208,73 @@ class ContentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(primary_mode=tag)
 
         return queryset
+
+@csrf_exempt
+def Webviews(request):
+    tags = Tag.objects.all()
+    return render(request, 'tags.html' ,{'tags': tags})
+
+@api_view(['POST'])
+@csrf_exempt
+#@permission_classes((AllowAny,))
+def CreateUser(request):
+    data = request.POST
+    first_name = data.get('first name')
+    last_name = data.get('last name')
+    username = data.get('chatfuel user id')
+    messenger_user_id = data.get('messenger user id')
+    password = 'admin'
+    user_json = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'username': username,
+        'password': password
+    }
+    serialized = UserSerializer(data=user_json)
+    if serialized.is_valid():
+        serialized.save()
+        return Response(serialized.data, status=status.HTTP_201_CREATED)
+    else:
+        active_user = User.objects.get(username=username)
+        user_profile = active_user.profile
+        user_profile.status = "test"
+        user_profile.save()
+        #CreateUserProfile(request)
+        return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+
+def CreateUserProfile(request):
+    messenger_user_id = data.get('messenger user id')
+    #serialized = ProfileSerializer(data=)
+    return
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows profiles to be viewed or edited.
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+class ServiceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+
 
 class UserContentViewSet(viewsets.ModelViewSet):
     """
