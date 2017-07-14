@@ -257,7 +257,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         if on_hbo is not None:
             queryset = queryset.filter(on_hbo=False)
         if tag is not None:
-            queryset = queryset.filter(topic_one=tag)
+            queryset = queryset.filter(primary_mode=tag)
 
         return queryset
 
