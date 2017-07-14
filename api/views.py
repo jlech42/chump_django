@@ -207,7 +207,21 @@ def GetContentBlocksFromTags(request):
                         "elements":elements
                     }
                 }
-            }
+            },
+            {
+                "text":  "Commands below",
+                    "quick_replies": [
+                        {
+                        "title":"See another",
+                        "block_names":["Block1", "Block2"]
+                            },
+                            {
+                            "title":"Go back",
+                            "block_names":["Block1", "Block2"]
+                                },
+
+      ]
+    }
         ]
     }
     print(chatfuel_response)
