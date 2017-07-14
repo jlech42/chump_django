@@ -209,10 +209,9 @@ def GetContentBlocksFromTags(request):
                 }
             },
             {
-                "text":  "Commands below",
                     "quick_replies": [
                         {
-                        "title":"",
+                        "title":"See another",
                         "block_names":["Block1", "Block2"]
                             },
                             {
