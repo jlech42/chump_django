@@ -212,13 +212,13 @@ def GetContentBlocksFromTags(request):
                 "text":  "More commands below",
                     "quick_replies": [
                         {
-                        "title":"See more docs",
-                        "block_names":["Block1", "Block2"]
-                            },
-                            {
+                            "title":"See more docs",
+                            "block_names":["Block1", "Block2"]
+                        },
+                        {
                             "title":"Change topics",
-                            "block_name": "0-2: Return routing block"
-                                },
+                            "block_name": "0: Another doc"
+                        },
 
       ]
     }
