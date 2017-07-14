@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^custom-views/content-blocks', views.GetContentBlocksFromTags),
     #url(r'^getcontentblocks', views.GetContentBlocks),
     url(r'^webviews/$', views.Webviews),
+    url(r'^test/$', views.Test),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

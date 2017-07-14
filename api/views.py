@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-
+import os
 from rest_framework import viewsets, status, generics
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -16,6 +16,18 @@ from .models import Profile, Service, Content, UserSubscription, Tag, Content, C
 from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, ServiceSerializer, ContentSerializer, UserSubscriptionSerializer, UserContentSerializer
 from django.contrib.auth.models import User, Group
 
+PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com'
+DEV_ROOT_URL = 'http://11b61548.ngrok.io'
+
+ROOT_URL = DEV_ROOT_URL
+if 'ROOT_URL' in os.environ:
+    ROOT_URL = os.environ['ROOT_URL']
+
+
+def Test(request):
+    print('testing',request.GET['content_id'])
+    print('testing',request.GET['messenger_id'])
+    return JsonResponse({})
 
 @api_view(['POST'])
 @csrf_exempt
@@ -71,7 +83,6 @@ def Webviews(request):
 @csrf_exempt
 #@permission_classes((AllowAny,))
 def CreateUser(request):
-    print('testing user')
     data = request.POST
     first_name = data.get('first name')
     last_name = data.get('last name')
@@ -86,7 +97,6 @@ def CreateUser(request):
     }
     serialized = UserSerializer(data=user_json)
     if serialized.is_valid():
-        print('valid')
         serialized.save()
         return Response(serialized.data, status=status.HTTP_201_CREATED)
     else:
@@ -131,14 +141,19 @@ class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceSerializer
 
 
-def get_elements(parsed_response):
+def get_elements(parsed_response, **kwargs):
+    messenger_id = kwargs['messenger_id']
     i = 0
     elements = []
     for cont_obj in parsed_response:
+        content_id = cont_obj['id']
         title = cont_obj['title']
         image_link = cont_obj['image_link']
         trailer_link = cont_obj['trailer_link']
         logline = cont_obj['logline']
+        root = ROOT_URL + "/api/test/?"
+        params = "content_id=" + str(content_id) + "&user_id=" + str(messenger_id)
+        url = root+params
         element = {
           "title": title,
           "image_url":image_link,
@@ -150,8 +165,8 @@ def get_elements(parsed_response):
               "title":"Trailer"
             },
             {
-              "type":"web_url",
-              "url": "https://www.netflix.com/watch/80121865",
+              "type":"json_plugin_url",
+              "url": url,
               "title":"Already seen"
             }
           ]
@@ -191,13 +206,11 @@ def GetContentBlocksFromTags(request):
     messenger_user_id = request.GET.get('messenger user id')
     filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
     payload = {**payload, **filtered_services}
-    print('about to send', payload)
     if request.method == 'GET':
-        r = requests.get('http://desolate-basin-19172.herokuapp.com/api/content/', params=payload)
+        r = requests.get(ROOT_URL+'/api/content/', params=payload)
         req_body = r.text
-        print('body',req_body)
     parsed_response = json.loads(req_body)
-    elements = get_elements(parsed_response)
+    elements = get_elements(parsed_response, messenger_id=messenger_user_id)
     chatfuel_response = {
         "messages": [
             {
@@ -225,7 +238,7 @@ def GetContentBlocksFromTags(request):
     }
         ]
     }
-    print(chatfuel_response)
+
     return JsonResponse(chatfuel_response)
 
 class ContentViewSet(viewsets.ModelViewSet):
@@ -240,7 +253,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         filters by tags.
         '''
         queryset = Content.objects.all()
-        print('viewset')
+
 
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)
