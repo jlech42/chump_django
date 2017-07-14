@@ -262,34 +262,22 @@ class ContentViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-
-
 class UserContentViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
     queryset = UserContent.objects.all()
     serializer_class = UserContentSerializer
+
     '''
-    def perform_create(self, request, pk=None):
-        data = request.data
-        print(data)
-        payload = {
-            'content': data['content'],
-            'on_watchlist': data['on_watchlist'],
-            'already_seen': data['already_seen'],
-            'user': data['user']
-        }
-        print(payload)
-        serializer = self.get_serializer(data=payload)
+    def create(self, request, *args, **kwargs):
+        yo = request.data.pop('yo')
+        print(yo)
+        request.data['user'] = yo
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            print('valid')
             serializer.save()
-            return Response({'status': 'password set'}
-        else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-    def create(self, serializer):
-        serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
     '''
 
 class UserSubscriptionViewSet(viewsets.ModelViewSet):
