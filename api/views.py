@@ -17,21 +17,41 @@ from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, Ser
 from django.contrib.auth.models import User, Group
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com'
-DEV_ROOT_URL = 'http://11b61548.ngrok.io'
+DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
 
 ROOT_URL = DEV_ROOT_URL
 if 'ROOT_URL' in os.environ:
     ROOT_URL = os.environ['ROOT_URL']
 
+FB_ID_RAW = 'https://graph.facebook.com/v2.6/1241145236012339/?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WTIhFv0L2hm8keNhUnYMUOOtS0aZARHFiSyh8gVAOh1xE0TXM6dLrxk21bqBl0kZBJyqvf7dDNSFZBHDasLTqhZCry871iMqHznpLr7rrWQOmpQj7c1njc8gZDZD'
+USER_ID = '1241145236012339'
+FB_URL_ROOT = "https://graph.facebook.com/v2.6/" + USER_ID
+FB_PAGE_ACCESS_TOKEN = 'EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WTIhFv0L2hm8keNhUnYMUOOtS0aZARHFiSyh8gVAOh1xE0TXM6dLrxk21bqBl0kZBJyqvf7dDNSFZBHDasLTqhZCry871iMqHznpLr7rrWQOmpQj7c1njc8gZDZD'
+FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token="+FB_PAGE_ACCESS_TOKEN
+FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
+@api_view(['POST'])
+@csrf_exempt
 def Test(request):
     """
     API endpoint that takes in content and user id and returns a relationship between a piece of content and user
     """
-    content_id = request.GET['content_id']
-    user_id = request.GET['user_id']
-    already_seen = request.GET['already_seen']
 
+    payload = {}
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    user_id = body['user']
+    content_id = body['content']
+    payload['content'] = content_id
+    payload['user'] = user_id
+    if 'on_watchlist' in body:
+        payload['on_watchlist'] = body['on_watchlist']
+    if 'already_seen' in body:
+        payload['already_seen'] = body['already_seen']
+    print(payload)
+    print(ROOT_URL)
+    r = requests.put(ROOT_URL+'/api/usercontents/', data=payload)
+    print(r)
     return JsonResponse({})
 
 @api_view(['POST'])
