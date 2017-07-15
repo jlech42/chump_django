@@ -25,8 +25,13 @@ if 'ROOT_URL' in os.environ:
 
 
 def Test(request):
-    print('testing',request.GET['content_id'])
-    print('testing',request.GET['user_id'])
+    """
+    API endpoint that takes in content and user id and returns a relationship between a piece of content and user
+    """
+    content_id = request.GET['content_id']
+    user_id = request.GET['user_id']
+    already_seen = request.GET['already_seen']
+
     return JsonResponse({})
 
 @api_view(['POST'])
@@ -86,7 +91,7 @@ def get_elements(parsed_response, **kwargs):
         trailer_link = cont_obj['trailer_link']
         logline = cont_obj['logline']
         root = ROOT_URL + "/api/test/?"
-        params = "content_id=" + str(content_id) + "&user_id=" + str(messenger_id)
+        params = "content_id=" + str(content_id) + "&user_id=" + str(messenger_id) + "&already_seen=true"
         url = root+params
         element = {
           "title": title,
@@ -282,6 +287,17 @@ class UserContentViewSet(viewsets.ModelViewSet):
     """
     queryset = UserContent.objects.all()
     serializer_class = UserContentSerializer
+    def put(self, request):
+        obj = self.queryset.filter(content=request.data['content'], user=request.data['user'])[0]
+        print (obj.id)
+        serializer = self.serializer_class(obj,data=request.data)
+        if serializer.is_valid():
+            print('put')
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print('else')
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
     '''
     def create(self, request, *args, **kwargs):

@@ -35,7 +35,7 @@ class ContentSerializer(serializers.ModelSerializer):
 class UserContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserContent
-        fields = '__all__'
+        fields = ('content','user', 'on_watchlist', 'already_seen')
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     #services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
