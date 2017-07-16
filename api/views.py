@@ -285,9 +285,11 @@ def GetContentBlocksFromTags(request):
     payload['content_tag'] = content_tag
     messenger_user_id = request.GET.get('messenger user id')
     user_id = User.objects.get(username=messenger_user_id).id
+    print(user_id)
     payload['user_id'] = user_id
     filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
     payload = {**payload, **filtered_services}
+    print(payload)
     if request.method == 'GET':
         r = requests.get(ROOT_URL+'/api/content/', params=payload)
         req_body = r.text
