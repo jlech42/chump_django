@@ -291,6 +291,7 @@ def DisplayGalleryFromContentObjects(content_objects, user):
 
     elements = []
     # need to make sure gallery can hold unlimited elements
+    print('gallery')
     for obj in content_objects:
         elements.append(CreateGalleryElementFromContentObject(obj.content, user))
 
@@ -313,7 +314,7 @@ def DisplayGalleryFromContentObjects(content_objects, user):
 @api_view(['GET'])
 def ShowWatchlistFromMessengerId(request):
     messenger_user_id = request.GET.get('messenger user id')
-    print(messenger_user_id)
+    print('mess id',messenger_user_id)
     user = User.objects.get(username=messenger_user_id).id
     user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
     chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)

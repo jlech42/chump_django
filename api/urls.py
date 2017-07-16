@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^custom-views/content-blocks', views.GetContentBlocksFromTags),
     url(r'^usercontents/manual/update', views.UpdateUserContent),
     url(r'^custom-views/show-watchlist', views.ShowWatchlist),
-    url(r'^custom-views/show-watchlist-from-messenger-id', views.ShowWatchlistFromMessengerId),
+    url(r'^custom-views/get-watchlist-from-messenger-id', views.ShowWatchlistFromMessengerId),
     #url(r'^getcontentblocks', views.GetContentBlocks),
     url(r'^test/$', views.Test),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
