@@ -190,6 +190,16 @@ def GetSubscriptionFromMessengerID(id):
         filtered_content['on_hbo'] = False
     return filtered_content
 
+
+def ShowWatchlist(request):
+    print('showing')
+    json = {
+        "messages": [
+            {"text": "Great, we won't show you this rec again"}
+        ]
+    }
+    return JsonResponse(json)
+
 @api_view(['GET'])
 def GetContentBlocksFromTags(request):
     print('getting content blocks')
@@ -205,6 +215,7 @@ def GetContentBlocksFromTags(request):
         req_body = r.text
     parsed_response = json.loads(req_body)
     elements = get_elements(parsed_response, messenger_id=messenger_user_id)
+    root = ROOT_URL + "/api/custom-views/show-watchlist/"
     chatfuel_response = {
         "messages": [
             {
@@ -229,7 +240,8 @@ def GetContentBlocksFromTags(request):
                         },
                         {
                             "title":"See watchlist",
-                            "block_name": "Another doc"
+                            "url": root,
+                            "type":"json_plugin_url"
                         },
 
       ]
