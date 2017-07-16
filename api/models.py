@@ -86,7 +86,7 @@ class UserContent(models.Model):
     on_watchlist = models.BooleanField(default=False)
     already_seen = models.BooleanField(default=False)
     class Meta:
-        unique_together = (('content', 'user', 'on_watchlist'),('content', 'user', 'already_seen'))
+        unique_together = ('content', 'user')
 
 class ContentTag(models.Model):
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
