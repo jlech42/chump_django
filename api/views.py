@@ -128,10 +128,8 @@ def getUserFromMessengerID(messenger_id):
     return user
 
 
-def get_elements(parsed_response, **kwargs):
-    messenger_id = kwargs['messenger_id']
+def get_elements(parsed_response, user_id):
     i = 0
-    user_id = User.objects.get(username=messenger_id).id
     elements = []
     for cont_obj in parsed_response:
         content_id = cont_obj['id']
@@ -192,13 +190,25 @@ def GetSubscriptionFromMessengerID(id):
 
 
 def ShowWatchlist(request):
+    user = request.GET.get('user')
+    print('user', user)
+    watchlist_content = UserContent.objects.all().filter(user_id=user,on_watchlist=True)
     print('showing')
-    json = {
+    elements = get_elements(watchlist_content, user)
+    chatfuel_response = {
         "messages": [
-            {"text": "Great, we won't show you this rec again"}
+            {
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements":elements
+                    }
+                }
+            }
         ]
     }
-    return JsonResponse(json)
+    return JsonResponse(chatfuel_response)
 
 @api_view(['GET'])
 def GetContentBlocksFromTags(request):
@@ -208,14 +218,15 @@ def GetContentBlocksFromTags(request):
     content_tag = request.GET.get('content_tag')
     payload['content_tag'] = content_tag
     messenger_user_id = request.GET.get('messenger user id')
+    user_id = User.objects.get(username=messenger_user_id).id
     filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
     payload = {**payload, **filtered_services}
     if request.method == 'GET':
         r = requests.get(ROOT_URL+'/api/content/', params=payload)
         req_body = r.text
     parsed_response = json.loads(req_body)
-    elements = get_elements(parsed_response, messenger_id=messenger_user_id)
-    root = ROOT_URL + "/api/custom-views/show-watchlist/"
+    elements = get_elements(parsed_response, user_id)
+    root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
     chatfuel_response = {
         "messages": [
             {
