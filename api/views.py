@@ -47,6 +47,11 @@ def SimpleMessage(type, *args,**kwargs):
                 {"text":  "What would you like to do now?",
                     "quick_replies": [
                         {
+                            "title":"See a new rec",
+                            "block_names": ["Recommendations"]
+
+                        },
+                        {
                             "title":"Change topics",
                             "block_names": ["Topics"]
 
@@ -65,6 +70,11 @@ def SimpleMessage(type, *args,**kwargs):
                 {"text": "We've added to your watchlist"},
                 {"text":  "What would you like to do now?",
                     "quick_replies": [
+                        {
+                            "title":"See a new rec",
+                            "block_names": ["Recommendations"]
+
+                        },
                         {
                             "title":"Change topics",
                             "block_names": ["Topics"]
