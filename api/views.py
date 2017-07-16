@@ -50,6 +50,7 @@ def SimpleMessage(type, *args,**kwargs):
                             "block_names":["Block1", "Block2"]
                         },
                         {
+                            "type": "show_block",
                             "title":"Change topics",
                             "block_name": "Topics"
                         },
@@ -72,6 +73,7 @@ def SimpleMessage(type, *args,**kwargs):
                             "block_names":["Block1", "Block2"]
                         },
                         {
+                            "type": "show_block",
                             "title":"Change topics",
                             "block_name": "Topics"
                         },
