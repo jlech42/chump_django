@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.mixins import UpdateModelMixin
 import requests
 import json
 from rest_framework.decorators import detail_route, list_route
@@ -72,8 +73,7 @@ def UpdateUserContent(request):
     action = body.get('action')
     payload['content'] = content
     payload['user'] = user
-    print(action)
-
+    existing = false
     # check if adding to watchlist
     if 'on_watchlist' in body:
         payload['on_watchlist'] = body['on_watchlist']
@@ -82,9 +82,17 @@ def UpdateUserContent(request):
     if 'already_seen' in body:
         payload['already_seen'] = body['already_seen']
         print('already seen')
-    print(payload)
-    r = requests.put(ROOT_URL+'/api/usercontents/', data=payload)
-    print('sent',r)
+    if not UserContent.objects.get(content=content,user=user):
+        print('need to create')
+        r = requests.post(ROOT_URL+'/api/usercontents/', data=payload)
+        json = SimpleMessage(action)
+        return JsonResponse(json)
+    print(UserContent.objects.get(content=content,user=user).pk)
+    url_pk = str(UserContent.objects.get(content=content,user=user).pk)
+    print(action)
+    r = requests.put(ROOT_URL+'/api/usercontents/' + url_pk +'/', data=payload)
+
+    # create new
     json = SimpleMessage(action)
     return JsonResponse(json)
 
@@ -340,13 +348,49 @@ class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
-
+#@api_view(['GET','PUT','POST'])
 class UserContentViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
     queryset = UserContent.objects.all()
     serializer_class = UserContentSerializer
+    '''
+    def perform_update(self, serializer):
+        print('updating')
+
+        user_instance = serializer.instance
+        request = self.request
+        serializer.save(**modified_attrs)
+        return Response(status=status.HTTP_200_OK)
+    '''
+    '''
+    def get_object(self):
+        if self.request.method == 'PUT':
+            print('put')
+            user_content = UserContent.objects.filter(user=self.kwargs.get('')).first()
+            if user_content:
+                return user_content
+            else:
+                return UserContent(id=self.kwargs.get('pk'))
+        else:
+            return super(UserContentViewSet, self).get_object()
+    '''
+    '''
+    def create(self, validated_data):
+        print(validated_data.data)
+        user = validated_data.data['user']
+        content = validated_data.data['content']
+        print(user, content)
+        user_content, created = UserContent.objects.get_or_create(
+            user=user,
+            content=content
+        )
+        print('content id',user_content.id)
+        return user_content
+
+        '''
+    '''
     def put(self, request):
         obj = self.queryset.filter(content=request.data['content'], user=request.data['user'])[0]
         print (obj.id)
@@ -358,16 +402,6 @@ class UserContentViewSet(viewsets.ModelViewSet):
         else:
             print('else')
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-
-    '''
-    def create(self, request, *args, **kwargs):
-        yo = request.data.pop('yo')
-        print(yo)
-        request.data['user'] = yo
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
     '''
 
 class UserSubscriptionViewSet(viewsets.ModelViewSet):
