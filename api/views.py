@@ -212,7 +212,7 @@ def get_elements(parsed_response, user_id):
           "title": title,
           "image_url":image_link,
           "subtitle": logline,
-          "url": trailer_link,
+          "item_url": trailer_link,
           "buttons":[
             {
               "type":"web_url",
