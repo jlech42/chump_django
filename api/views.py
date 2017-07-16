@@ -279,15 +279,30 @@ def ShowWatchlist(request):
     chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse(chatfuel_response)
 
+def TranslateTopicButtonToTag(button_name):
+    tag_name = ''
+    translate_dict = {}
+    translate_dict['Relaxation'] = 'Relax and unwind'
+    translate_dict['Truth'] = 'Learn the truth'
+    translate_dict['Education'] = 'Learn something'
+    translate_dict['Mystery'] = 'Explore the mystery'
+    translate_dict['Art'] = 'Experience art'
+    for key, value in translate_dict.items():
+        if button_name == key:
+            return value
+    return tag_name
+
 @api_view(['GET'])
 def GetContentBlocksFromTags(request):
-    print('getting content blocks')
+    payload = {}
     topic_button_name = request.GET.get('last clicked button name')
     print('button name',topic_button_name)
-    req_body = ''
-    payload = {}
-    content_tag = request.GET.get('content_tag')
+    #content_tag = request.GET.get('content_tag')
+    #payload['content_tag'] = content_tag
+    content_tag = TranslateTopicButtonToTag(topic_button_name)
+    print(content_tag)
     payload['content_tag'] = content_tag
+    req_body = ''
     messenger_user_id = request.GET.get('messenger user id')
     user_id = User.objects.get(username=messenger_user_id).id
     print(user_id)
