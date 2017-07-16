@@ -319,7 +319,7 @@ def GetContentBlocksFromTags(request):
                         },
                         {
                             "title":"Change topics",
-                            "block_name": ["test"]
+                            "block_names": ["test"]
 
                         },
                         {
