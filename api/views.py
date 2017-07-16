@@ -366,7 +366,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         #should we filter out on watchlist content?
         print('userrrr id ', user_id)
         if user_id is not None:
-            queryset = queryset.filter(usercontent__user=2, usercontent__already_seen=False)
+            queryset = queryset.filter(usercontent__user=user_id, usercontent__already_seen=False)
         return queryset
 
 @csrf_exempt
