@@ -30,29 +30,62 @@ FB_PAGE_ACCESS_TOKEN = 'EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WT
 FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token="+FB_PAGE_ACCESS_TOKEN
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
-@api_view(['POST'])
-@csrf_exempt
 def Test(request):
+    return JsonResponse({})
+
+def SimpleMessage(type):
+    print('test type',type)
+    json = {}
+    if type == 'update_already_seen':
+        print('seen')
+        json = {
+            "messages": [
+                {"text": "Great, we won't show you this rec again"}
+            ]
+        }
+    if type == 'update_watchlist':
+        json = {
+            "messages": [
+                {"text": "We've added to your watchlist"}
+            ]
+        }
+    return json
+
+@api_view(['GET','POST'])
+@csrf_exempt
+def UpdateUserContent(request):
     """
     API endpoint that takes in content and user id and returns a relationship between a piece of content and user
     """
-
     payload = {}
+    '''
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
     user_id = body['user']
     content_id = body['content']
     payload['content'] = content_id
     payload['user'] = user_id
+    '''
+    body = request.GET
+    user = body.get('user')
+    content = body.get('content')
+    action = body.get('action')
+    payload['content'] = content
+    payload['user'] = user
+    print(action)
+
+    # check if adding to watchlist
     if 'on_watchlist' in body:
         payload['on_watchlist'] = body['on_watchlist']
+        print('on watch')
+    #check if already seen
     if 'already_seen' in body:
         payload['already_seen'] = body['already_seen']
+        print('already seen')
     print(payload)
-    print(ROOT_URL)
     r = requests.put(ROOT_URL+'/api/usercontents/', data=payload)
-    print(r)
-    return JsonResponse({})
+    json = SimpleMessage(action)
+    return JsonResponse(json)
 
 @api_view(['POST'])
 @csrf_exempt
@@ -111,7 +144,7 @@ def get_elements(parsed_response, **kwargs):
         trailer_link = cont_obj['trailer_link']
         logline = cont_obj['logline']
         root = ROOT_URL + "/api/test/?"
-        params = "content_id=" + str(content_id) + "&user_id=" + str(messenger_id) + "&already_seen=true"
+        params = "content_id=" + str(content_id) + "&user_id=" + str(messenger_id)
         url = root+params
         element = {
           "title": title,
@@ -125,7 +158,12 @@ def get_elements(parsed_response, **kwargs):
             },
             {
               "type":"json_plugin_url",
-              "url": url,
+              "url": url + "&on_watchlist=true&action=update_watchlist",
+              "title":"Add to watchlist"
+            },
+            {
+              "type":"json_plugin_url",
+              "url": url + "&already_seen=true&action=update_already_seen",
               "title":"Already seen"
             }
           ]
