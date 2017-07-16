@@ -301,6 +301,7 @@ def GetContentBlocksFromTags(request):
         r = requests.get(ROOT_URL+'/api/content/', params=payload)
         req_body = r.text
     parsed_response = json.loads(req_body)
+    print(parsed_response)
     elements = get_elements(parsed_response, user_id)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
     chatfuel_response = {
