@@ -78,6 +78,47 @@ def SimpleMessage(type, *args,**kwargs):
                 }
             ]
         }
+    if type == 'seen_on_watchlist':
+        json = {
+            "messages": [
+                {"text": "We hope you enjoyed it!"},
+                {"text":  "What would you like to do now?",
+                    "quick_replies": [
+                        {
+                            "title":"Change topics",
+                            "block_names": ["Topics"]
+
+                        },
+                        {
+                            "title":"See watchlist",
+                            "block_names":["Watchlist"]
+                        }
+                    ]
+                }
+            ]
+        }
+
+
+
+    if type == 'remove_from_watchlist':
+        json = {
+            "messages": [
+                {"text": "We've removed this doc from your list"},
+                {"text":  "What would you like to do now?",
+                    "quick_replies": [
+                        {
+                            "title":"Change topics",
+                            "block_names": ["Topics"]
+
+                        },
+                        {
+                            "title":"See watchlist",
+                            "block_names":["Watchlist"]
+                        }
+                    ]
+                }
+            ]
+        }
     return json
 
 @api_view(['GET','POST'])
@@ -267,12 +308,12 @@ def CreateGalleryElementFromContentObject(content_object, user):
       "buttons":[
         {
           "type":"json_plugin_url",
-          "url": url + "&already_seen=true&action=update_already_seen" + "&user=" + str(user),
+          "url": url + "&already_seen=true&on_watchlist=false&action=seen_on_watchlist" + "&user=" + str(user),
           "title":"I've watched this!"
         },
         {
           "type":"json_plugin_url",
-          "url": url + "&on_watchlist=false&action=update_watchlist" + "&user=" + str(user),
+          "url": url + "&on_watchlist=false&action=remove_from_watchlist" + "&user=" + str(user),
           "title":"Remove from list"
         }
       ]
@@ -375,9 +416,6 @@ def GetContentBlocksFromTags(request):
 
     chatfuel_response = {
         "messages": [
-            {
-                "text": "Here's a doc we think you'll love"
-            },
             {
                 "attachment":{
                     "type":"template",
