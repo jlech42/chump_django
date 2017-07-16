@@ -271,16 +271,17 @@ def CreateGalleryElementFromContentObject(content_object, user):
       "title": title,
       "image_url":image_link,
       "subtitle": logline,
+      "item_url": trailer_link,
       "buttons":[
         {
           "type":"web_url",
           "url": trailer_link,
-          "title":"Trailer"
+          "title":"Remove from watchlist"
         },
         {
           "type":"json_plugin_url",
           "url": url + "&already_seen=true&action=update_already_seen" + "&user=" + str(user),
-          "title":"Already seen"
+          "title":"I've watched this"
         }
       ]
     }
