@@ -80,7 +80,7 @@ def SimpleMessage(type, *args,**kwargs):
                         },
                         {
                             "title":"See watchlist",
-                            "block_names":["Block1", "Block2"]
+                            "block_names":["Watchlist"]
                         }
                     ]
                 }
