@@ -34,14 +34,31 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 def Test(request):
     return JsonResponse({})
 
-def SimpleMessage(type):
-    print('test type',type)
+def SimpleMessage(type, **kwargs):
+
+    print('kwargs',kwargs)
     json = {}
     if type == 'update_already_seen':
         print('seen')
         json = {
             "messages": [
-                {"text": "Great, we won't show you this rec again"}
+                {"text": "Great, we won't show you this rec again"},
+                {"text":  "What would you like to do now?",
+                    "quick_replies": [
+                        {
+                            "title":"See more recs",
+                            "block_names":["Block1", "Block2"]
+                        },
+                        {
+                            "title":"Change topics",
+                            "block_names":["Block1", "Block2"]
+                        },
+                        {
+                            "title":"See watchlist",
+                            "block_names":["Block1", "Block2"]
+                        }
+                    ]
+                }
             ]
         }
     if type == 'update_watchlist':
@@ -205,8 +222,6 @@ def GetSubscriptionFromMessengerID(id):
     return filtered_content
 
 def CreateGalleryElementFromContentObject(content_object, user):
-    print(content_object.id)
-    print('user',user)
     title = content_object.title
     image_link = content_object.image_link
     logline = content_object.logline
@@ -226,7 +241,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
         },
         {
           "type":"json_plugin_url",
-          "url": url + "&already_seen=true&action=update_already_seen",
+          "url": url + "&already_seen=true&action=update_already_seen" + "&user=" + str(user),
           "title":"Already seen"
         }
       ]
