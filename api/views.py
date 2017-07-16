@@ -94,7 +94,7 @@ def UpdateUserContent(request):
     print(UserContent.objects.get(content=content,user=user).pk)
     url_pk = str(UserContent.objects.get(content=content,user=user).pk)
     print(action)
-    r = requests.put(ROOT_URL+'/api/usercontents/' + url_pk +'/', data=payload)
+    r = requests.patch(ROOT_URL+'/api/usercontents/' + url_pk +'/', data=payload)
 
     # create new
     json = SimpleMessage(action)
