@@ -57,7 +57,7 @@ def SimpleMessage(type, *args,**kwargs):
                         },
                         {
                             "title":"See watchlist",
-                            "block_names":["Block1", "Block2"]
+                            "block_names":["Watchlist"]
                         }
                     ]
                 }
@@ -306,6 +306,13 @@ def DisplayGalleryFromContentObjects(content_objects, user):
     }
 
     return chatfuel_response
+
+def ShowWatchlistFromMessengerId(request):
+    messenger_user_id = request.GET.get('messenger user id')
+    user = User.objects.get(username=messenger_user_id).id
+    user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
+    return JsonResponse(chatfuel_response)
 
 def ShowWatchlist(request):
     user = request.GET.get('user')
