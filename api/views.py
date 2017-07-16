@@ -176,6 +176,7 @@ def get_gallery_element_for_content(cont_obj, user_id):
       "title": title,
       "image_url":image_link,
       "subtitle": logline,
+      "item_url": trailer_link,
       "buttons":[
         {
           "type":"web_url",
