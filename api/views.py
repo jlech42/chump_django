@@ -197,7 +197,7 @@ def get_elements(parsed_response, user_id):
             }
           ]
         }
-        if i <5:
+        if i <1:
             elements.append(element)
             i = i + 1
         else:
