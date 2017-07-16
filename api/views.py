@@ -318,8 +318,9 @@ def GetContentBlocksFromTags(request):
                             "block_names":["Block1", "Block2"]
                         },
                         {
-                            "title":"Change topics",
-                            "block_name": "0-2: Return routing block"
+                            "type": "show_block",
+                            "block_name": "test",
+                            "title":"Change topics"
                         },
                         {
                             "title":"See watchlist",
