@@ -84,8 +84,8 @@ WSGI_APPLICATION = 'chump_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'jlechner',
-        'USER': 'jlechner',
+        'NAME': 'arielleshnaidman',
+        'USER': 'arielleshnaidman',
         'HOST': 'localhost',
         'PORT': '5432',
     }

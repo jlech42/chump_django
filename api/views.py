@@ -371,6 +371,9 @@ def GetContentBlocksFromTags(request):
     chatfuel_response = {
         "messages": [
             {
+                "text": "Here's a doc we think you'll love"
+            },
+            {
                 "attachment":{
                     "type":"template",
                     "payload":{
@@ -380,7 +383,7 @@ def GetContentBlocksFromTags(request):
                 }
             },
             {
-                "text":  "More commands below",
+                "text":  "A few other options",
                     "quick_replies": [
                         {
                           "type":"json_plugin_url",
