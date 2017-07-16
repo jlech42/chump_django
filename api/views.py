@@ -318,9 +318,9 @@ def GetContentBlocksFromTags(request):
                             "block_names":["Block1", "Block2"]
                         },
                         {
-                            "type": "show_block",
-                            "block_name": "test",
-                            "title":"Change topics"
+                            "title":"Change topics",
+                            "block_name": "test"
+
                         },
                         {
                             "title":"See watchlist",
