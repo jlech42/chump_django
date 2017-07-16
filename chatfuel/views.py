@@ -11,6 +11,43 @@ import json
 from django.contrib.auth.models import User, Group
 # Create your views here.
 
+def GalleryFactory():
+    elements = []
+    chatfuel_response = {
+        "messages": [
+            {
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements":elements
+                    }
+                }
+            },
+            {
+                "text":  "More commands below",
+                    "quick_replies": [
+                        {
+                            "title":"Show an other rec",
+                            "block_names":["Block1", "Block2"]
+                        },
+                        {
+                            "title":"Change topics",
+                            "block_names": ["Topics"]
+
+                        },
+                        {
+                            "title":"See watchlist",
+                            "url": root,
+                            "type":"json_plugin_url"
+                        },
+
+      ]
+    }
+        ]
+    }
+    return chatfuel_response
+
 def QuickReplyFactory():
     json = {
         "messages": [
