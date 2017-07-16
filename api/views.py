@@ -51,8 +51,9 @@ def SimpleMessage(type, *args,**kwargs):
                         },
                         {
                             "type": "show_block",
-                            "title":"Change topics",
-                            "block_name": "Topics"
+                            "block_name": "test",
+                            "title":"Change topics"
+
                         },
                         {
                             "title":"See watchlist",
@@ -74,8 +75,8 @@ def SimpleMessage(type, *args,**kwargs):
                         },
                         {
                             "type": "show_block",
-                            "title":"Change topics",
-                            "block_name": "Topics"
+                            "block_name": "test",
+                            "title":"Change topics"
                         },
                         {
                             "title":"See watchlist",
