@@ -16,6 +16,7 @@ from rest_framework.decorators import detail_route, list_route
 from .models import Profile, Service, Content, UserSubscription, Tag, Content, ContentTag, UserContent
 from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, ServiceSerializer, ContentSerializer, UserSubscriptionSerializer, UserContentSerializer
 from django.contrib.auth.models import User, Group
+from chatfuel.utilities import TranslateTopicButtonToTag
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com'
 DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
@@ -50,9 +51,8 @@ def SimpleMessage(type, *args,**kwargs):
                             "block_names":["Block1", "Block2"]
                         },
                         {
-                            "type": "show_block",
-                            "block_name": "test",
-                            "title":"Change topics"
+                            "title":"Change topics",
+                            "block_names": ["Topics"]
 
                         },
                         {
@@ -74,9 +74,9 @@ def SimpleMessage(type, *args,**kwargs):
                             "block_names":["Block1", "Block2"]
                         },
                         {
-                            "type": "show_block",
-                            "block_name": "test",
-                            "title":"Change topics"
+                            "title":"Change topics",
+                            "block_names": ["Topics"]
+
                         },
                         {
                             "title":"See watchlist",
@@ -278,19 +278,6 @@ def ShowWatchlist(request):
     user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
     chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse(chatfuel_response)
-
-def TranslateTopicButtonToTag(button_name):
-    tag_name = ''
-    translate_dict = {}
-    translate_dict['Relaxation'] = 'Relax and unwind'
-    translate_dict['Truth'] = 'Learn the truth'
-    translate_dict['Education'] = 'Learn something'
-    translate_dict['Mystery'] = 'Explore the mystery'
-    translate_dict['Art'] = 'Experience art'
-    for key, value in translate_dict.items():
-        if button_name == key:
-            return value
-    return tag_name
 
 @api_view(['GET'])
 def GetContentBlocksFromTags(request):

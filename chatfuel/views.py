@@ -11,6 +11,43 @@ import json
 from django.contrib.auth.models import User, Group
 # Create your views here.
 
+json = {
+    "messages": [
+        {"text": "We've added to your watchlist"},
+        {"text":  "What would you like to do now?",
+            "quick_replies": [
+                {
+                    "title":"See more recs",
+                    "block_names":["Block1", "Block2"]
+                },
+                {
+                    "type": "show_block",
+                    "block_name": "test",
+                    "title":"Change topics"
+                },
+                {
+                    "title":"See watchlist",
+                    "block_names":["Block1", "Block2"]
+                }
+            ]
+        }
+    ]
+}
+
+
+def QuickReplyFactory():
+    quick_reply = {"quick_replies": []}
+    return quick_reply
+
+def TopicQuickReply():
+    response = {
+        "block_names": ["Topics"],
+        "title":"Change topics"
+
+    }
+    return response
+
+'''
 def GalleryFactory():
     elements = []
     chatfuel_response = {
@@ -73,3 +110,4 @@ def QuickReplyFactory():
         ]
     }
     return JsonResponse json
+'''
