@@ -73,7 +73,7 @@ def UpdateUserContent(request):
     action = body.get('action')
     payload['content'] = content
     payload['user'] = user
-    
+
     # check if adding to watchlist
     if 'on_watchlist' in body:
         payload['on_watchlist'] = body['on_watchlist']
@@ -82,7 +82,7 @@ def UpdateUserContent(request):
     if 'already_seen' in body:
         payload['already_seen'] = body['already_seen']
         print('already seen')
-    if not UserContent.objects.get(content=content,user=user):
+    if not UserContent.objects.all().filter(content=content,user=user):
         print('need to create')
         r = requests.post(ROOT_URL+'/api/usercontents/', data=payload)
         json = SimpleMessage(action)
