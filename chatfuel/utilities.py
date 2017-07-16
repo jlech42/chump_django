@@ -5,7 +5,7 @@ def TranslateTopicButtonToTag(button_name):
     translate_dict['Truth'] = 'Learn the truth'
     translate_dict['Education'] = 'Learn something'
     translate_dict['Mystery'] = 'Explore the mystery'
-    translate_dict['Art'] = 'Experience art'
+    translate_dict['Art'] = 'Experience Art'
     for key, value in translate_dict.items():
         if button_name == key:
             return value
