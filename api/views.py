@@ -199,8 +199,7 @@ def get_elements(parsed_response, user_id):
               "type":"json_plugin_url",
               "url": url + "&already_seen=true&action=update_already_seen",
               "title":"Gonna watch now"
-            },
-
+            }
           ]
         }
         if i <1:
