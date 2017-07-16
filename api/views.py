@@ -188,13 +188,42 @@ def GetSubscriptionFromMessengerID(id):
         filtered_content['on_hbo'] = False
     return filtered_content
 
+def CreateGalleryElementFromContentObject(content_object, user):
+    print(content_object.id)
+    print('user',user)
+    title = content_object.title
+    image_link = content_object.image_link
+    logline = content_object.logline
+    trailer_link = content_object.trailer_link
+    root = ROOT_URL + "/api/usercontents/manual/update/?"
+    params = "content=" + str(content_object.id) + "&user=" + str(user)
+    url = root+params
+    element = {
+      "title": title,
+      "image_url":image_link,
+      "subtitle": logline,
+      "buttons":[
+        {
+          "type":"web_url",
+          "url": trailer_link,
+          "title":"Trailer"
+        },
+        {
+          "type":"json_plugin_url",
+          "url": url + "&already_seen=true&action=update_already_seen",
+          "title":"Already seen"
+        }
+      ]
+    }
+    return element
 
-def ShowWatchlist(request):
-    user = request.GET.get('user')
-    print('user', user)
-    watchlist_content = UserContent.objects.all().filter(user_id=user,on_watchlist=True)
-    print('showing')
-    elements = get_elements(watchlist_content, user)
+def DisplayGalleryFromContentObjects(content_objects, user):
+
+    elements = []
+    # need to make sure gallery can hold unlimited elements
+    for obj in content_objects:
+        elements.append(CreateGalleryElementFromContentObject(obj.content, user))
+
     chatfuel_response = {
         "messages": [
             {
@@ -202,12 +231,19 @@ def ShowWatchlist(request):
                     "type":"template",
                     "payload":{
                         "template_type":"generic",
-                        "elements":elements
+                        "elements": elements
                     }
                 }
             }
         ]
     }
+
+    return chatfuel_response
+
+def ShowWatchlist(request):
+    user = request.GET.get('user')
+    user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse(chatfuel_response)
 
 @api_view(['GET'])
