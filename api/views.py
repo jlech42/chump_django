@@ -37,10 +37,10 @@ def Test(request):
 
 def SimpleMessage(type, *args,**kwargs):
 
-    print('kwargs', args)
+
     json = {}
     if type == 'update_already_seen':
-        print('seen')
+
         json = {
             "messages": [
                 {"text": "Great, we won't show you this rec again"},
@@ -317,27 +317,27 @@ def ShowWatchlist(request):
 def GetContentBlocksFromTags(request):
     payload = {}
     topic_button_name = request.GET.get('last clicked button name')
-    print('button name',topic_button_name)
+
     #content_tag = request.GET.get('content_tag')
     #payload['content_tag'] = content_tag
     content_tag = TranslateTopicButtonToTag(topic_button_name)
-    print(content_tag)
+
     payload['content_tag'] = content_tag
     req_body = ''
     messenger_user_id = request.GET.get('messenger user id')
     current_index = int(request.GET.get('index'))
-    print('index', current_index)
+
     user_id = User.objects.get(username=messenger_user_id).id
-    print(user_id)
+
     payload['user_id'] = user_id
     filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
     payload = {**payload, **filtered_services}
-    print(payload)
+
     if request.method == 'GET':
         r = requests.get(ROOT_URL+'/api/content/', params=payload)
         req_body = r.text
     parsed_response = json.loads(req_body)
-    print(parsed_response)
+
     topic_content_list_length = len(parsed_response)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
     if current_index > topic_content_list_length-1:
