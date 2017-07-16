@@ -319,7 +319,7 @@ def GetContentBlocksFromTags(request):
                     "quick_replies": [
                         {
                           "type":"json_plugin_url",
-                          "url": url + "&already_seen=true&action=update_already_seen" + "&user=" + str(user),
+                          "url": root,
                           "title":"Show another rec"
                         },
                         {
