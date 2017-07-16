@@ -283,7 +283,7 @@ def ShowWatchlist(request):
 def GetContentBlocksFromTags(request):
     print('getting content blocks')
     topic_button_name = request.GET.get('last clicked button name')
-    print(topic_button_name)
+    print('button name',topic_button_name)
     req_body = ''
     payload = {}
     content_tag = request.GET.get('content_tag')
