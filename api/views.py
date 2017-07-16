@@ -340,7 +340,7 @@ def GetContentBlocksFromTags(request):
     topic_content_list_length = len(parsed_response)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
     if current_index > topic_content_list_length-1:
-        json = {
+        chatfuel_response = {
             "messages": [
                 {"text": "We will have more recs for this category soon!"},
                 {
