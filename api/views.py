@@ -274,14 +274,14 @@ def CreateGalleryElementFromContentObject(content_object, user):
       "item_url": trailer_link,
       "buttons":[
         {
-          "type":"web_url",
-          "url": trailer_link,
-          "title":"Remove from watchlist"
+          "type":"json_plugin_url",
+          "url": url + "&already_seen=true&action=update_already_seen" + "&user=" + str(user),
+          "title":"I've watched this!"
         },
         {
           "type":"json_plugin_url",
-          "url": url + "&already_seen=true&action=update_already_seen" + "&user=" + str(user),
-          "title":"I've watched this"
+          "url": url + "&on_watchlist=false&action=update_watchlist" + "&user=" + str(user),
+          "title":"Remove from list"
         }
       ]
     }
@@ -310,6 +310,7 @@ def DisplayGalleryFromContentObjects(content_objects, user):
 
     return chatfuel_response
 
+@api_view(['GET'])
 def ShowWatchlistFromMessengerId(request):
     messenger_user_id = request.GET.get('messenger user id')
     print(messenger_user_id)
@@ -318,6 +319,7 @@ def ShowWatchlistFromMessengerId(request):
     chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse(chatfuel_response)
 
+@api_view(['GET'])
 def ShowWatchlist(request):
     user = request.GET.get('user')
     user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
