@@ -47,7 +47,23 @@ def SimpleMessage(type):
     if type == 'update_watchlist':
         json = {
             "messages": [
-                {"text": "We've added to your watchlist"}
+                {"text": "We've added to your watchlist"},
+                {"text":  "What would you like to do now?",
+                    "quick_replies": [
+                        {
+                            "title":"See more recs",
+                            "block_names":["Block1", "Block2"]
+                        },
+                        {
+                            "title":"Change topics",
+                            "block_names":["Block1", "Block2"]
+                        },
+                        {
+                            "title":"See watchlist",
+                            "block_names":["Block1", "Block2"]
+                        }
+                    ]
+                }
             ]
         }
     return json
