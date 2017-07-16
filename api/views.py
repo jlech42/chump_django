@@ -73,7 +73,7 @@ def UpdateUserContent(request):
     action = body.get('action')
     payload['content'] = content
     payload['user'] = user
-    existing = false
+    
     # check if adding to watchlist
     if 'on_watchlist' in body:
         payload['on_watchlist'] = body['on_watchlist']
