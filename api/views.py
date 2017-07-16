@@ -34,9 +34,9 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 def Test(request):
     return JsonResponse({})
 
-def SimpleMessage(type, **kwargs):
+def SimpleMessage(type, *args,**kwargs):
 
-    print('kwargs',kwargs)
+    print('kwargs', args)
     json = {}
     if type == 'update_already_seen':
         print('seen')
