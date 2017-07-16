@@ -47,10 +47,6 @@ def SimpleMessage(type, *args,**kwargs):
                 {"text":  "What would you like to do now?",
                     "quick_replies": [
                         {
-                            "title":"See more recs",
-                            "block_names":["Block1", "Block2"]
-                        },
-                        {
                             "title":"Change topics",
                             "block_names": ["Topics"]
 
@@ -69,10 +65,6 @@ def SimpleMessage(type, *args,**kwargs):
                 {"text": "We've added to your watchlist"},
                 {"text":  "What would you like to do now?",
                     "quick_replies": [
-                        {
-                            "title":"See more recs",
-                            "block_names":["Block1", "Block2"]
-                        },
                         {
                             "title":"Change topics",
                             "block_names": ["Topics"]
@@ -368,8 +360,7 @@ def GetContentBlocksFromTags(request):
                             },
                             {
                                 "title":"See watchlist",
-                                "url": root,
-                                "type":"json_plugin_url"
+                                "block_names": ["Watchlist"]
                             },
 
           ]
@@ -380,7 +371,7 @@ def GetContentBlocksFromTags(request):
 
     next_index = current_index+1
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
-    elements = get_gallery_element_for_content(parsed_response[current_index], user_id)
+    elements = get_gallery_element_for_content(parsed_response[current_index], user_id, next_url=next_url)
 
     chatfuel_response = {
         "messages": [
@@ -411,8 +402,7 @@ def GetContentBlocksFromTags(request):
                         },
                         {
                             "title":"See watchlist",
-                            "url": root,
-                            "type":"json_plugin_url"
+                            "block_names": ["Watchlist"]
                         },
 
       ]
