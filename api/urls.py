@@ -22,7 +22,6 @@ urlpatterns = [
     url(r'^usercontents/manual/update', views.UpdateUserContent),
     url(r'^custom-views/show-watchlist', views.ShowWatchlist),
     #url(r'^getcontentblocks', views.GetContentBlocks),
-    url(r'^webviews/$', views.Webviews),
     url(r'^test/$', views.Test),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

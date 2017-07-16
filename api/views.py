@@ -341,8 +341,6 @@ class ContentViewSet(viewsets.ModelViewSet):
         filters by tags.
         '''
         queryset = Content.objects.all()
-
-
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)
         user_id = self.request.query_params.get('user_id', None)
@@ -364,15 +362,9 @@ class ContentViewSet(viewsets.ModelViewSet):
 
         #filter out content people have already seen
         #should we filter out on watchlist content?
-        print('userrrr id ', user_id)
         if user_id is not None:
             queryset = queryset.filter(usercontent__user=user_id, usercontent__already_seen=False)
         return queryset
-
-@csrf_exempt
-def Webviews(request):
-    tags = Tag.objects.all()
-    return render(request, 'tags.html' ,{'tags': tags})
 
 @api_view(['POST'])
 @csrf_exempt
@@ -400,6 +392,9 @@ def CreateUser(request):
         user_profile.status = "test"
         user_profile.save()
         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+### ViewSets ###
 
 class UserViewSet(viewsets.ModelViewSet):
     """

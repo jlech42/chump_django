@@ -30,12 +30,12 @@ class UserSubscriptionSerializer(serializers.ModelSerializer):
 class ContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Content
-        fields = '__all__'
+        fields = ('content','user','on_watchlist','already_seen')
 
 class UserContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserContent
-        fields = ('content','user', 'on_watchlist', 'already_seen')
+        fields = ('pk','content','user', 'on_watchlist', 'already_seen')
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     #services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
