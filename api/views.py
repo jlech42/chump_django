@@ -68,7 +68,9 @@ def UpdateUserContent(request):
     payload['user'] = user_id
     '''
     body = request.GET
+    print(body)
     user = body.get('user')
+    print(user)
     content = body.get('content')
     action = body.get('action')
     payload['content'] = content
