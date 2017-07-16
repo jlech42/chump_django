@@ -337,6 +337,35 @@ def GetContentBlocksFromTags(request):
         req_body = r.text
     parsed_response = json.loads(req_body)
     print(parsed_response)
+    topic_content_list_length = len(parsed_response)
+    if current_index > topic_content_list_length-1:
+        json = {
+            "messages": [
+                {
+                    "text":  "More commands below",
+                        "quick_replies": [
+                            {
+                              "type":"json_plugin_url",
+                              "url": next_url,
+                              "title":"Show another rec"
+                            },
+                            {
+                                "title":"Change topics",
+                                "block_names": ["Topics"]
+
+                            },
+                            {
+                                "title":"See watchlist",
+                                "url": root,
+                                "type":"json_plugin_url"
+                            },
+
+          ]
+        }
+            ]
+        }
+        return JsonResponse(chatfuel_response)
+
     next_index = current_index+1
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
     elements = get_gallery_element_for_content(parsed_response[current_index], user_id)
