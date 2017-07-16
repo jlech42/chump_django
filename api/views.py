@@ -56,46 +56,28 @@ def SimpleMessage(type):
 @csrf_exempt
 def UpdateUserContent(request):
     """
-    API endpoint that takes in content and user id and returns a relationship between a piece of content and user
+    API endpoint that takes in content and username and returns a relationship between a piece of content and user
     """
     payload = {}
-    '''
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-    user_id = body['user']
-    content_id = body['content']
-    payload['content'] = content_id
-    payload['user'] = user_id
-    '''
     body = request.GET
-    print(body)
     user = body.get('user')
-    user = User.objects.get(username=user).id
-    print('actual id',user)
     content = body.get('content')
     action = body.get('action')
     payload['content'] = content
     payload['user'] = user
-
     # check if adding to watchlist
     if 'on_watchlist' in body:
         payload['on_watchlist'] = body['on_watchlist']
-        print('on watch')
     #check if already seen
     if 'already_seen' in body:
         payload['already_seen'] = body['already_seen']
-        print('already seen')
     if not UserContent.objects.all().filter(content=content,user=user):
         post_url = ROOT_URL+'/api/usercontents/'
-        print('creating new usercontent',post_url, payload)
         r = requests.post(ROOT_URL+'/api/usercontents/', data=payload)
         json = SimpleMessage(action)
         return JsonResponse(json)
-    print(UserContent.objects.get(content=content,user=user).pk)
     url_pk = str(UserContent.objects.get(content=content,user=user).pk)
-    print(action)
     r = requests.patch(ROOT_URL+'/api/usercontents/' + url_pk +'/', data=payload)
-
     # create new
     json = SimpleMessage(action)
     return JsonResponse(json)
@@ -149,6 +131,7 @@ def getUserFromMessengerID(messenger_id):
 def get_elements(parsed_response, **kwargs):
     messenger_id = kwargs['messenger_id']
     i = 0
+    user_id = User.objects.get(username=messenger_id).id
     elements = []
     for cont_obj in parsed_response:
         content_id = cont_obj['id']
@@ -157,7 +140,7 @@ def get_elements(parsed_response, **kwargs):
         trailer_link = cont_obj['trailer_link']
         logline = cont_obj['logline']
         root = ROOT_URL + "/api/usercontents/manual/update/?"
-        params = "content=" + str(content_id) + "&user=" + str(messenger_id)
+        params = "content=" + str(content_id) + "&user=" + str(user_id)
         url = root+params
         element = {
           "title": title,
@@ -316,13 +299,7 @@ def CreateUser(request):
         user_profile = active_user.profile
         user_profile.status = "test"
         user_profile.save()
-        #CreateUserProfile(request)
         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
-
-def CreateUserProfile(request):
-    messenger_user_id = data.get('messenger user id')
-    #serialized = ProfileSerializer(data=)
-    return
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -359,54 +336,6 @@ class UserContentViewSet(viewsets.ModelViewSet):
     """
     queryset = UserContent.objects.all()
     serializer_class = UserContentSerializer
-    '''
-    def perform_update(self, serializer):
-        print('updating')
-
-        user_instance = serializer.instance
-        request = self.request
-        serializer.save(**modified_attrs)
-        return Response(status=status.HTTP_200_OK)
-    '''
-    '''
-    def get_object(self):
-        if self.request.method == 'PUT':
-            print('put')
-            user_content = UserContent.objects.filter(user=self.kwargs.get('')).first()
-            if user_content:
-                return user_content
-            else:
-                return UserContent(id=self.kwargs.get('pk'))
-        else:
-            return super(UserContentViewSet, self).get_object()
-    '''
-    '''
-    def create(self, validated_data):
-        print(validated_data.data)
-        user = validated_data.data['user']
-        content = validated_data.data['content']
-        print(user, content)
-        user_content, created = UserContent.objects.get_or_create(
-            user=user,
-            content=content
-        )
-        print('content id',user_content.id)
-        return user_content
-
-        '''
-    '''
-    def put(self, request):
-        obj = self.queryset.filter(content=request.data['content'], user=request.data['user'])[0]
-        print (obj.id)
-        serializer = self.serializer_class(obj,data=request.data)
-        if serializer.is_valid():
-            print('put')
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print('else')
-            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-    '''
 
 class UserSubscriptionViewSet(viewsets.ModelViewSet):
     """
