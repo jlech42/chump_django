@@ -194,11 +194,6 @@ def get_elements(parsed_response, user_id):
               "type":"json_plugin_url",
               "url": url + "&already_seen=true&action=update_already_seen",
               "title":"Already seen"
-            },
-            {
-              "type":"json_plugin_url",
-              "url": url + "&already_seen=true&action=update_already_seen",
-              "title":"Gonna watch now"
             }
           ]
         }
@@ -323,8 +318,9 @@ def GetContentBlocksFromTags(request):
                 "text":  "More commands below",
                     "quick_replies": [
                         {
-                            "title":"Show an other rec",
-                            "block_names":["Block1", "Block2"]
+                          "type":"json_plugin_url",
+                          "url": url + "&already_seen=true&action=update_already_seen" + "&user=" + str(user),
+                          "title":"Show another rec"
                         },
                         {
                             "title":"Change topics",
