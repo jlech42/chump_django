@@ -179,11 +179,6 @@ def get_gallery_element_for_content(cont_obj, user_id):
       "item_url": trailer_link,
       "buttons":[
         {
-          "type":"web_url",
-          "url": trailer_link,
-          "title":"Trailer"
-        },
-        {
           "type":"json_plugin_url",
           "url": url + "&on_watchlist=true&action=update_watchlist",
           "title":"Add to watchlist"
@@ -192,6 +187,10 @@ def get_gallery_element_for_content(cont_obj, user_id):
           "type":"json_plugin_url",
           "url": url + "&already_seen=true&action=update_already_seen",
           "title":"Already seen"
+        },
+        {
+          "title":"Watching now!",
+          "block_names":["watching_now"]
         }
       ]
     }]
