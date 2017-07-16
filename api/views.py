@@ -84,6 +84,7 @@ def UpdateUserContent(request):
         print('already seen')
     print(payload)
     r = requests.put(ROOT_URL+'/api/usercontents/', data=payload)
+    print('sent',r)
     json = SimpleMessage(action)
     return JsonResponse(json)
 
