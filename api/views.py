@@ -338,7 +338,6 @@ def GetContentBlocksFromTags(request):
     parsed_response = json.loads(req_body)
     print(parsed_response)
     next_index = current_index+1
-    next_content_id = parsed_response[next_id].id
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
     elements = get_gallery_element_for_content(parsed_response[current_index], user_id)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
