@@ -316,7 +316,6 @@ def ShowWatchlist(request):
 def GetContentBlocksFromTags(request):
     payload = {}
     topic_button_name = request.GET.get('last clicked button name')
-    current_index = 0
     print('button name',topic_button_name)
     #content_tag = request.GET.get('content_tag')
     #payload['content_tag'] = content_tag
@@ -325,6 +324,8 @@ def GetContentBlocksFromTags(request):
     payload['content_tag'] = content_tag
     req_body = ''
     messenger_user_id = request.GET.get('messenger user id')
+    current_index = request.GET.get('index')
+    print('index', current_index)
     user_id = User.objects.get(username=messenger_user_id).id
     print(user_id)
     payload['user_id'] = user_id
@@ -336,7 +337,9 @@ def GetContentBlocksFromTags(request):
         req_body = r.text
     parsed_response = json.loads(req_body)
     print(parsed_response)
-    next_id = 1
+    next_index = current_index+1
+    next_content_id = parsed_response[next_id].id
+    next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
     elements = get_gallery_element_for_content(parsed_response[current_index], user_id)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
     chatfuel_response = {
@@ -355,7 +358,7 @@ def GetContentBlocksFromTags(request):
                     "quick_replies": [
                         {
                           "type":"json_plugin_url",
-                          "url": root,
+                          "url": next_url,
                           "title":"Show another rec"
                         },
                         {
