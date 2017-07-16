@@ -163,6 +163,39 @@ def getUserFromMessengerID(messenger_id):
     user = User.objects.get(username=messenger_id)
     return user
 
+def get_gallery_element_for_content(cont_obj, user_id):
+    content_id = cont_obj['id']
+    title = cont_obj['title']
+    image_link = cont_obj['image_link']
+    trailer_link = cont_obj['trailer_link']
+    logline = cont_obj['logline']
+    root = ROOT_URL + "/api/usercontents/manual/update/?"
+    params = "content=" + str(content_id) + "&user=" + str(user_id)
+    url = root+params
+    element = [{
+      "title": title,
+      "image_url":image_link,
+      "subtitle": logline,
+      "buttons":[
+        {
+          "type":"web_url",
+          "url": trailer_link,
+          "title":"Trailer"
+        },
+        {
+          "type":"json_plugin_url",
+          "url": url + "&on_watchlist=true&action=update_watchlist",
+          "title":"Add to watchlist"
+        },
+        {
+          "type":"json_plugin_url",
+          "url": url + "&already_seen=true&action=update_already_seen",
+          "title":"Already seen"
+        }
+      ]
+    }]
+    return element
+
 def get_elements(parsed_response, user_id):
     i = 0
     elements = []
@@ -283,6 +316,7 @@ def ShowWatchlist(request):
 def GetContentBlocksFromTags(request):
     payload = {}
     topic_button_name = request.GET.get('last clicked button name')
+    current_index = 0
     print('button name',topic_button_name)
     #content_tag = request.GET.get('content_tag')
     #payload['content_tag'] = content_tag
@@ -302,7 +336,8 @@ def GetContentBlocksFromTags(request):
         req_body = r.text
     parsed_response = json.loads(req_body)
     print(parsed_response)
-    elements = get_elements(parsed_response, user_id)
+    next_id = 1
+    elements = get_gallery_element_for_content(parsed_response[current_index], user_id)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
     chatfuel_response = {
         "messages": [
