@@ -189,8 +189,9 @@ def get_gallery_element_for_content(cont_obj, user_id):
           "title":"Already seen"
         },
         {
-          "title":"Watching now!",
-          "block_names":["watching_now"]
+            "type": "show_block",
+            "title":"Watching now!",
+            "block_names":["watching_now"]
         }
       ]
     }]
@@ -259,6 +260,7 @@ def GetSubscriptionFromMessengerID(id):
 
 def CreateGalleryElementFromContentObject(content_object, user):
     title = content_object.title
+    print('title', title)
     image_link = content_object.image_link
     logline = content_object.logline
     trailer_link = content_object.trailer_link
@@ -309,6 +311,7 @@ def DisplayGalleryFromContentObjects(content_objects, user):
 
 def ShowWatchlistFromMessengerId(request):
     messenger_user_id = request.GET.get('messenger user id')
+    print(messenger_user_id)
     user = User.objects.get(username=messenger_user_id).id
     user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
     chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
