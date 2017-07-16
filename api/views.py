@@ -143,8 +143,8 @@ def get_elements(parsed_response, **kwargs):
         image_link = cont_obj['image_link']
         trailer_link = cont_obj['trailer_link']
         logline = cont_obj['logline']
-        root = ROOT_URL + "/api/test/?"
-        params = "content_id=" + str(content_id) + "&user_id=" + str(messenger_id)
+        root = ROOT_URL + "/api/usercontents/manual/update/?"
+        params = "content=" + str(content_id) + "&user=" + str(messenger_id)
         url = root+params
         element = {
           "title": title,
@@ -196,6 +196,7 @@ def GetSubscriptionFromMessengerID(id):
 
 @api_view(['GET'])
 def GetContentBlocksFromTags(request):
+    print('getting content blocks')
     req_body = ''
     payload = {}
     content_tag = request.GET.get('content_tag')
