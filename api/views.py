@@ -160,7 +160,6 @@ def getUserFromMessengerID(messenger_id):
     user = User.objects.get(username=messenger_id)
     return user
 
-
 def get_elements(parsed_response, user_id):
     i = 0
     elements = []
@@ -286,6 +285,7 @@ def GetContentBlocksFromTags(request):
     payload['content_tag'] = content_tag
     messenger_user_id = request.GET.get('messenger user id')
     user_id = User.objects.get(username=messenger_user_id).id
+    payload['user_id'] = user_id
     filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
     payload = {**payload, **filtered_services}
     if request.method == 'GET':
@@ -345,6 +345,7 @@ class ContentViewSet(viewsets.ModelViewSet):
 
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)
+        user_id = self.request.query_params.get('user_id', None)
         # filter for user services - needs to be tested
         on_netflix = self.request.query_params.get('on_netflix', None)
         on_hulu = self.request.query_params.get('on_hulu', None)
@@ -361,6 +362,11 @@ class ContentViewSet(viewsets.ModelViewSet):
         if tag is not None:
             queryset = queryset.filter(primary_mode=tag)
 
+        #filter out content people have already seen
+        #should we filter out on watchlist content?
+        print('userrrr id ', user_id)
+        if user_id is not None:
+            queryset = queryset.filter(usercontent__user=2, usercontent__already_seen=False)
         return queryset
 
 @csrf_exempt
