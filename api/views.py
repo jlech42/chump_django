@@ -83,7 +83,8 @@ def UpdateUserContent(request):
         payload['already_seen'] = body['already_seen']
         print('already seen')
     if not UserContent.objects.all().filter(content=content,user=user):
-        print('need to create')
+        post_url = ROOT_URL+'/api/usercontents/'
+        print('creating new usercontent',post_url, payload)
         r = requests.post(ROOT_URL+'/api/usercontents/', data=payload)
         json = SimpleMessage(action)
         return JsonResponse(json)
