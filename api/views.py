@@ -378,8 +378,7 @@ def GetContentBlocksFromTags(request):
     payload['content_tag'] = content_tag
     req_body = ''
     messenger_user_id = request.GET.get('messenger user id')
-    current_index = int(request.GET.get('index'))
-
+    current_index = int(request.GET.get('content_list_index'))
     user_id = User.objects.get(username=messenger_user_id).id
 
     payload['user_id'] = user_id
@@ -421,6 +420,10 @@ def GetContentBlocksFromTags(request):
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
     elements = get_gallery_element_for_content(parsed_response[current_index], user_id, index=str(next_index), messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
+        "set_attributes":
+        {
+          "content_list_index": next_index
+        },
         "messages": [
             {
                 "attachment":{
