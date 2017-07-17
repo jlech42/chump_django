@@ -236,7 +236,7 @@ def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
         },
         {
             "type": "show_block",
-            "title":"I'll watch now!",
+            "title":" now!",
             "block_names":["watching_now"]
         }
       ]
@@ -416,10 +416,10 @@ def GetContentBlocksFromTags(request):
         }
         return JsonResponse(chatfuel_response)
 
-    next_index = current_index+3
+    next_index = current_index+1
 
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name
-    elements = get_gallery_element_for_content(parsed_response[current_index:current_index+2], user_id, index=str(next_index), messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
+    elements = get_gallery_element_for_content(parsed_response[current_index], user_id, index=str(next_index), messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
         "set_attributes":
         {
