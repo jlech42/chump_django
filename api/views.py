@@ -66,6 +66,11 @@ def SimpleMessage(type, *args,**kwargs):
                 {"text":  "What would you like to do now?",
                     "quick_replies": [
                         {
+                            "title":"Another rec",
+                            "block_names": ["Recommendations"]
+
+                        },
+                        {
                             "title":"Change topics",
                             "block_names": ["Topics"]
 
