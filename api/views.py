@@ -383,6 +383,10 @@ def GetContentBlocksFromTags(request):
     payload['content_tag'] = content_tag
     req_body = ''
     messenger_user_id = request.GET.get('messenger user id')
+    topic_tag = request.GET.get('topic_tag')
+    print(topic_tag)
+    if topic_tag == "None":
+        topic_tag = content_tag
     current_index = int(request.GET.get('content_list_index'))
     print('current index',current_index)
     user_id = User.objects.get(username=messenger_user_id).id
@@ -428,7 +432,8 @@ def GetContentBlocksFromTags(request):
     chatfuel_response = {
         "set_attributes":
         {
-          "content_list_index": next_index
+          "content_list_index": next_index,
+          "topic_tag": topic_tag
         },
         "messages": [
             {
