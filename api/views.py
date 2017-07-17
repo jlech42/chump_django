@@ -47,11 +47,6 @@ def SimpleMessage(type, *args,**kwargs):
                 {"text":  "What would you like to do now?",
                     "quick_replies": [
                         {
-                            "title":"See a new rec",
-                            "block_names": ["Recommendations"]
-
-                        },
-                        {
                             "title":"Change topics",
                             "block_names": ["Topics"]
 
@@ -70,11 +65,6 @@ def SimpleMessage(type, *args,**kwargs):
                 {"text": "We've added to your watchlist"},
                 {"text":  "What would you like to do now?",
                     "quick_replies": [
-                        {
-                            "title":"See a new rec",
-                            "block_names": ["Recommendations"]
-
-                        },
                         {
                             "title":"Change topics",
                             "block_names": ["Topics"]
@@ -421,9 +411,10 @@ def GetContentBlocksFromTags(request):
         return JsonResponse(chatfuel_response)
 
     next_index = current_index+1
+    print(parsed_response)
+    print('next id',parsed_response[next_index].id)
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
     elements = get_gallery_element_for_content(parsed_response[current_index], user_id)
-
     chatfuel_response = {
         "messages": [
             {
@@ -441,7 +432,7 @@ def GetContentBlocksFromTags(request):
                         {
                           "type":"json_plugin_url",
                           "url": next_url,
-                          "title":"Show another rec"
+                          "title":"Another rec"
                         },
                         {
                             "title":"Change topics",
