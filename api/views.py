@@ -380,7 +380,7 @@ def GetContentBlocksFromTags(request):
     #payload['content_tag'] = content_tag
     content_tag = TranslateTopicButtonToTag(topic_button_name)
 
-    payload['content_tag'] = content_tag
+
     req_body = ''
     messenger_user_id = request.GET.get('messenger user id')
     topic_tag = request.GET.get('topic_tag')
@@ -390,7 +390,7 @@ def GetContentBlocksFromTags(request):
     current_index = int(request.GET.get('content_list_index'))
     print('current index',current_index)
     user_id = User.objects.get(username=messenger_user_id).id
-
+    payload['content_tag'] = topic_tag
     payload['user_id'] = user_id
     filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
     payload = {**payload, **filtered_services}
