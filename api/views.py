@@ -236,7 +236,7 @@ def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
         },
         {
             "type": "show_block",
-            "title":"Watching now!",
+            "title":"I'll watch now!",
             "block_names":["watching_now"]
         }
       ]
