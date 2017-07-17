@@ -379,6 +379,7 @@ def GetContentBlocksFromTags(request):
     req_body = ''
     messenger_user_id = request.GET.get('messenger user id')
     current_index = int(request.GET.get('content_list_index'))
+    print('current index',current_index)
     user_id = User.objects.get(username=messenger_user_id).id
 
     payload['user_id'] = user_id
