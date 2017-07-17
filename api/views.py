@@ -123,7 +123,7 @@ def SimpleMessage(type, *args,**kwargs):
 
 @api_view(['GET','POST'])
 @csrf_exempt
-def UpdateUserContent(request):
+def UpdateUserContent(request, **kwargs):
     """
     API endpoint that takes in content and username and returns a relationship between a piece of content and user
     """
@@ -413,7 +413,6 @@ def GetContentBlocksFromTags(request):
 
     next_index = current_index+1
     print(parsed_response)
-    print('next id',parsed_response[next_index].id)
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
     elements = get_gallery_element_for_content(parsed_response[current_index], user_id, index=str(next_index), messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
