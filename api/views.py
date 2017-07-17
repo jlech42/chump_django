@@ -207,7 +207,6 @@ def getUserFromMessengerID(messenger_id):
     return user
 
 def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
-    index = kwargs['index']
     messenger_user_id = kwargs['messenger_user_id']
     last_clicked_button = kwargs['last_clicked_button']
     content_id = cont_obj['id']
@@ -216,7 +215,7 @@ def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
     trailer_link = cont_obj['trailer_link']
     logline = cont_obj['logline']
     root = ROOT_URL + "/api/usercontents/manual/update/?"
-    params = "content=" + str(content_id) + "&user=" + str(user_id) + "&index=" + index +"&messenger_user_id="+messenger_user_id+"&last_clicked_button="+last_clicked_button
+    params = "content=" + str(content_id) + "&user=" + str(user_id) + "&messenger_user_id="+messenger_user_id+"&last_clicked_button="+last_clicked_button
     url = root+params
     element = [{
       "title": title,
@@ -368,32 +367,31 @@ def ShowWatchlist(request):
 @api_view(['GET'])
 def GetContentBlocksFromTags(request):
     payload = {}
-    topic_button_name = request.GET.get('last clicked button name')
-    #content_tag = request.GET.get('content_tag')
-    #payload['content_tag'] = content_tag
-    content_tag = TranslateTopicButtonToTag(topic_button_name)
-
-
     req_body = ''
+    topic_button_name = request.GET.get('last clicked button name')
     messenger_user_id = request.GET.get('messenger user id')
     topic_tag = request.GET.get('topic_tag')
+    content_tag = TranslateTopicButtonToTag(topic_button_name)
+    #content_tag = request.GET.get('content_tag')
+    #payload['content_tag'] = content_tag
     if topic_tag == "None":
         topic_tag = content_tag
-    current_index = int(request.GET.get('content_list_index'))
     user_id = User.objects.get(username=messenger_user_id).id
+    filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
+
     payload['content_tag'] = topic_tag
     payload['user_id'] = user_id
-    filtered_services = GetSubscriptionFromMessengerID(messenger_user_id)
     payload = {**payload, **filtered_services}
 
     if request.method == 'GET':
         r = requests.get(ROOT_URL+'/api/content/', params=payload)
         req_body = r.text
+
     parsed_response = json.loads(req_body)
 
     topic_content_list_length = len(parsed_response)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
-    if current_index > topic_content_list_length-1:
+    if topic_content_list_length < 1:
         chatfuel_response = {
             "messages": [
                 {"text": "We will have more recs for this category soon!"},
@@ -416,14 +414,13 @@ def GetContentBlocksFromTags(request):
         }
         return JsonResponse(chatfuel_response)
 
-    next_index = current_index+1
+    #next_index = current_index+1
 
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name
-    elements = get_gallery_element_for_content(parsed_response[current_index], user_id, index=str(next_index), messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
+    elements = get_gallery_element_for_content(parsed_response, user_id, messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
         "set_attributes":
         {
-          "content_list_index": next_index,
           "topic_tag": topic_tag
         },
         "messages": [
