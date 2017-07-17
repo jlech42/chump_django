@@ -127,6 +127,8 @@ def UpdateUserContent(request, **kwargs):
     """
     API endpoint that takes in content and username and returns a relationship between a piece of content and user
     """
+    print(kwargs)
+    next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + kwargs['messenger_user_id'] + '&last+clicked+button+name=' + kwargs['topic_button_name'] + '&index=' + kwargs['index']
     payload = {}
     body = request.GET
     user = body.get('user')
@@ -197,14 +199,16 @@ def getUserFromMessengerID(messenger_id):
     return user
 
 def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
-    print(kwargs)
+    index = kwargs['index']
+    messenger_user_id = kwargs['messenger_user_id']
+    last_clicked_button = kwargs['last_clicked_button']
     content_id = cont_obj['id']
     title = cont_obj['title']
     image_link = cont_obj['image_link']
     trailer_link = cont_obj['trailer_link']
     logline = cont_obj['logline']
     root = ROOT_URL + "/api/usercontents/manual/update/?"
-    params = "content=" + str(content_id) + "&user=" + str(user_id)
+    params = "content=" + str(content_id) + "&user=" + str(user_id) + "&index=" + index +"&messenger_user_id="+messenger_user_id+"last_clicked_button="+last_clicked_button
     url = root+params
     element = [{
       "title": title,
