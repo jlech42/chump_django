@@ -495,6 +495,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         #should we filter out on watchlist content?
         if user_id is not None:
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__already_seen=True)
+            queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
         return queryset
 
 @api_view(['POST'])
