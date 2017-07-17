@@ -36,8 +36,6 @@ def Test(request):
     return JsonResponse({})
 
 def SimpleMessage(type, *args,**kwargs):
-
-
     json = {}
     if type == 'update_already_seen':
 
@@ -46,6 +44,11 @@ def SimpleMessage(type, *args,**kwargs):
                 {"text": "Great, we won't show you this rec again"},
                 {"text":  "What would you like to do now?",
                     "quick_replies": [
+                        {
+                            "title":"Another rec",
+                            "block_names": ["Recommendations"]
+
+                        },
                         {
                             "title":"Change topics",
                             "block_names": ["Topics"]
@@ -321,11 +324,6 @@ def CreateGalleryElementFromContentObject(content_object, user):
           "type":"json_plugin_url",
           "url": url + "&already_seen=true&on_watchlist=false&action=seen_on_watchlist" + "&user=" + str(user),
           "title":"I've watched this!"
-        },
-        {
-          "type":"json_plugin_url",
-          "url": url + "&on_watchlist=false&action=remove_from_watchlist" + "&user=" + str(user),
-          "title":"Remove from list"
         }
       ]
     }
