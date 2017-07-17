@@ -209,7 +209,7 @@ def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
     trailer_link = cont_obj['trailer_link']
     logline = cont_obj['logline']
     root = ROOT_URL + "/api/usercontents/manual/update/?"
-    params = "content=" + str(content_id) + "&user=" + str(user_id) + "&index=" + index +"&messenger_user_id="+messenger_user_id+"last_clicked_button="+last_clicked_button
+    params = "content=" + str(content_id) + "&user=" + str(user_id) + "&index=" + index +"&messenger_user_id="+messenger_user_id+"&last_clicked_button="+last_clicked_button
     url = root+params
     element = [{
       "title": title,
