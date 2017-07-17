@@ -127,10 +127,11 @@ def UpdateUserContent(request, **kwargs):
     """
     API endpoint that takes in content and username and returns a relationship between a piece of content and user
     """
-    print(kwargs)
-    next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + kwargs['messenger_user_id'] + '&last+clicked+button+name=' + kwargs['topic_button_name'] + '&index=' + kwargs['index']
-    payload = {}
     body = request.GET
+    print('request',body)
+    next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + body.get('messenger_user_id') + '&last+clicked+button+name=' + body.get('topic_button_name') + '&index=' + body.get('index')
+    payload = {}
+
     user = body.get('user')
     content = body.get('content')
     action = body.get('action')
