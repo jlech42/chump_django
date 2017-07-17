@@ -136,7 +136,6 @@ def UpdateUserContent(request, **kwargs):
     API endpoint that takes in content and username and returns a relationship between a piece of content and user
     """
     body = request.GET
-    print('request',body)
     #next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + body.get('messenger_user_id') + '&last+clicked+button+name=' + body.get('topic_button_name') + '&index=' + body.get('index')
     payload = {}
 
@@ -307,7 +306,6 @@ def GetSubscriptionFromMessengerID(id):
 
 def CreateGalleryElementFromContentObject(content_object, user):
     title = content_object.title
-    print('title', title)
     image_link = content_object.image_link
     logline = content_object.logline
     trailer_link = content_object.trailer_link
@@ -333,7 +331,6 @@ def DisplayGalleryFromContentObjects(content_objects, user):
 
     elements = []
     # need to make sure gallery can hold unlimited elements
-    print('gallery')
     for obj in content_objects:
         elements.append(CreateGalleryElementFromContentObject(obj.content, user))
 
@@ -356,7 +353,6 @@ def DisplayGalleryFromContentObjects(content_objects, user):
 @api_view(['GET'])
 def ShowWatchlistFromMessengerId(request):
     messenger_user_id = request.GET.get('messenger user id')
-    print('mess id',messenger_user_id)
     user = User.objects.get(username=messenger_user_id).id
     user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
     chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
@@ -373,7 +369,6 @@ def ShowWatchlist(request):
 def GetContentBlocksFromTags(request):
     payload = {}
     topic_button_name = request.GET.get('last clicked button name')
-    print('last clicked button', topic_button_name)
     #content_tag = request.GET.get('content_tag')
     #payload['content_tag'] = content_tag
     content_tag = TranslateTopicButtonToTag(topic_button_name)
@@ -382,11 +377,9 @@ def GetContentBlocksFromTags(request):
     req_body = ''
     messenger_user_id = request.GET.get('messenger user id')
     topic_tag = request.GET.get('topic_tag')
-    print(topic_tag)
     if topic_tag == "None":
         topic_tag = content_tag
     current_index = int(request.GET.get('content_list_index'))
-    print('current index',current_index)
     user_id = User.objects.get(username=messenger_user_id).id
     payload['content_tag'] = topic_tag
     payload['user_id'] = user_id
@@ -424,7 +417,7 @@ def GetContentBlocksFromTags(request):
         return JsonResponse(chatfuel_response)
 
     next_index = current_index+1
-    print(parsed_response)
+
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name
     elements = get_gallery_element_for_content(parsed_response[current_index], user_id, index=str(next_index), messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
