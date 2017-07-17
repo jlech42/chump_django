@@ -418,7 +418,7 @@ def GetContentBlocksFromTags(request):
 
     next_index = current_index+1
     print(parsed_response)
-    next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
+    next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name
     elements = get_gallery_element_for_content(parsed_response[current_index], user_id, index=str(next_index), messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
         "set_attributes":
@@ -439,9 +439,8 @@ def GetContentBlocksFromTags(request):
                 "text":  "A few other options",
                     "quick_replies": [
                         {
-                          "type":"json_plugin_url",
-                          "url": next_url,
-                          "title":"Another rec"
+                          "title":"Another rec",
+                          "block_names": ["Recommendations"]
                         },
                         {
                             "title":"Change topics",
