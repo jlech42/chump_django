@@ -196,7 +196,8 @@ def getUserFromMessengerID(messenger_id):
     user = User.objects.get(username=messenger_id)
     return user
 
-def get_gallery_element_for_content(cont_obj, user_id):
+def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
+    print(kwargs)
     content_id = cont_obj['id']
     title = cont_obj['title']
     image_link = cont_obj['image_link']
@@ -414,7 +415,7 @@ def GetContentBlocksFromTags(request):
     print(parsed_response)
     print('next id',parsed_response[next_index].id)
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name + '&index=' + str(next_index)
-    elements = get_gallery_element_for_content(parsed_response[current_index], user_id)
+    elements = get_gallery_element_for_content(parsed_response[current_index], user_id, index=str(next_index), messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
         "messages": [
             {
