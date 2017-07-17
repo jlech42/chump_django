@@ -129,7 +129,7 @@ def UpdateUserContent(request, **kwargs):
     """
     body = request.GET
     print('request',body)
-    next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + body.get('messenger_user_id') + '&last+clicked+button+name=' + body.get('topic_button_name') + '&index=' + body.get('index')
+    #next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + body.get('messenger_user_id') + '&last+clicked+button+name=' + body.get('topic_button_name') + '&index=' + body.get('index')
     payload = {}
 
     user = body.get('user')
