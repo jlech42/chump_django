@@ -193,7 +193,7 @@ def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
         },
         {
             "type": "show_block",
-            "title":" now!",
+            "title":"I'll watch now!",
             "block_names":["watching_now"]
         }
       ]
@@ -219,11 +219,6 @@ def get_elements(parsed_response, user_id):
           "item_url": trailer_link,
           "buttons":[
             {
-              "type":"web_url",
-              "url": trailer_link,
-              "title":"Trailer"
-            },
-            {
               "type":"json_plugin_url",
               "url": url + "&on_watchlist=true&action=update_watchlist",
               "title":"Add to watchlist"
@@ -232,6 +227,11 @@ def get_elements(parsed_response, user_id):
               "type":"json_plugin_url",
               "url": url + "&already_seen=true&action=update_already_seen",
               "title":"Already seen"
+            },
+            {
+                "type": "show_block",
+                "title":"I'll watch now!",
+                "block_names":["watching_now"]
             }
           ]
         }
