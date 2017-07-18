@@ -45,23 +45,8 @@ def SimpleMessage(type, *args,**kwargs):
         json = {
             "messages": [
                 {"text": "Great, we won't show you this rec again"},
-                {"text":  "What would you like to do now?",
-                    "quick_replies": [
-                        {
-                            "title":"Another rec",
-                            "block_names": ["Recommendations"]
-
-                        },
-                        {
-                            "title":"Change topics",
-                            "block_names": ["Topics"]
-
-                        },
-                        {
-                            "title":"See watchlist",
-                            "block_names":["Watchlist"]
-                        }
-                    ]
+                {
+                "redirect_to_blocks": ["Recommendations"]
                 }
             ]
         }
