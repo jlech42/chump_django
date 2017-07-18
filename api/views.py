@@ -44,7 +44,7 @@ def SimpleMessage(type, *args,**kwargs):
 
         json = {
             "messages": [
-                {"text": "Great, we won't show you this rec again"}
+                    {"text": "Great, we won't show you this rec again"}
                 ],
             "redirect_to_blocks": ["Recommendations"]
         }
@@ -52,25 +52,8 @@ def SimpleMessage(type, *args,**kwargs):
         json = {
             "messages": [
                 {"text": "We've added to your watchlist"},
-                {"text":  "What would you like to do now?",
-                    "quick_replies": [
-                        {
-                            "title":"Another rec",
-                            "block_names": ["Recommendations"]
-
-                        },
-                        {
-                            "title":"Change topics",
-                            "block_names": ["Topics"]
-
-                        },
-                        {
-                            "title":"See watchlist",
-                            "block_names":["Watchlist"]
-                        }
-                    ]
-                }
-            ]
+                ],
+            "redirect_to_blocks": ["Recommendations"]
         }
     if type == 'seen_on_watchlist':
         json = {
