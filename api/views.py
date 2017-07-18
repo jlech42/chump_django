@@ -282,7 +282,7 @@ def get_elements(parsed_response, user_id):
             i = i + 1
         else:
             break
-    return elements
+    return elements[::-1]
 
 def GetSubscriptionFromMessengerID(id):
     user_id = User.objects.get(username=id).id
