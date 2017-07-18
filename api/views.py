@@ -12,7 +12,6 @@ from rest_framework.mixins import UpdateModelMixin
 import requests
 import json
 from rest_framework.decorators import detail_route, list_route
-
 from .models import Profile, Service, Content, UserSubscription, Tag, Content, ContentTag, UserContent
 from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, ServiceSerializer, ContentSerializer, UserSubscriptionSerializer, UserContentSerializer
 from django.contrib.auth.models import User, Group
@@ -34,6 +33,10 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 def Test(request):
     return JsonResponse({})
+
+def getUserFromMessengerID(messenger_id):
+    user = User.objects.get(username=messenger_id)
+    return user
 
 def SimpleMessage(type, *args,**kwargs):
     json = {}
@@ -161,51 +164,6 @@ def UpdateUserContent(request, **kwargs):
     json = SimpleMessage(action)
     return JsonResponse(json)
 
-@api_view(['POST'])
-@csrf_exempt
-def CreateUserSubscription(request):
-    data = request.POST
-    have_netflix = data.get('have_netflix')
-    have_hbo = data.get('have_hbo')
-    have_hulu = data.get('have_hulu')
-    have_amazon = data.get('have_amazon')
-    netflix_id = Service.objects.get(name='Netflix').id
-    hulu_id = Service.objects.get(name='Hulu').id
-    amazon_id = Service.objects.get(name='Amazon').id
-    hbo_id = Service.objects.get(name='HBO').id
-    messenger_user_id = data.get('messenger user id')
-    user = getUserFromMessengerID(messenger_user_id)
-    user_subscription_responses = {"Netflix": have_netflix, "HBO": have_hbo, "Amazon": have_amazon, "Hulu": have_hulu}
-
-    # function takes the user id and dictionary of user reponses
-    def updateUserSubscriptions(user_id, user_subscription_responses):
-        for service, response in user_subscription_responses.items():
-            service_id = Service.objects.get(name=service).id
-
-            # if user said they have service
-            if response == 'Yes':
-                if UserSubscription.objects.all().filter(service_id = service_id, user_id = user_id).count() > 0:
-                    print('exist')
-                else:
-                    UserSubscription.objects.create(service_id = service_id, user_id = user_id)
-
-            # user doesn't have service
-            else:
-                # delete user service from database
-                if  UserSubscription.objects.all().filter(service_id = service_id, user_id = user_id).count() > 0:
-                    instance = UserSubscription.objects.get(service_id = service_id, user_id = user_id)
-                    instance.delete()
-                else:
-                    print('doesnt exist')
-        return
-
-    updateUserSubscriptions(user.id, user_subscription_responses)
-    return JsonResponse({})
-
-def getUserFromMessengerID(messenger_id):
-    user = User.objects.get(username=messenger_id)
-    return user
-
 def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
     messenger_user_id = kwargs['messenger_user_id']
     last_clicked_button = kwargs['last_clicked_button']
@@ -277,12 +235,12 @@ def get_elements(parsed_response, user_id):
             }
           ]
         }
-        if i <4:
+        if i <6:
             elements.append(element)
             i = i + 1
         else:
             break
-    return elements[::-1]
+    return elements
 
 def GetSubscriptionFromMessengerID(id):
     user_id = User.objects.get(username=id).id
@@ -371,9 +329,11 @@ def GetContentBlocksFromTags(request):
     topic_button_name = request.GET.get('last clicked button name')
     messenger_user_id = request.GET.get('messenger user id')
     topic_tag = request.GET.get('topic_tag')
+    start_index = request.GET.get('content_start_index')
     content_tag = TranslateTopicButtonToTag(topic_button_name)
     #content_tag = request.GET.get('content_tag')
     #payload['content_tag'] = content_tag
+    print('start index',start_index)
     if topic_tag == "None":
         topic_tag = content_tag
     user_id = User.objects.get(username=messenger_user_id).id
@@ -388,11 +348,14 @@ def GetContentBlocksFromTags(request):
         req_body = r.text
 
     parsed_response = json.loads(req_body)
-
-
     topic_content_list_length = len(parsed_response)
+    end_index = start_index + 2
+    if end_index > topic_content_list_length-1:
+        end_index = topic_content_list_length - 1
+        next_index = topic_content_list_length
+    next_index = end_index + 1
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
-    if topic_content_list_length < 1:
+    if start_index == topic_content_list_length:
         chatfuel_response = {
             "messages": [
                 {"text": "We will have more recs for this category soon!"},
@@ -419,13 +382,14 @@ def GetContentBlocksFromTags(request):
 
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name
     print('initial response', parsed_response)
-    elements = get_elements(parsed_response,user_id)
+    elements = get_elements(parsed_response[start_index, end_index],user_id)
     print(elements)
     #elements = get_gallery_element_for_content(parsed_response, user_id, messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
         "set_attributes":
         {
-          "topic_tag": topic_tag
+          "topic_tag": topic_tag,
+          "content_start_index": next_index
         },
         "messages": [
             {
@@ -525,6 +489,49 @@ def CreateUser(request):
         user_profile.status = "test"
         user_profile.save()
         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['POST'])
+@csrf_exempt
+def CreateUserSubscription(request):
+    data = request.POST
+    have_netflix = data.get('have_netflix')
+    have_hbo = data.get('have_hbo')
+    have_hulu = data.get('have_hulu')
+    have_amazon = data.get('have_amazon')
+    netflix_id = Service.objects.get(name='Netflix').id
+    hulu_id = Service.objects.get(name='Hulu').id
+    amazon_id = Service.objects.get(name='Amazon').id
+    hbo_id = Service.objects.get(name='HBO').id
+    messenger_user_id = data.get('messenger user id')
+    user = getUserFromMessengerID(messenger_user_id)
+    user_subscription_responses = {"Netflix": have_netflix, "HBO": have_hbo, "Amazon": have_amazon, "Hulu": have_hulu}
+
+    # function takes the user id and dictionary of user reponses
+    def updateUserSubscriptions(user_id, user_subscription_responses):
+        for service, response in user_subscription_responses.items():
+            service_id = Service.objects.get(name=service).id
+
+            # if user said they have service
+            if response == 'Yes':
+                if UserSubscription.objects.all().filter(service_id = service_id, user_id = user_id).count() > 0:
+                    print('exist')
+                else:
+                    UserSubscription.objects.create(service_id = service_id, user_id = user_id)
+
+            # user doesn't have service
+            else:
+                # delete user service from database
+                if  UserSubscription.objects.all().filter(service_id = service_id, user_id = user_id).count() > 0:
+                    instance = UserSubscription.objects.get(service_id = service_id, user_id = user_id)
+                    instance.delete()
+                else:
+                    print('doesnt exist')
+        return
+
+    updateUserSubscriptions(user.id, user_subscription_responses)
+    return JsonResponse({})
 
 
 ### ViewSets ###
