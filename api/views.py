@@ -328,7 +328,7 @@ def GetContentBlocksFromTags(request):
     if start_index >= topic_content_list_length:
         chatfuel_response = {
             "messages": [
-                {"text": "We will have more recs for this category soon!"},
+                {"text": "That's all in this category. You can scroll up, or wait until we add more recs soon!"},
                 {
                     "text":  "What would you like to do now?",
                         "quick_replies": [
@@ -375,7 +375,7 @@ def GetContentBlocksFromTags(request):
                 "text":  "A few other options",
                     "quick_replies": [
                         {
-                          "title":"Another rec",
+                          "title":"Other recs",
                           "block_names": ["Recommendations"]
                         },
                         {
