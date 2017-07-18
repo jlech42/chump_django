@@ -388,6 +388,7 @@ def GetContentBlocksFromTags(request):
         req_body = r.text
 
     parsed_response = json.loads(req_body)
+    print('initial response', parsed_response)
 
     topic_content_list_length = len(parsed_response)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
