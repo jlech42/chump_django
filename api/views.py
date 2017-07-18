@@ -329,7 +329,7 @@ def GetContentBlocksFromTags(request):
     topic_button_name = request.GET.get('last clicked button name')
     messenger_user_id = request.GET.get('messenger user id')
     topic_tag = request.GET.get('topic_tag')
-    start_index = request.GET.get('content_start_index')
+    start_index = int(request.GET.get('content_start_index'))
     content_tag = TranslateTopicButtonToTag(topic_button_name)
     #content_tag = request.GET.get('content_tag')
     #payload['content_tag'] = content_tag
