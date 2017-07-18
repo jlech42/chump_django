@@ -169,6 +169,7 @@ def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
 def get_elements(parsed_response, user_id):
     i = 0
     elements = []
+    print('get elements', i, parsed_response)
     for cont_obj in parsed_response:
         content_id = cont_obj['id']
         title = cont_obj['title']
@@ -324,7 +325,7 @@ def GetContentBlocksFromTags(request):
         next_index = topic_content_list_length
     next_index = end_index
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
-    if start_index > topic_content_list_length:
+    if start_index >= topic_content_list_length:
         chatfuel_response = {
             "messages": [
                 {"text": "We will have more recs for this category soon!"},
