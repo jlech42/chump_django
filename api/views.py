@@ -44,11 +44,9 @@ def SimpleMessage(type, *args,**kwargs):
 
         json = {
             "messages": [
-                {"text": "Great, we won't show you this rec again"},
-                {
-                "redirect_to_blocks": ["Recommendations"]
-                }
-            ]
+                {"text": "Great, we won't show you this rec again"}
+                ],
+            "redirect_to_blocks": ["Recommendations"]
         }
     if type == 'update_watchlist':
         json = {
