@@ -324,6 +324,9 @@ def ShowWatchlist(request):
 
 @api_view(['GET'])
 def GetContentBlocksFromTags(request):
+    '''
+    View takes a messenger user id, last clicked button name, topic_tag, content_start_index
+    '''
     payload = {}
     req_body = ''
     topic_button_name = request.GET.get('last clicked button name')
@@ -355,7 +358,7 @@ def GetContentBlocksFromTags(request):
         next_index = topic_content_list_length
     next_index = end_index
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
-    if start_index == topic_content_list_length:
+    if start_index > topic_content_list_length:
         chatfuel_response = {
             "messages": [
                 {"text": "We will have more recs for this category soon!"},
