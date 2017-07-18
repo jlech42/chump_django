@@ -349,11 +349,11 @@ def GetContentBlocksFromTags(request):
 
     parsed_response = json.loads(req_body)
     topic_content_list_length = len(parsed_response)
-    end_index = start_index + 2
-    if end_index > topic_content_list_length-1:
-        end_index = topic_content_list_length - 1
+    end_index = start_index + 3
+    if end_index > topic_content_list_length:
+        end_index = topic_content_list_length
         next_index = topic_content_list_length
-    next_index = end_index + 1
+    next_index = end_index
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
     if start_index == topic_content_list_length:
         chatfuel_response = {
