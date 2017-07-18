@@ -382,7 +382,7 @@ def GetContentBlocksFromTags(request):
 
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name
     print('initial response', parsed_response)
-    elements = get_elements(parsed_response[start_index, end_index],user_id)
+    elements = get_elements(parsed_response[start_index:end_index],user_id)
     print(elements)
     #elements = get_gallery_element_for_content(parsed_response, user_id, messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
     chatfuel_response = {
