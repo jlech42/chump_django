@@ -277,7 +277,7 @@ def get_elements(parsed_response, user_id):
             }
           ]
         }
-        if i <1:
+        if i <4:
             elements.append(element)
             i = i + 1
         else:
@@ -388,7 +388,7 @@ def GetContentBlocksFromTags(request):
         req_body = r.text
 
     parsed_response = json.loads(req_body)
-    print('initial response', parsed_response)
+
 
     topic_content_list_length = len(parsed_response)
     root = ROOT_URL + "/api/custom-views/show-watchlist?user=" + str(user_id)
@@ -418,6 +418,7 @@ def GetContentBlocksFromTags(request):
     #next_index = current_index+1
 
     next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + str(messenger_user_id) + '&last+clicked+button+name=' + topic_button_name
+    print('initial response', parsed_response)
     elements = get_elements(parsed_response,user_id)
     print(elements)
     #elements = get_gallery_element_for_content(parsed_response, user_id, messenger_user_id=str(messenger_user_id), last_clicked_button=topic_button_name)
