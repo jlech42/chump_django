@@ -442,6 +442,9 @@ def CreateUser(request):
     last_name = data.get('last name')
     username = data.get('chatfuel user id')
     messenger_user_id = data.get('messenger user id')
+    chatfuel_user_id = data.get('chatfuel user id')
+    print('messenger id', messenger_user_id)
+    print('chatfuel id', chatfuel_user_id)
     password = 'admin'
     user_json = {
         'first_name': first_name,
