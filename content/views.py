@@ -70,7 +70,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         queryset = Content.objects.all()
         print(queryset)
         explore_tag = self.request.query_params.get('explore_tag', None)
-        tag_id = Tagsobjects.get(name=explore_tag)
+        tag_id = Tag.objects.get(name=explore_tag)
         print(tag_id)
         #if explore_tag is not None:
         #    print('have tag')
