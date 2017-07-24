@@ -29,6 +29,9 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 def SingleMessageResponse(request):
     print('simple message',request.GET)
+    body = request.GET
+    content_id = body['id']
+    print('message id ', content_id)
     return JsonResponse({})
 
 def CreateGalleryElementFromContentObject(content_object, user):
