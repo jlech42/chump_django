@@ -12,8 +12,10 @@ from rest_framework.mixins import UpdateModelMixin
 import requests
 import json
 from rest_framework.decorators import detail_route, list_route
-from .models import Profile, Service, Content, UserSubscription, Tag, Content, ContentTag, UserContent
-from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, ServiceSerializer, ContentSerializer, UserSubscriptionSerializer, UserContentSerializer
+from service.models import Service
+from content.models import Content, Tag, Content, ContentTag
+from service.serializers import ServiceSerializer
+from content.serializers import ContentSerializer
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag
 
@@ -97,38 +99,6 @@ def SimpleMessage(type, *args,**kwargs):
             ]
         }
     return json
-
-@api_view(['GET','POST'])
-@csrf_exempt
-def UpdateUserContent(request, **kwargs):
-    """
-    API endpoint that takes in content and username and returns a relationship between a piece of content and user
-    """
-    body = request.GET
-    #next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + body.get('messenger_user_id') + '&last+clicked+button+name=' + body.get('topic_button_name') + '&index=' + body.get('index')
-    payload = {}
-
-    user = body.get('user')
-    content = body.get('content')
-    action = body.get('action')
-    payload['content'] = content
-    payload['user'] = user
-    # check if adding to watchlist
-    if 'on_watchlist' in body:
-        payload['on_watchlist'] = body['on_watchlist']
-    #check if already seen
-    if 'already_seen' in body:
-        payload['already_seen'] = body['already_seen']
-    if not UserContent.objects.all().filter(content=content,user=user):
-        post_url = ROOT_URL+'/api/usercontents/'
-        r = requests.post(ROOT_URL+'/api/usercontents/', data=payload)
-        json = SimpleMessage(action)
-        return JsonResponse(json)
-    url_pk = str(UserContent.objects.get(content=content,user=user).pk)
-    r = requests.patch(ROOT_URL+'/api/usercontents/' + url_pk +'/', data=payload)
-    # create new
-    json = SimpleMessage(action)
-    return JsonResponse(json)
 
 def get_gallery_element_for_content(cont_obj, user_id, **kwargs):
     messenger_user_id = kwargs['messenger_user_id']
@@ -394,160 +364,3 @@ def GetContentBlocksFromTags(request):
     }
 
     return JsonResponse(chatfuel_response)
-
-class ContentViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows Content to be viewed or edited.
-    """
-    serializer_class = ContentSerializer
-    def get_queryset(self):
-        '''
-        Optionally restricts the returned content to a given user,
-        by filtering against a `username` query parameter in the URL +
-        filters by tags.
-        '''
-        queryset = Content.objects.all()
-        # filter for tags
-        tag = self.request.query_params.get('content_tag', None)
-        user_id = self.request.query_params.get('user_id', None)
-        # filter for user services - needs to be tested
-        on_netflix = self.request.query_params.get('on_netflix', None)
-        on_hulu = self.request.query_params.get('on_hulu', None)
-        on_hbo = self.request.query_params.get('on_hbo', None)
-        on_amazon = self.request.query_params.get('on_amazon', None)
-        if on_netflix is not None:
-            queryset = queryset.filter(on_netflix=False)
-        if on_amazon is not None:
-            queryset = queryset.filter(on_amazon=False)
-        if on_hulu is not None:
-            queryset = queryset.filter(on_hulu=False)
-        if on_hbo is not None:
-            queryset = queryset.filter(on_hbo=False)
-        if tag is not None:
-            queryset = queryset.filter(primary_mode=tag)
-
-        #filter out content people have already seen
-        #should we filter out on watchlist content?
-        if user_id is not None:
-            queryset = queryset.exclude(usercontent__user=user_id, usercontent__already_seen=True)
-            queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
-        return queryset
-
-@api_view(['POST'])
-@csrf_exempt
-#@permission_classes((AllowAny,))
-def CreateUser(request):
-    data = request.POST
-    first_name = data.get('first name')
-    last_name = data.get('last name')
-    username = data.get('chatfuel user id')
-    messenger_user_id = data.get('messenger user id')
-    chatfuel_user_id = data.get('chatfuel user id')
-    print('messenger id', messenger_user_id)
-    print('chatfuel id', chatfuel_user_id)
-    password = 'admin'
-    user_json = {
-        'first_name': first_name,
-        'last_name': last_name,
-        'username': username,
-        'password': password
-    }
-    serialized = UserSerializer(data=user_json)
-    if serialized.is_valid():
-        serialized.save()
-        return Response(serialized.data, status=status.HTTP_201_CREATED)
-    else:
-        active_user = User.objects.get(username=username)
-        user_profile = active_user.profile
-        user_profile.status = "test"
-        user_profile.save()
-        return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-@api_view(['POST'])
-@csrf_exempt
-def CreateUserSubscription(request):
-    data = request.POST
-    have_netflix = data.get('have_netflix')
-    have_hbo = data.get('have_hbo')
-    have_hulu = data.get('have_hulu')
-    have_amazon = data.get('have_amazon')
-    netflix_id = Service.objects.get(name='Netflix').id
-    hulu_id = Service.objects.get(name='Hulu').id
-    amazon_id = Service.objects.get(name='Amazon').id
-    hbo_id = Service.objects.get(name='HBO').id
-    messenger_user_id = data.get('messenger user id')
-    user = getUserFromMessengerID(messenger_user_id)
-    user_subscription_responses = {"Netflix": have_netflix, "HBO": have_hbo, "Amazon": have_amazon, "Hulu": have_hulu}
-
-    # function takes the user id and dictionary of user reponses
-    def updateUserSubscriptions(user_id, user_subscription_responses):
-        for service, response in user_subscription_responses.items():
-            service_id = Service.objects.get(name=service).id
-
-            # if user said they have service
-            if response == 'Yes':
-                if UserSubscription.objects.all().filter(service_id = service_id, user_id = user_id).count() > 0:
-                    print('exist')
-                else:
-                    UserSubscription.objects.create(service_id = service_id, user_id = user_id)
-
-            # user doesn't have service
-            else:
-                # delete user service from database
-                if  UserSubscription.objects.all().filter(service_id = service_id, user_id = user_id).count() > 0:
-                    instance = UserSubscription.objects.get(service_id = service_id, user_id = user_id)
-                    instance.delete()
-                else:
-                    print('doesnt exist')
-        return
-
-    updateUserSubscriptions(user.id, user_subscription_responses)
-    return JsonResponse({})
-
-
-### ViewSets ###
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-
-class ProfileViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows profiles to be viewed or edited.
-    """
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
-class ServiceViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
-
-#@api_view(['GET','PUT','POST'])
-class UserContentViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = UserContent.objects.all()
-    serializer_class = UserContentSerializer
-
-class UserSubscriptionViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = UserSubscription.objects.all()
-    serializer_class = UserSubscriptionSerializer
