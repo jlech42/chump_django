@@ -42,7 +42,7 @@ def get_content_from_explore_tag_and_user(request):
     username = body['username']
     explore_tag = body['explore_tag']
     print(username,explore_tag)
-    r = requests.get(PROD_ROOT_URL+'api/contents')
+    r = requests.get(PROD_ROOT_URL+'api/contents/')
     print(r.json())
     return JsonResponse({})
 
