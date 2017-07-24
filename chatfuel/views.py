@@ -10,6 +10,7 @@ import requests
 import json
 from django.contrib.auth.models import User, Group
 from user.utilities import get_user_id_from_messenger_id
+from content.models import Content
 
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
@@ -26,12 +27,15 @@ FB_PAGE_ACCESS_TOKEN = 'EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WT
 FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token="+FB_PAGE_ACCESS_TOKEN
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
-
+@api_view(['GET','POST'])
+@csrf_exempt
 def SingleMessageResponse(request):
     print('simple message',request.GET)
     body = request.GET
     content_id = body['id']
     print('message id ', content_id)
+    description = Content.objects.get(id=content_id).long_description
+    print(description)
     return JsonResponse({})
 
 def CreateGalleryElementFromContentObject(content_object, user):
