@@ -70,11 +70,11 @@ class ContentViewSet(viewsets.ModelViewSet):
         queryset = Content.objects.all()
         print(queryset)
         explore_tag = self.request.query_params.get('explore_tag', None)
-        tag_id = Tag.objects.get(name=explore_tag)
-        print(tag_id)
-        #if explore_tag is not None:
-        #    print('have tag')
-        #    queryset = queryset.filter(contenttag__name=explore_tag)
+        tag_id = Tag.objects.get(name=explore_tag).id
+        print('tag_id',tag_id)
+        if explore_tag is not None:
+            print('have tag')
+            queryset = queryset.filter(contenttag__tag_id=tag_id)
         '''
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)
