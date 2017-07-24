@@ -11,4 +11,5 @@ router.register(r'tags', views.TagViewSet, 'tag')
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r'^explore-content-selection-from-tag', views.get_content_from_explore_tag_and_user)
 ]

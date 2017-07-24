@@ -16,7 +16,19 @@ from .models import Content, Tag
 from .serializers import ContentSerializer, TagSerializer
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag
+from user.views import GetSubscriptionFromMessengerID
 # Create your views here.
+
+@api_view(['GET','POST'])
+@csrf_exempt
+def get_content_from_explore_tag_and_user(request):
+    body = request.GET
+    username = body['username']
+    explore_tag = body['explore_tag']
+    print(username,explore_tag)
+    filtered_content = GetSubscriptionFromMessengerID(username)
+    print(filtered_content)
+    return JsonResponse({})
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()

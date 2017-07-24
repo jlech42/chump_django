@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'chump_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DATABASE_NAME', 'sephoradb'),
-        'USER': os.environ.get('DATABASE_USER', 'devuser'),
-        'HOST': os.environ.get('DATABASE_HOST', 'db'),
-        'PORT': os.environ.get('DATABASE_PORT', '5432')
+        'NAME': 'justinlechner',
+        'USER': 'justinlechner',
+        'HOST': 'localhost',
+        'PORT': '9876'
     }
 }
 
