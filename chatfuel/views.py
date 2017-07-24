@@ -27,12 +27,17 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 
+def SingleMessageResponse(request):
+    print('simple message',request.GET)
+    return JsonResponse({})
+
 def CreateGalleryElementFromContentObject(content_object, user):
     title = content_object['title']
     image_link = content_object['image_link']
     logline = content_object['logline']
     trailer_link = content_object['trailer_link']
     long_description = content_object['long_description']
+    content_id = content_object['id']
     root = ROOT_URL + "/api/usercontents/manual/update/?"
     params = "content=" + str(content_object['id']) + "&user=" + str(user)
     url = root+params
@@ -44,7 +49,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
       "buttons":[
         {
           "type":"json_plugin_url",
-          "url": url + "&already_seen=true&on_watchlist=false&action=seen_on_watchlist" + "&user=" + str(user),
+          "url": ROOT_URL+'api/text-response/'+'?content_id='+str(content_id),
           "title":"Learn more"
         },
         {

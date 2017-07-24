@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^api/', include('user.urls')),
     url(r'^api/', include('content.urls')),
     url(r'^api/', include('service.urls')),
+    url(r'^api/', include('chatfuel.urls')),
 ]
