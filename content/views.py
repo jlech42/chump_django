@@ -22,7 +22,6 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
-
 class ContentViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Content to be viewed or edited.

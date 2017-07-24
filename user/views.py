@@ -33,6 +33,7 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 def getUserFromMessengerID(messenger_id):
+    print(messenger_id)
     user = User.objects.get(username=messenger_id)
     return user
 
@@ -102,13 +103,16 @@ def IntegrateUserSubscription(request):
     Updates user subscriptions based on the input
     '''
     data = request.POST
+    print('user response', data)
     have_netflix = data.get('have_netflix')
     have_hbo = data.get('have_hbo')
     have_hulu = data.get('have_hulu')
     have_amazon = data.get('have_amazon')
     services = data.get('services')
     messenger_user_id = data.get('messenger user id')
+    print(messenger_user_id)
     user = getUserFromMessengerID(messenger_user_id)
+    print(user.id)
     user_id = user.id
 
     # need to update this code!!
