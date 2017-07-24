@@ -52,11 +52,12 @@ def CreateGalleryElementFromContentObject(content_object, user):
 
 def DisplayGalleryFromContentJson(content_json, user_id):
 
-    print('display params',content_json, user_id)
+    print('display params', content_json, user_id)
     elements = []
     # need to make sure gallery can hold unlimited elements
-    for obj in content_objects:
-        elements.append(CreateGalleryElementFromContentObject(obj.content, user))
+    for content in content_json:
+        print(content['title'])
+        #elements.append(CreateGalleryElementFromContentObject(obj.content, user))
 
     chatfuel_response = {
         "messages": [
