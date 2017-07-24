@@ -42,13 +42,11 @@ def get_content_from_explore_tag_and_user(request):
     body = request.GET
     username = body['username']
     explore_tag = body['explore_tag']
-    print(username,explore_tag)
     uri = 'api/contents/'
     payload = {} # {'test': }
     payload['explore_tag'] = explore_tag
     user_id = get_user_id_from_messenger_id(username)
 
-    print('user id', user_id)
     subscriptions = GetSubscriptionFromMessengerID(username)
     print('subs', subscriptions)
     print(payload)
