@@ -28,13 +28,17 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 
 def CreateGalleryElementFromContentObject(content_object, user):
-    title = content_object.title
-    image_link = content_object.image_link
-    logline = content_object.logline
-    trailer_link = content_object.trailer_link
+    title = content_object['title']
+    image_link = content_object['image_link']
+    logline = content_object['logline']
+    trailer_link = content_object['trailer_link']
+    long_description = content_object['long_description']
+    print('single content',title,image_link,logline,trailer_link,long_description)
     root = ROOT_URL + "/api/usercontents/manual/update/?"
-    params = "content=" + str(content_object.id) + "&user=" + str(user)
+    params = "content=" + str(content_object['id']) + "&user=" + str(user)
     url = root+params
+    element = {}
+    '''
     element = {
       "title": title,
       "image_url":image_link,
@@ -48,6 +52,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
         }
       ]
     }
+    '''
     return element
 
 def DisplayGalleryFromContentJson(content_json, user_id):
@@ -57,6 +62,7 @@ def DisplayGalleryFromContentJson(content_json, user_id):
     # need to make sure gallery can hold unlimited elements
     for content in content_json:
         print(content['title'])
+        CreateGalleryElementFromContentObject(content,user_id)
         #elements.append(CreateGalleryElementFromContentObject(obj.content, user))
 
     chatfuel_response = {
