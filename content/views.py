@@ -53,7 +53,6 @@ def get_content_from_explore_tag_and_user(request):
     #get content from tag
     r = requests.get(PROD_ROOT_URL+uri, params=payload)
     #display gallery of content
-    print(r.json())
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
     return JsonResponse(chatfuel_response)
 
@@ -75,9 +74,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         queryset = Content.objects.all()
         explore_tag = self.request.query_params.get('explore_tag', None)
         tag_id = Tag.objects.get(name=explore_tag).id
-        print('tag_id',tag_id)
         if explore_tag is not None:
-            print('have tag')
             queryset = queryset.filter(contenttag__tag_id=tag_id)
         '''
         # filter for tags
