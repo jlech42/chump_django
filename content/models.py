@@ -18,6 +18,7 @@ class Content(models.Model):
     content_type = models.CharField(max_length=128, blank=True)
     title = models.TextField(blank=True)
     logline = models.TextField(blank=True)
+    long_description = models.TextField(blank=True)
     no_seasons = models.IntegerField(null=True, blank=True, default=None)
     no_episodes = models.IntegerField(null=True, blank=True, default=None)
     runtime_per_episode = models.IntegerField(null=True, blank=True, default=None)
