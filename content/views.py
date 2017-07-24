@@ -45,6 +45,8 @@ def get_content_from_explore_tag_and_user(request):
     uri = 'api/contents/'
     payload = {} # {'test': }
     payload['explore_tag'] = explore_tag
+    subscriptions = GetSubscriptionFromMessengerID(username)
+    print('subs', subscriptions)
     print(payload)
     r = requests.get(PROD_ROOT_URL+uri, params=payload)
     print(r.json())
@@ -68,9 +70,11 @@ class ContentViewSet(viewsets.ModelViewSet):
         queryset = Content.objects.all()
         print(queryset)
         explore_tag = self.request.query_params.get('explore_tag', None)
-        if explore_tag is not None:
-            print('have tag')
-            queryset = queryset.filter(contenttag__name=explore_tag)
+        tag_id = Tags.objects.get(name=explore_tag)
+        print(tag_id)
+        #if explore_tag is not None:
+        #    print('have tag')
+        #    queryset = queryset.filter(contenttag__name=explore_tag)
         '''
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)
