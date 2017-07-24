@@ -25,4 +25,4 @@ class UserSubscriptionSerializer(serializers.ModelSerializer):
 class UserContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserContent
-        fields = ('content','user', 'on_watchlist', 'already_seen', 'watching_now', 'was_on_watchlist', 'shared')
+        fields = ('content','user', 'on_watchlist', 'already_seen', 'watching_now', 'was_on_watchlist', 'shared', 'not_interested')

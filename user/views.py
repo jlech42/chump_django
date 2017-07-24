@@ -87,10 +87,20 @@ def GetSubscriptionFromMessengerID(id):
         filtered_content['on_hbo'] = False
     return filtered_content
 
+# Custom integration layer entry points
+
+@api_view(['POST'])
+@csrf_exempt
+def IntegrateUserContent(request):
+    return JsonResponse({})
 
 @api_view(['POST'])
 @csrf_exempt
 def IntegrateUserSubscription(request):
+    '''
+    Function takes in a request with services keyword response and a messenger user id
+    Updates user subscriptions based on the input
+    '''
     data = request.POST
     have_netflix = data.get('have_netflix')
     have_hbo = data.get('have_hbo')

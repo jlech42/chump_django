@@ -20,6 +20,7 @@ class UserContent(models.Model):
     already_seen = models.BooleanField(default=False)
     watching_now = models.BooleanField(default=False)
     was_on_watchlist = models.BooleanField(default=False)
+    not_interested = models.BooleanField(default=False)
     shared = models.BooleanField(default=False)
     class Meta:
         unique_together = ('content', 'user')
