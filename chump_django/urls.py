@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('api.urls')),
     url(r'^api/', include('user.urls')),
+    url(r'^api/', include('content.urls')),
+    url(r'^api/', include('service.urls')),
 ]
