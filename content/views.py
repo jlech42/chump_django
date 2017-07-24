@@ -44,7 +44,7 @@ def get_content_from_explore_tag_and_user(request):
     print(username,explore_tag)
     uri = 'api/contents/'
     payload = {} # {'test': }
-    payload['explore_tag': explore_tag]
+    payload['explore_tag'] = explore_tag
     print(payload)
     r = requests.get(PROD_ROOT_URL+uri, params=payload)
     print(r.json())
