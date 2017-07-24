@@ -18,6 +18,7 @@ from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag
 from user.views import GetSubscriptionFromMessengerID
 from user.utilities import get_user_id_from_messenger_id
+from chatfuel.views import DisplayGalleryFromContentJson
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
 DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
@@ -46,6 +47,7 @@ def get_content_from_explore_tag_and_user(request):
     payload = {} # {'test': }
     payload['explore_tag'] = explore_tag
     user_id = get_user_id_from_messenger_id(username)
+
     print('user id', user_id)
     subscriptions = GetSubscriptionFromMessengerID(username)
     print('subs', subscriptions)
@@ -54,6 +56,7 @@ def get_content_from_explore_tag_and_user(request):
     r = requests.get(PROD_ROOT_URL+uri, params=payload)
     #display gallery of content
     print(r.json())
+    DisplayGalleryFromContentJson(r.json(), user_id)
     return JsonResponse({})
 
 class TagViewSet(viewsets.ModelViewSet):
