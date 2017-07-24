@@ -17,6 +17,22 @@ from .serializers import ContentSerializer, TagSerializer
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag
 from user.views import GetSubscriptionFromMessengerID
+
+
+PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
+DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
+
+ROOT_URL = DEV_ROOT_URL
+if 'ROOT_URL' in os.environ:
+    ROOT_URL = os.environ['ROOT_URL']
+
+FB_ID_RAW = 'https://graph.facebook.com/v2.6/1241145236012339/?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WTIhFv0L2hm8keNhUnYMUOOtS0aZARHFiSyh8gVAOh1xE0TXM6dLrxk21bqBl0kZBJyqvf7dDNSFZBHDasLTqhZCry871iMqHznpLr7rrWQOmpQj7c1njc8gZDZD'
+USER_ID = '1241145236012339'
+FB_URL_ROOT = "https://graph.facebook.com/v2.6/" + USER_ID
+FB_PAGE_ACCESS_TOKEN = 'EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WTIhFv0L2hm8keNhUnYMUOOtS0aZARHFiSyh8gVAOh1xE0TXM6dLrxk21bqBl0kZBJyqvf7dDNSFZBHDasLTqhZCry871iMqHznpLr7rrWQOmpQj7c1njc8gZDZD'
+FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token="+FB_PAGE_ACCESS_TOKEN
+FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
+
 # Create your views here.
 
 @api_view(['GET','POST'])
@@ -26,8 +42,8 @@ def get_content_from_explore_tag_and_user(request):
     username = body['username']
     explore_tag = body['explore_tag']
     print(username,explore_tag)
-    filtered_content = GetSubscriptionFromMessengerID(username)
-    print(filtered_content)
+    r = requests.get(PROD_ROOT_URL+'api/contents')
+    print(r.json())
     return JsonResponse({})
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -46,6 +62,8 @@ class ContentViewSet(viewsets.ModelViewSet):
         filters by tags.
         '''
         queryset = Content.objects.all()
+        print(queryset)
+        '''
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)
         user_id = self.request.query_params.get('user_id', None)
@@ -70,4 +88,5 @@ class ContentViewSet(viewsets.ModelViewSet):
         if user_id is not None:
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__already_seen=True)
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
+        '''
         return queryset
