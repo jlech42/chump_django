@@ -54,8 +54,8 @@ def get_content_from_explore_tag_and_user(request):
     r = requests.get(PROD_ROOT_URL+uri, params=payload)
     #display gallery of content
     print(r.json())
-    DisplayGalleryFromContentJson(r.json(), user_id)
-    return JsonResponse({})
+    chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
+    return JsonResponse(chatfuel_response)
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()

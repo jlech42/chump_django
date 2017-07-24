@@ -33,12 +33,9 @@ def CreateGalleryElementFromContentObject(content_object, user):
     logline = content_object['logline']
     trailer_link = content_object['trailer_link']
     long_description = content_object['long_description']
-    print('single content',title,image_link,logline,trailer_link,long_description)
     root = ROOT_URL + "/api/usercontents/manual/update/?"
     params = "content=" + str(content_object['id']) + "&user=" + str(user)
     url = root+params
-    element = {}
-    '''
     element = {
       "title": title,
       "image_url":image_link,
@@ -52,7 +49,6 @@ def CreateGalleryElementFromContentObject(content_object, user):
         }
       ]
     }
-    '''
     return element
 
 def DisplayGalleryFromContentJson(content_json, user_id):
@@ -61,9 +57,8 @@ def DisplayGalleryFromContentJson(content_json, user_id):
     elements = []
     # need to make sure gallery can hold unlimited elements
     for content in content_json:
-        print(content['title'])
-        CreateGalleryElementFromContentObject(content,user_id)
-        #elements.append(CreateGalleryElementFromContentObject(obj.content, user))
+        elements.append(CreateGalleryElementFromContentObject(content, user_id))
+    print('elements',elements)
 
     chatfuel_response = {
         "messages": [
