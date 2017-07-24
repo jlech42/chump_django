@@ -9,6 +9,72 @@ from rest_framework.decorators import api_view, permission_classes
 import requests
 import json
 from django.contrib.auth.models import User, Group
+from user.utilities import get_user_id_from_messenger_id
+
+
+PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
+DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
+
+ROOT_URL = DEV_ROOT_URL
+if 'ROOT_URL' in os.environ:
+    ROOT_URL = os.environ['ROOT_URL']
+
+FB_ID_RAW = 'https://graph.facebook.com/v2.6/1241145236012339/?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WTIhFv0L2hm8keNhUnYMUOOtS0aZARHFiSyh8gVAOh1xE0TXM6dLrxk21bqBl0kZBJyqvf7dDNSFZBHDasLTqhZCry871iMqHznpLr7rrWQOmpQj7c1njc8gZDZD'
+USER_ID = '1241145236012339'
+FB_URL_ROOT = "https://graph.facebook.com/v2.6/" + USER_ID
+FB_PAGE_ACCESS_TOKEN = 'EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WTIhFv0L2hm8keNhUnYMUOOtS0aZARHFiSyh8gVAOh1xE0TXM6dLrxk21bqBl0kZBJyqvf7dDNSFZBHDasLTqhZCry871iMqHznpLr7rrWQOmpQj7c1njc8gZDZD'
+FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token="+FB_PAGE_ACCESS_TOKEN
+FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
+
+
+def CreateGalleryElementFromContentObject(content_object, user):
+    title = content_object.title
+    image_link = content_object.image_link
+    logline = content_object.logline
+    trailer_link = content_object.trailer_link
+    root = ROOT_URL + "/api/usercontents/manual/update/?"
+    params = "content=" + str(content_object.id) + "&user=" + str(user)
+    url = root+params
+    element = {
+      "title": title,
+      "image_url":image_link,
+      "subtitle": logline,
+      "item_url": trailer_link,
+      "buttons":[
+        {
+          "type":"json_plugin_url",
+          "url": url + "&already_seen=true&on_watchlist=false&action=seen_on_watchlist" + "&user=" + str(user),
+          "title":"I've watched this!"
+        }
+      ]
+    }
+    return element
+
+def DisplayGalleryFromContentJson(content_json, user_id):
+
+    elements = []
+    # need to make sure gallery can hold unlimited elements
+    for obj in content_objects:
+        elements.append(CreateGalleryElementFromContentObject(obj.content, user))
+
+    chatfuel_response = {
+        "messages": [
+            {
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements": elements
+                    }
+                }
+            }
+        ]
+    }
+
+    return chatfuel_response
+
+
+
 # Create your views here.
 
 json = {

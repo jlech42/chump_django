@@ -17,7 +17,7 @@ from .serializers import ContentSerializer, TagSerializer
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag
 from user.views import GetSubscriptionFromMessengerID
-
+from user.utilities import get_user_id_from_messenger_id
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
 DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
@@ -45,10 +45,14 @@ def get_content_from_explore_tag_and_user(request):
     uri = 'api/contents/'
     payload = {} # {'test': }
     payload['explore_tag'] = explore_tag
+    user_id = get_user_id_from_messenger_id(username)
+    print('user id', user_id)
     subscriptions = GetSubscriptionFromMessengerID(username)
     print('subs', subscriptions)
     print(payload)
+    #get content from tag
     r = requests.get(PROD_ROOT_URL+uri, params=payload)
+    #display gallery of content
     print(r.json())
     return JsonResponse({})
 
@@ -68,7 +72,6 @@ class ContentViewSet(viewsets.ModelViewSet):
         filters by tags.
         '''
         queryset = Content.objects.all()
-        print(queryset)
         explore_tag = self.request.query_params.get('explore_tag', None)
         tag_id = Tag.objects.get(name=explore_tag).id
         print('tag_id',tag_id)
