@@ -52,7 +52,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
       "buttons":[
         {
           "type":"json_plugin_url",
-          "url": ROOT_URL+'/api/text-response/'+'?content_id='+content_id,
+          "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&watching_now=true&already_seen=true&action=watching_now_from_watchlist",
           "title":"Watched / about to"
         },
         {
@@ -162,10 +162,7 @@ def add_to_watchlist_message():
 
 def watching_now_from_watchlist_message():
     json = {
-        "messages": [
-            {"text": "Awesome! Added."}
-            ],
-            "redirect_to_blocks": ["Add to watchlist 2"]
+            "redirect_to_blocks": ["watching_now_2"]
     }
     return json
 
@@ -191,6 +188,9 @@ def UpdateUserContent(request, **kwargs):
     if 'already_seen' in body:
         payload['already_seen'] = body['already_seen']
 
+    if 'watching_now' in body:
+        payload['watching_now'] = body['watching_now']
+
     # if user content doesn't exist, create
     if not UserContent.objects.all().filter(content=content,user=user):
         post_url = ROOT_URL+'/api/user-contents/'
@@ -211,6 +211,10 @@ def UpdateUserContent(request, **kwargs):
     if action == 'add_to_watchlist':
         chatfuel_response = add_to_watchlist_message()
         print('here', chatfuel_response)
+        return JsonResponse(chatfuel_response)
+
+    if action == 'watching_now_from_watchlist':
+        chatfuel_response = watching_now_from_watchlist_message()
         return JsonResponse(chatfuel_response)
     return JsonResponse({})
 
