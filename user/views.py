@@ -74,9 +74,6 @@ def DisplayGalleryFromContentJson(content_json, user_id):
     chatfuel_response = {
         "messages": [
             {
-                "text": "Here is your watchlist"
-            },
-            {
                 "attachment":{
                     "type":"template",
                     "payload":{
