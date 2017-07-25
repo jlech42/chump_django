@@ -117,16 +117,15 @@ def ShowWatchlistFromMessengerId(request):
     payload['user_id'] = user_id
     payload['on_watchlist'] = 'true'
     payload['query_type'] = 'query_watchlist'
-    print('showing watchlist')
-    #r = requests.get(ROOT_URL+"/api/user-contents/", params=payload)
+    print('showing watchlist', 'about to call api')
+    r = requests.get(ROOT_URL+"/api/contents/", params=payload)
     user_content_objects = UserContent.objects.all().filter(user_id=user_id, on_watchlist=True)
     #print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse({})
 
 def getUserFromMessengerID(messenger_id):
-    print(messenger_id)
-    user = User.objects.get(username=messenger_id)
+    user = User.objects.get(username=messenger_id).id
     return user
 
 def update_watchlist_reroute(request):
@@ -139,10 +138,7 @@ def update_watchlist_reroute(request):
             }
         ]
     }
-    return
-
-
-
+    return JsonResponse(json)
 
 @api_view(['GET','POST'])
 @csrf_exempt
@@ -177,6 +173,7 @@ def UpdateUserContent(request, **kwargs):
     r = requests.patch(ROOT_URL+'/api/user-contents/' + url_pk +'/', data=payload)
     # create new
     #json = SimpleMessage(action)
+    #update_watchlist_reroute
     return JsonResponse({})
 
 def GetSubscriptionFromMessengerID(id):
