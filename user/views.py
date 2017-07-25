@@ -149,7 +149,7 @@ def remove_from_watchlist_message():
             }
         ]
     }
-    return JsonResponse(json)
+    return json
 
 def add_to_watchlist_message():
     print('called')
@@ -161,7 +161,7 @@ def add_to_watchlist_message():
             }
         ]
     }
-    return JsonResponse(json)
+    return json
 
 def watching_now_from_watchlist_message():
     json = {
@@ -172,7 +172,7 @@ def watching_now_from_watchlist_message():
             }
         ]
     }
-    return JsonResponse(json)
+    return json
 
 @api_view(['GET','POST'])
 @csrf_exempt
