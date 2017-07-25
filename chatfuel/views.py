@@ -38,6 +38,16 @@ def SingleMessageResponse(request):
     json = {
         "messages": [
             {"text": description},
+            {"quick_replies": [
+                {
+                    "title":"See watchlist",
+                    "block_names":["watchlist"]
+                },
+                {
+                    "title":"Share w/ friends",
+                    "block_names":["watchlist"]
+                }
+            ]}
             ]
     }
     return JsonResponse(json)
@@ -96,19 +106,15 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                 }
             },
             {
-                "text": "More options below",
+                "text": "Search the gallery above or use the below options",
                 "quick_replies": [
                     {
-                        "title":"Keep exploring",
-                        "block_names":["Block1", "Block2"]
-                    },
-                    {
                         "title":"See watchlist",
-                        "block_names":["Block1", "Block2"]
+                        "block_names":["watchlist"]
                     },
                     {
                         "title":"Share w/ friends",
-                        "block_names":["Block1", "Block2"]
+                        "block_names":["watchlist"]
                     }
                 ]
             }
