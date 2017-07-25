@@ -131,10 +131,11 @@ def update_watchlist_reroute(request):
     json = {
         "messages": [
             {"text": "We've added to your watchlist"},
-            {
+            ],
+
             "redirect_to_blocks": ["explore_content"]
-            }
-        ]
+
+
     }
     return JsonResponse(json)
 
@@ -143,11 +144,9 @@ def remove_from_watchlist_message():
     print('called')
     json = {
         "messages": [
-            {"text": "Okay, it's off your list"},
-            {
-                "redirect_to_blocks": ["watchlist"]
-            }
-        ]
+            {"text": "Okay, it's off your list"}
+            ],
+        "redirect_to_blocks": ["watchlist"]
     }
     return json
 
@@ -155,22 +154,18 @@ def add_to_watchlist_message():
     print('called')
     json = {
         "messages": [
-            {"text": "Awesome! Added."},
-            {
-                "redirect_to_blocks": ["Add to watchlist 2"]
-            }
-        ]
+            {"text": "Awesome! Added."}
+            ],
+        "redirect_to_blocks": ["Add to watchlist 2"]
     }
     return json
 
 def watching_now_from_watchlist_message():
     json = {
         "messages": [
-            {"text": "Awesome! Added."},
-            {
-                "redirect_to_blocks": ["Add to watchlist 2"]
-            }
-        ]
+            {"text": "Awesome! Added."}
+            ],
+            "redirect_to_blocks": ["Add to watchlist 2"]
     }
     return json
 
