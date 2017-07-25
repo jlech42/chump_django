@@ -61,15 +61,27 @@ def ShowExploreOptions(request):
             {"quick_replies": [
                 {
                     "title":"Best new shows",
-                    "block_names":["watchlist"]
+                    "block_names":["watchlist"],
+                    "set_attributes":
+                    {
+                      "explore_tag": "best-new-shows",
+                    }
                 },
                 {
                     "title":"Flix worth watching",
-                    "block_names":["Share"]
+                    "block_names":["Share"],
+                    "set_attributes":
+                    {
+                      "explore_tag": "movies-worth-watching",
+                    }
                 },
                 {
                     "title":"Leaving soon",
-                    "block_names":["Share"]
+                    "block_names":["Share"],
+                    "set_attributes":
+                    {
+                      "explore_tag": "leaving",
+                    }
                 }
             ]}
             ]
