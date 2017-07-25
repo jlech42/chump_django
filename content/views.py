@@ -73,9 +73,15 @@ class ContentViewSet(viewsets.ModelViewSet):
         '''
         queryset = Content.objects.all()
         explore_tag = self.request.query_params.get('explore_tag', None)
-        tag_id = Tag.objects.get(name=explore_tag).id
+        query_type = self.request.query_params.get('query_type', None)
+        print('query_type',query_type)
         if explore_tag is not None:
+            tag_id = Tag.objects.get(name=explore_tag).id
             queryset = queryset.filter(contenttag__tag_id=tag_id)
+        if query_type is not None:
+            if query_type == 'query_watchlist':
+                print('type','query watchlist')
+
         '''
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)

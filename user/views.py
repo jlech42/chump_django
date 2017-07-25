@@ -117,9 +117,9 @@ def ShowWatchlistFromMessengerId(request):
     payload = {}
     payload['user_id'] = user_id
     payload['on_watchlist'] = 'true'
+    payload['query_type'] = 'query_watchlist'
     #r = requests.get(ROOT_URL+"/api/user-contents/", params=payload)
     user_content_objects = UserContent.objects.all().filter(user_id=user_id, on_watchlist=True)
-    print('serialized',UserContentSerializer(user_content_objects))
     #print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse({})
