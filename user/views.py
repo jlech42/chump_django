@@ -172,6 +172,10 @@ def UpdateUserContent(request, **kwargs):
     # create new
     #json = SimpleMessage(action)
     #update_watchlist_reroute
+    if action == 'remove_from_watchlist':
+        print('removing from watchlist')
+    if action == 'add_to_watchlist':
+        print('adding to watchlist')
     return JsonResponse({})
 
 def GetSubscriptionFromMessengerID(id):
