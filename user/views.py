@@ -37,9 +37,15 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 def ShowWatchlistFromMessengerId(request):
     messenger_user_id = request.GET.get('username')
     print(messenger_user_id)
-    user = User.objects.get(username=messenger_user_id).id
-    user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
-    print('watchlist', user_content_objects)
+    user_id = User.objects.get(username=messenger_user_id).id
+    payload = {}
+    payload['user_id'] = user_id
+    payload['on_watchlist'] = 'true'
+    r = requests.get(ROOT_URL+"/api/user-contents/", params=payload)
+    print('watchlist',r.json())
+
+    #user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    #print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse({})
 
@@ -47,6 +53,9 @@ def ShowWatchlistFromMessengerId(request):
 def ShowWatchlist(request):
     user = request.GET.get('user')
     user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    payload = {}
+    payload['user_id'] =
+    r = requests.get(ROOT_URL+"/api/user-contents/", params=payload)
     chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse(chatfuel_response)
 
