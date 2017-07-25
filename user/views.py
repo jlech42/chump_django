@@ -174,9 +174,22 @@ def UpdateUserContent(request, **kwargs):
     #update_watchlist_reroute
     if action == 'remove_from_watchlist':
         print('removing from watchlist')
+        chatfuel_response = remove_from_watchlist()
+        return JsonResponse(chatfuel_response)
     if action == 'add_to_watchlist':
         print('adding to watchlist')
     return JsonResponse({})
+
+def remove_from_watchlist_message():
+    json = {
+        "messages": [
+            {"text": "Okay, it's off your list"},
+            {
+                "redirect_to_blocks": ["watchlist"]
+            }
+        ]
+    }
+    return JsonResponse(chatfuel_response)
 
 def GetSubscriptionFromMessengerID(id):
     user_id = User.objects.get(username=id).id
