@@ -166,6 +166,15 @@ def watching_now_from_watchlist_message():
     }
     return json
 
+def already_seen_message():
+    json = {
+        "messages": [
+            {"text": "Great! We won't show you this again."}
+            ],
+        "redirect_to_blocks": ["explore_content"]
+    }
+    return json
+
 @api_view(['GET','POST'])
 @csrf_exempt
 def UpdateUserContent(request, **kwargs):
@@ -204,10 +213,10 @@ def UpdateUserContent(request, **kwargs):
     #update_watchlist_reroute
     if action == 'remove_from_watchlist':
         print('removing from watchlist')
-
         chatfuel_response = remove_from_watchlist_message()
         print('here', chatfuel_response)
         return JsonResponse(chatfuel_response)
+
     if action == 'add_to_watchlist':
         chatfuel_response = add_to_watchlist_message()
         print('here', chatfuel_response)
@@ -215,6 +224,11 @@ def UpdateUserContent(request, **kwargs):
 
     if action == 'watching_now_from_watchlist':
         chatfuel_response = watching_now_from_watchlist_message()
+        return JsonResponse(chatfuel_response)
+
+    if action == 'add_already_seen':
+        print('seen')
+        chatfuel_response = already_seen_message()
         return JsonResponse(chatfuel_response)
     return JsonResponse({})
 

@@ -120,7 +120,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
         },
         {
           "type":"json_plugin_url",
-          "url": url + "&already_seen=true&on_watchlist=false&action=seen_on_watchlist" + "&user=" + str(user),
+          "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&already_seen=true&action=add_already_seen",
           "title":"Already seen"
         }
       ]
