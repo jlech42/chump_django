@@ -60,12 +60,11 @@ def get_content_from_explore_tag_and_user(request):
     r = requests.get(PROD_ROOT_URL+uri, params=payload)
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
-    count = chatfuel_response['messages'][0]['attachment']['payload']['elements']
-    print(count)
-    print('length of array', len(count))
-    print('response from chatfuel',chatfuel_response)
-    #out_of_recs = out_of_recs_redirect()
-
+    # get count of elements in chatfuel gallery response
+    count = len(chatfuel_response['messages'][0]['attachment']['payload']['elements'])
+    if count == 0:
+        out_of_recs = out_of_recs_redirect()
+        return JsonResponse(out_of_recs)
     return JsonResponse(chatfuel_response)
 
 class TagViewSet(viewsets.ModelViewSet):
