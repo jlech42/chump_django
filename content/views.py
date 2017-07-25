@@ -49,7 +49,7 @@ def get_content_from_explore_tag_and_user(request):
     body = request.GET
     username = body['username']
     explore_tag = body['explore_tag']
-    uri = 'api/contents/'
+    uri = '/api/contents/'
     payload = {} # {'test': }
     payload['explore_tag'] = explore_tag
     user_id = get_user_id_from_messenger_id(username)
@@ -58,9 +58,10 @@ def get_content_from_explore_tag_and_user(request):
     #print('subs', subscriptions)
     #print(payload)
     #get content from tag
-    r = requests.get(PROD_ROOT_URL+uri, params=payload)
+    r = requests.get(ROOT_URL+uri, params=payload)
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
+    print('chatfuel_response', chatfuel_response)
     # get count of elements in chatfuel gallery response
     count = get_count_of_gallery_elements(chatfuel_response)
     if count == 0:
@@ -87,17 +88,13 @@ class ContentViewSet(viewsets.ModelViewSet):
         explore_tag = self.request.query_params.get('explore_tag', None)
         query_type = self.request.query_params.get('query_type', None)
         user_id = self.request.query_params.get('user_id', None)
-        print('user id', user_id)
-        print('query_type',query_type)
         if explore_tag is not None:
             tag_id = Tag.objects.get(name=explore_tag).id
             queryset = queryset.filter(contenttag__tag_id=tag_id)
         if query_type is not None:
             if query_type == 'query_watchlist':
                 # takes a user id and returns a watchlist
-                print('type','query watchlist')
                 queryset = queryset.filter(usercontent__user_id=user_id, usercontent__on_watchlist=True)
-                print(queryset)
                 return queryset
 
         '''
