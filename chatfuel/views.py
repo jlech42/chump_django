@@ -149,7 +149,7 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                 "text": "Search the gallery above or use the below options",
                 "quick_replies": [
                     {
-                        "title":"Change category",
+                        "title":"Keep exploring",
                         "block_names":["explore_routing"]
                     },
                     {
