@@ -31,7 +31,7 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 def SingleMessageResponse(request):
     print('simple message',request.GET)
     body = request.GET
-    content_id = body['id']
+    content_id = body['content_id']
     print('message id ', content_id)
     description = Content.objects.get(id=content_id).long_description
     print(description)
