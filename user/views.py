@@ -38,7 +38,8 @@ def ShowWatchlistFromMessengerId(request):
     messenger_user_id = request.GET.get('username')
     print(messenger_user_id)
     user = User.objects.get(username=messenger_user_id).id
-    #user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse({})
 
