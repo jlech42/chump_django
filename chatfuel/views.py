@@ -28,7 +28,7 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 @api_view(['GET','POST'])
-def SingleMessageResponse(request):
+def ContentLearnMoreMessageResponse(request):
     # request has a content id and response with a text of the content description
     body = request.GET
     content_id = int(body['content_id'])
@@ -45,7 +45,31 @@ def SingleMessageResponse(request):
                 },
                 {
                     "title":"Share w/ friends",
+                    "block_names":["Share"]
+                }
+            ]}
+            ]
+    }
+    return JsonResponse(json)
+
+
+@api_view(['GET','POST'])
+def ShowExploreOptions(request):
+    json = {
+        "messages": [
+            {"text": "What would you like to see?"},
+            {"quick_replies": [
+                {
+                    "title":"Best new shows",
                     "block_names":["watchlist"]
+                },
+                {
+                    "title":"Flix worth watching",
+                    "block_names":["Share"]
+                },
+                {
+                    "title":"Leaving soon",
+                    "block_names":["Share"]
                 }
             ]}
             ]
@@ -114,7 +138,7 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                     },
                     {
                         "title":"Share w/ friends",
-                        "block_names":["watchlist"]
+                        "block_names":["Share"]
                     }
                 ]
             }
