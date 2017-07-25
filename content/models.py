@@ -43,10 +43,10 @@ class Content(models.Model):
 
     on_other = models.CharField(max_length=128, blank=True)
     tag = models.ManyToManyField(Tag, through='ContentTag', default ='')
-    leaving = models.BooleanField(default=False)
-    leaving_date = models.DateTimeField(null=True)
-    added_date = models.DateTimeField(auto_now_add=True, null=True)
-    updated_date = models.DateTimeField(auto_now=True, null=True)
+    #leaving = models.BooleanField(default=False)
+    #leaving_date = models.DateTimeField(null=True, blank=True)
+    #added_date = models.DateTimeField(auto_now_add=True, null=True)
+    #updated_date = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
         return self.title
 
