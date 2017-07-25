@@ -17,6 +17,7 @@ from service.models import Service
 from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, UserSubscriptionSerializer, UserContentSerializer
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag
+from chatfuel.views import DisplayGalleryFromContentJson
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com'
 DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
@@ -120,9 +121,11 @@ def ShowWatchlistFromMessengerId(request):
     print('showing watchlist', 'about to call api')
     r = requests.get(ROOT_URL+"/api/contents/", params=payload)
     user_content_objects = UserContent.objects.all().filter(user_id=user_id, on_watchlist=True)
+    chatfuel_response = DisplayGalleryFromContentObjects(r.json(),user_id)
+    print('chatfuel_response',chatfuel_response)
     #print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
-    return JsonResponse({})
+    return JsonResponse(chatfuel_response)
 
 def getUserFromMessengerID(messenger_id):
     user = User.objects.get(username=messenger_id).id
