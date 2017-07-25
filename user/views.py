@@ -118,6 +118,7 @@ def ShowWatchlistFromMessengerId(request):
     payload['user_id'] = user_id
     payload['on_watchlist'] = 'true'
     payload['query_type'] = 'query_watchlist'
+    print('showing watchlist')
     #r = requests.get(ROOT_URL+"/api/user-contents/", params=payload)
     user_content_objects = UserContent.objects.all().filter(user_id=user_id, on_watchlist=True)
     #print('watchlist', user_content_objects)
