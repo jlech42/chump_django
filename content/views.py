@@ -79,7 +79,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         '''
         # filter for tags
         tag = self.request.query_params.get('content_tag', None)
-        user_id = self.request.query_params.get('user_id', None)
+
         # filter for user services - needs to be tested
         on_netflix = self.request.query_params.get('on_netflix', None)
         on_hulu = self.request.query_params.get('on_hulu', None)
@@ -97,6 +97,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(primary_mode=tag)
 
         '''
+        user_id = self.request.query_params.get('user_id', None)
         if user_id is not None:
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__already_seen=True)
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
