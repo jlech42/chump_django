@@ -46,7 +46,7 @@ def get_content_from_explore_tag_and_user(request):
     payload = {} # {'test': }
     payload['explore_tag'] = explore_tag
     user_id = get_user_id_from_messenger_id(username)
-
+    payload['user_id'] = user_id
     subscriptions = GetSubscriptionFromMessengerID(username)
     print('subs', subscriptions)
     print(payload)
@@ -96,10 +96,8 @@ class ContentViewSet(viewsets.ModelViewSet):
         if tag is not None:
             queryset = queryset.filter(primary_mode=tag)
 
-        #filter out content people have already seen
-        #should we filter out on watchlist content?
+        '''
         if user_id is not None:
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__already_seen=True)
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
-        '''
         return queryset

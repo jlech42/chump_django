@@ -34,7 +34,6 @@ def ContentLearnMoreMessageResponse(request):
     content_id = int(body['content_id'])
     print('message id ', content_id)
     description = Content.objects.get(id=content_id).long_description
-    print(description)
     json = {
         "messages": [
             {"text": description},
@@ -99,7 +98,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
     logline = content_object['logline']
     trailer_link = content_object['trailer_link']
     long_description = content_object['long_description']
-    content_id = content_object['id']
+    content_id = str(content_object['id'])
     root = ROOT_URL + "/api/usercontents/manual/update/?"
     params = "content=" + str(content_object['id']) + "&user=" + str(user)
     url = root+params
@@ -111,12 +110,12 @@ def CreateGalleryElementFromContentObject(content_object, user):
       "buttons":[
         {
           "type":"json_plugin_url",
-          "url": ROOT_URL+'/api/text-response/'+'?content_id='+str(content_id),
+          "url": ROOT_URL+'/api/text-response/'+'?content_id='+content_id,
           "title":"Learn more"
         },
         {
           "type":"json_plugin_url",
-          "url": url + "&already_seen=true&on_watchlist=false&action=seen_on_watchlist" + "&user=" + str(user),
+          "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
           "title":"Add to watchlist"
         },
         {

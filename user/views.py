@@ -55,6 +55,21 @@ def getUserFromMessengerID(messenger_id):
     user = User.objects.get(username=messenger_id)
     return user
 
+def update_watchlist_reroute(request):
+    print('rerouting')
+    json = {
+        "messages": [
+            {"text": "We've added to your watchlist"},
+            {
+            "redirect_to_blocks": ["explore_content"]
+            }
+        ]
+    }
+    return
+
+
+
+
 @api_view(['GET','POST'])
 @csrf_exempt
 def UpdateUserContent(request, **kwargs):
@@ -62,30 +77,33 @@ def UpdateUserContent(request, **kwargs):
     API endpoint that takes in content and username and returns a relationship between a piece of content and user
     """
     body = request.GET
-    #next_url = ROOT_URL+'/api/custom-views/content-blocks/?messenger+user+id=' + body.get('messenger_user_id') + '&last+clicked+button+name=' + body.get('topic_button_name') + '&index=' + body.get('index')
     payload = {}
-
     user = body.get('user')
     content = body.get('content')
     action = body.get('action')
     payload['content'] = content
     payload['user'] = user
+
     # check if adding to watchlist
     if 'on_watchlist' in body:
         payload['on_watchlist'] = body['on_watchlist']
+
     #check if already seen
     if 'already_seen' in body:
         payload['already_seen'] = body['already_seen']
+
+    # if user content doesn't exist, create
     if not UserContent.objects.all().filter(content=content,user=user):
-        post_url = ROOT_URL+'/api/usercontents/'
-        r = requests.post(ROOT_URL+'/api/usercontents/', data=payload)
-        json = SimpleMessage(action)
+        post_url = ROOT_URL+'/api/user-contents/'
+        r = requests.post(ROOT_URL+'/api/user-contents/', data=payload)
+        #json = SimpleMessage(action)
         return JsonResponse(json)
+
     url_pk = str(UserContent.objects.get(content=content,user=user).pk)
-    r = requests.patch(ROOT_URL+'/api/usercontents/' + url_pk +'/', data=payload)
+    r = requests.patch(ROOT_URL+'/api/user-contents/' + url_pk +'/', data=payload)
     # create new
     json = SimpleMessage(action)
-    return JsonResponse(json)
+    return JsonResponse({})
 
 def GetSubscriptionFromMessengerID(id):
     user_id = User.objects.get(username=id).id
