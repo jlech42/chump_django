@@ -28,7 +28,6 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 @api_view(['GET','POST'])
-@csrf_exempt
 def SingleMessageResponse(request):
     print('simple message',request.GET)
     body = request.GET
