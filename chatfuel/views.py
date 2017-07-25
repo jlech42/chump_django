@@ -96,6 +96,7 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                 }
             },
             {
+                "text": "More options below",
                 "quick_replies": [
                     {
                         "title":"Keep exploring",
