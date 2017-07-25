@@ -53,17 +53,12 @@ def CreateGalleryElementFromContentObject(content_object, user):
         {
           "type":"json_plugin_url",
           "url": ROOT_URL+'/api/text-response/'+'?content_id='+content_id,
-          "title":"Learn more"
+          "title":"Watched / about to"
         },
         {
           "type":"json_plugin_url",
-          "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
-          "title":"Add to watchlist"
-        },
-        {
-          "type":"json_plugin_url",
-          "url": url + "&already_seen=true&on_watchlist=false&action=seen_on_watchlist" + "&user=" + str(user),
-          "title":"Already seen"
+          "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&action=remove_from_watchlist",
+          "title":"Remove"
         }
       ]
     }
