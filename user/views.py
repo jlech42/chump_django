@@ -34,7 +34,7 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 
-def CreateGalleryElementFromContentObject(content_object, user):
+def create_watchlist_gallery_element_from_content_object(content_object, user):
     title = content_object['title']
     image_link = content_object['image_link']
     logline = content_object['logline']
@@ -64,11 +64,11 @@ def CreateGalleryElementFromContentObject(content_object, user):
     }
     return element
 
-def DisplayGalleryFromContentJson(content_json, user_id):
+def DisplayWatchlistGalleryFromContentJson(content_json, user_id):
     elements = []
     # need to make sure gallery can hold unlimited elements
     for content in content_json:
-        elements.append(CreateGalleryElementFromContentObject(content, user_id))
+        elements.append(create_watchlist_gallery_element_from_content_object(content, user_id))
     print('elements',elements)
 
     chatfuel_response = {
@@ -117,7 +117,7 @@ def ShowWatchlistFromMessengerId(request):
     print('showing watchlist', 'about to call api')
     r = requests.get(ROOT_URL+"/api/contents/", params=payload)
     user_content_objects = UserContent.objects.all().filter(user_id=user_id, on_watchlist=True)
-    chatfuel_response = DisplayGalleryFromContentJson(r.json(),user_id)
+    chatfuel_response = DisplayWatchlistGalleryFromContentJson(r.json(),user_id)
     print('chatfuel_response',chatfuel_response)
     count = get_count_of_gallery_elements(chatfuel_response)
     if count == 0:
