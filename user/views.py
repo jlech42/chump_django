@@ -148,7 +148,7 @@ def remove_from_watchlist_message():
             }
         ]
     }
-    return JsonResponse(chatfuel_response)
+    return JsonResponse(json)
 
 def add_to_watchlist_message():
     json = {
@@ -159,7 +159,7 @@ def add_to_watchlist_message():
             }
         ]
     }
-    return JsonResponse(chatfuel_response)
+    return JsonResponse(json)
 
 
 @api_view(['GET','POST'])
