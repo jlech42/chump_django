@@ -92,7 +92,9 @@ class ContentViewSet(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id', None)
         if explore_tag is not None:
             tag_id = Tag.objects.get(name=explore_tag).id
+            print('tagid', tag_id)
             queryset = queryset.filter(contenttag__tag_id=tag_id)
+            print('explore',queryset)
         if query_type is not None:
             if query_type == 'query_watchlist':
                 # takes a user id and returns a watchlist
@@ -123,5 +125,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id', None)
         if user_id is not None:
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__already_seen=True)
+            print('seen', queryset)
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
+            print('watchlist', queryset)
         return queryset
