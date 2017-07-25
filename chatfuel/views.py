@@ -29,7 +29,7 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 @api_view(['GET','POST'])
 def SingleMessageResponse(request):
-    print('simple message',request.GET)
+    # request has a content id and response with a text of the content description
     body = request.GET
     content_id = int(body['content_id'])
     print('message id ', content_id)
@@ -94,6 +94,22 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                         "elements": elements
                     }
                 }
+            },
+            {
+                "quick_replies": [
+                    {
+                        "title":"Keep exploring",
+                        "block_names":["Block1", "Block2"]
+                    },
+                    {
+                        "title":"See watchlist",
+                        "block_names":["Block1", "Block2"]
+                    },
+                    {
+                        "title":"Share w/ friends",
+                        "block_names":["Block1", "Block2"]
+                    }
+                ]
             }
         ]
     }
