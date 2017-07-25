@@ -31,7 +31,7 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 def SingleMessageResponse(request):
     print('simple message',request.GET)
     body = request.GET
-    content_id = body['content_id']
+    content_id = int(body['content_id'])
     print('message id ', content_id)
     description = Content.objects.get(id=content_id).long_description
     print(description)
@@ -47,6 +47,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
     root = ROOT_URL + "/api/usercontents/manual/update/?"
     params = "content=" + str(content_object['id']) + "&user=" + str(user)
     url = root+params
+    print('long url',ROOT_URL+'api/text-response/'+'?content_id='+str(content_id))
     element = {
       "title": title,
       "image_url":image_link,
