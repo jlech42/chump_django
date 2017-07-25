@@ -58,6 +58,8 @@ def get_content_from_explore_tag_and_user(request):
     #print('subs', subscriptions)
     #print(payload)
     #get content from tag
+    print('url', ROOT_URL+uri)
+    print('payload', payload)
     r = requests.get(ROOT_URL+uri, params=payload)
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
