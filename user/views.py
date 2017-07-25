@@ -121,7 +121,7 @@ def ShowWatchlistFromMessengerId(request):
     print('showing watchlist', 'about to call api')
     r = requests.get(ROOT_URL+"/api/contents/", params=payload)
     user_content_objects = UserContent.objects.all().filter(user_id=user_id, on_watchlist=True)
-    chatfuel_response = DisplayGalleryFromContentObjects(r.json(),user_id)
+    chatfuel_response = DisplayGalleryFromContentJson(r.json(),user_id)
     print('chatfuel_response',chatfuel_response)
     #print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
