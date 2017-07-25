@@ -138,6 +138,30 @@ def update_watchlist_reroute(request):
     }
     return JsonResponse(json)
 
+
+def remove_from_watchlist_message():
+    json = {
+        "messages": [
+            {"text": "Okay, it's off your list"},
+            {
+                "redirect_to_blocks": ["watchlist"]
+            }
+        ]
+    }
+    return JsonResponse(chatfuel_response)
+
+def add_to_watchlist_message():
+    json = {
+        "messages": [
+            {"text": "Awesome! Added."},
+            {
+                "redirect_to_blocks": ["Add to watchlist 2"]
+            }
+        ]
+    }
+    return JsonResponse(chatfuel_response)
+
+
 @api_view(['GET','POST'])
 @csrf_exempt
 def UpdateUserContent(request, **kwargs):
@@ -180,28 +204,6 @@ def UpdateUserContent(request, **kwargs):
         chatfuel_response = add_to_watchlist()
         return JsonResponse(chatfuel_response)
     return JsonResponse({})
-
-def remove_from_watchlist_message():
-    json = {
-        "messages": [
-            {"text": "Okay, it's off your list"},
-            {
-                "redirect_to_blocks": ["watchlist"]
-            }
-        ]
-    }
-    return JsonResponse(chatfuel_response)
-
-def add_to_watchlist_message():
-    json = {
-        "messages": [
-            {"text": "Awesome! Added."},
-            {
-                "redirect_to_blocks": ["Add to watchlist 2"]
-            }
-        ]
-    }
-    return JsonResponse(chatfuel_response)
 
 def GetSubscriptionFromMessengerID(id):
     user_id = User.objects.get(username=id).id
