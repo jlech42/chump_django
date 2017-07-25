@@ -102,7 +102,7 @@ def UpdateUserContent(request, **kwargs):
     url_pk = str(UserContent.objects.get(content=content,user=user).pk)
     r = requests.patch(ROOT_URL+'/api/user-contents/' + url_pk +'/', data=payload)
     # create new
-    json = SimpleMessage(action)
+    #json = SimpleMessage(action)
     return JsonResponse({})
 
 def GetSubscriptionFromMessengerID(id):
