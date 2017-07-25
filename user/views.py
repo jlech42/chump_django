@@ -140,6 +140,7 @@ def update_watchlist_reroute(request):
 
 
 def remove_from_watchlist_message():
+    print('called')
     json = {
         "messages": [
             {"text": "Okay, it's off your list"},
@@ -151,6 +152,7 @@ def remove_from_watchlist_message():
     return JsonResponse(json)
 
 def add_to_watchlist_message():
+    print('called')
     json = {
         "messages": [
             {"text": "Awesome! Added."},
@@ -161,6 +163,16 @@ def add_to_watchlist_message():
     }
     return JsonResponse(json)
 
+def watching_now_from_watchlist_message():
+    json = {
+        "messages": [
+            {"text": "Awesome! Added."},
+            {
+                "redirect_to_blocks": ["Add to watchlist 2"]
+            }
+        ]
+    }
+    return JsonResponse(json)
 
 @api_view(['GET','POST'])
 @csrf_exempt
@@ -190,7 +202,6 @@ def UpdateUserContent(request, **kwargs):
         r = requests.post(ROOT_URL+'/api/user-contents/', data=payload)
         #json = SimpleMessage(action)
         return JsonResponse({})
-
     url_pk = str(UserContent.objects.get(content=content,user=user).pk)
     r = requests.patch(ROOT_URL+'/api/user-contents/' + url_pk +'/', data=payload)
     # create new
@@ -198,10 +209,13 @@ def UpdateUserContent(request, **kwargs):
     #update_watchlist_reroute
     if action == 'remove_from_watchlist':
         print('removing from watchlist')
+
         chatfuel_response = remove_from_watchlist_message()
+        print('here', chatfuel_response)
         return JsonResponse(chatfuel_response)
     if action == 'add_to_watchlist':
         chatfuel_response = add_to_watchlist_message()
+        print('here', chatfuel_response)
         return JsonResponse(chatfuel_response)
     return JsonResponse({})
 
