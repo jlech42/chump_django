@@ -40,6 +40,10 @@ def ContentLearnMoreMessageResponse(request):
             {"text": description},
             {"quick_replies": [
                 {
+                    "title":"Keep exploring",
+                    "block_names":["explore_content"]
+                },
+                {
                     "title":"See watchlist",
                     "block_names":["watchlist"]
                 },
@@ -145,6 +149,10 @@ def DisplayGalleryFromContentJson(content_json, user_id):
             {
                 "text": "Search the gallery above or use the below options",
                 "quick_replies": [
+                    {
+                        "title":"Change category",
+                        "block_names":["explore_routing"]
+                    },
                     {
                         "title":"See watchlist",
                         "block_names":["watchlist"]
