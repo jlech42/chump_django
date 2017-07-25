@@ -198,10 +198,10 @@ def UpdateUserContent(request, **kwargs):
     #update_watchlist_reroute
     if action == 'remove_from_watchlist':
         print('removing from watchlist')
-        chatfuel_response = remove_from_watchlist()
+        chatfuel_response = remove_from_watchlist_message()
         return JsonResponse(chatfuel_response)
     if action == 'add_to_watchlist':
-        chatfuel_response = add_to_watchlist()
+        chatfuel_response = add_to_watchlist_message()
         return JsonResponse(chatfuel_response)
     return JsonResponse({})
 
