@@ -47,7 +47,6 @@ def CreateGalleryElementFromContentObject(content_object, user):
     root = ROOT_URL + "/api/usercontents/manual/update/?"
     params = "content=" + str(content_object['id']) + "&user=" + str(user)
     url = root+params
-    print('long url',ROOT_URL+'/api/text-response/'+'?content_id='+str(content_id))
     element = {
       "title": title,
       "image_url":image_link,
@@ -56,7 +55,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
       "buttons":[
         {
           "type":"json_plugin_url",
-          "url": ROOT_URL+'api/text-response/'+'?content_id='+str(content_id),
+          "url": ROOT_URL+'/api/text-response/'+'?content_id='+str(content_id),
           "title":"Learn more"
         },
         {
