@@ -61,7 +61,7 @@ def ShowExploreOptions(request):
             {"quick_replies": [
                 {
                     "title":"Best new shows",
-                    "block_names":["watchlist"],
+                    "block_names":["explore_content"],
                     "set_attributes":
                     {
                       "explore_tag": "best-new-shows",
@@ -69,7 +69,7 @@ def ShowExploreOptions(request):
                 },
                 {
                     "title":"Flix worth watching",
-                    "block_names":["Share"],
+                    "block_names":["explore_content"],
                     "set_attributes":
                     {
                       "explore_tag": "movies-worth-watching",
@@ -77,7 +77,7 @@ def ShowExploreOptions(request):
                 },
                 {
                     "title":"Leaving soon",
-                    "block_names":["Share"],
+                    "block_names":["explore_content"],
                     "set_attributes":
                     {
                       "explore_tag": "leaving",
