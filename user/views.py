@@ -33,6 +33,82 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 
+def CreateGalleryElementFromContentObject(content_object, user):
+    title = content_object['title']
+    image_link = content_object['image_link']
+    logline = content_object['logline']
+    trailer_link = content_object['trailer_link']
+    long_description = content_object['long_description']
+    content_id = str(content_object['id'])
+    root = ROOT_URL + "/api/usercontents/manual/update/?"
+    params = "content=" + str(content_object['id']) + "&user=" + str(user)
+    url = root+params
+    element = {
+      "title": title,
+      "image_url":image_link,
+      "subtitle": logline,
+      "item_url": trailer_link,
+      "buttons":[
+        {
+          "type":"json_plugin_url",
+          "url": ROOT_URL+'/api/text-response/'+'?content_id='+content_id,
+          "title":"Learn more"
+        },
+        {
+          "type":"json_plugin_url",
+          "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
+          "title":"Add to watchlist"
+        },
+        {
+          "type":"json_plugin_url",
+          "url": url + "&already_seen=true&on_watchlist=false&action=seen_on_watchlist" + "&user=" + str(user),
+          "title":"Already seen"
+        }
+      ]
+    }
+    return element
+
+def DisplayGalleryFromContentJson(content_json, user_id):
+    elements = []
+    # need to make sure gallery can hold unlimited elements
+    for content in content_json:
+        elements.append(CreateGalleryElementFromContentObject(content, user_id))
+    print('elements',elements)
+
+    chatfuel_response = {
+        "messages": [
+            {
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements": elements
+                    }
+                }
+            },
+            {
+                "text": "Search the gallery above or use the below options",
+                "quick_replies": [
+                    {
+                        "title":"Change category",
+                        "block_names":["explore_routing"]
+                    },
+                    {
+                        "title":"See watchlist",
+                        "block_names":["watchlist"]
+                    },
+                    {
+                        "title":"Share w/ friends",
+                        "block_names":["Share"]
+                    }
+                ]
+            }
+        ]
+    }
+
+    return chatfuel_response
+
+
 @api_view(['GET'])
 def ShowWatchlistFromMessengerId(request):
     messenger_user_id = request.GET.get('username')
@@ -41,10 +117,9 @@ def ShowWatchlistFromMessengerId(request):
     payload = {}
     payload['user_id'] = user_id
     payload['on_watchlist'] = 'true'
-    r = requests.get(ROOT_URL+"/api/user-contents/", params=payload)
-    print('watchlist',r.json())
-
-    #user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    #r = requests.get(ROOT_URL+"/api/user-contents/", params=payload)
+    user_content_objects = UserContent.objects.all().filter(user_id=user_id, on_watchlist=True)
+    print('serialized',UserContentSerializer(user_content_objects))
     #print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse({})
