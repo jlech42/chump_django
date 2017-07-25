@@ -16,7 +16,7 @@ from .models import UserSubscription, Profile, UserContent
 from service.models import Service
 from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, UserSubscriptionSerializer, UserContentSerializer
 from django.contrib.auth.models import User, Group
-from chatfuel.utilities import TranslateTopicButtonToTag
+from chatfuel.utilities import TranslateTopicButtonToTag, get_count_of_gallery_elements
 from chatfuel.views import DisplayGalleryFromContentJson
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com'
@@ -104,6 +104,11 @@ def DisplayGalleryFromContentJson(content_json, user_id):
 
     return chatfuel_response
 
+def empty_watchlist_redirect():
+    json = {
+        "redirect_to_blocks": ["empty_watchlist"]
+    }
+    return json
 
 @api_view(['GET'])
 def ShowWatchlistFromMessengerId(request):
@@ -118,6 +123,10 @@ def ShowWatchlistFromMessengerId(request):
     user_content_objects = UserContent.objects.all().filter(user_id=user_id, on_watchlist=True)
     chatfuel_response = DisplayGalleryFromContentJson(r.json(),user_id)
     print('chatfuel_response',chatfuel_response)
+    count = get_count_of_gallery_elements(chatfuel_response)
+    if count == 0:
+        json = empty_watchlist_redirect()
+        return JsonResponse(json)
     #print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse(chatfuel_response)

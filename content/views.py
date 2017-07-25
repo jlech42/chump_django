@@ -19,6 +19,7 @@ from chatfuel.utilities import TranslateTopicButtonToTag
 from user.views import GetSubscriptionFromMessengerID
 from user.utilities import get_user_id_from_messenger_id
 from chatfuel.views import DisplayGalleryFromContentJson
+from chatfuel.utilities import get_count_of_gallery_elements
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
 DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
@@ -61,7 +62,7 @@ def get_content_from_explore_tag_and_user(request):
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
     # get count of elements in chatfuel gallery response
-    count = len(chatfuel_response['messages'][0]['attachment']['payload']['elements'])
+    count = get_count_of_gallery_elements(chatfuel_response)
     if count == 0:
         out_of_recs = out_of_recs_redirect()
         return JsonResponse(out_of_recs)
