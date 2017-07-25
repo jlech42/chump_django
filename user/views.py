@@ -191,6 +191,17 @@ def remove_from_watchlist_message():
     }
     return JsonResponse(chatfuel_response)
 
+def add_to_watchlist_message():
+    json = {
+        "messages": [
+            {"text": "Awesome! Added."},
+            {
+                "redirect_to_blocks": ["Add to watchlist 2"]
+            }
+        ]
+    }
+    return JsonResponse(chatfuel_response)
+
 def GetSubscriptionFromMessengerID(id):
     user_id = User.objects.get(username=id).id
     user_subscriptions = UserSubscription.objects.all().filter(user_id=user_id)
