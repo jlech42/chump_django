@@ -84,7 +84,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             if query_type == 'query_watchlist':
                 # takes a user id and returns a watchlist
                 print('type','query watchlist')
-                queryset = queryset.filter(usercontent__user_id=user_id, usercontent__on_watchlist='true')
+                queryset = queryset.filter(usercontent__user_id=user_id, usercontent__on_watchlist=True)
                 print(queryset)
                 return queryset
 
