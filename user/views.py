@@ -32,6 +32,24 @@ FB_PAGE_ACCESS_TOKEN = 'EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WT
 FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token="+FB_PAGE_ACCESS_TOKEN
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
+
+@api_view(['GET'])
+def ShowWatchlistFromMessengerId(request):
+    messenger_user_id = request.GET.get('username')
+    print(messenger_user_id)
+    user = User.objects.get(username=messenger_user_id).id
+    #user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
+    return JsonResponse({})
+
+@api_view(['GET'])
+def ShowWatchlist(request):
+    user = request.GET.get('user')
+    user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
+    chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
+    return JsonResponse(chatfuel_response)
+
+
 def getUserFromMessengerID(messenger_id):
     print(messenger_id)
     user = User.objects.get(username=messenger_id)

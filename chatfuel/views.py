@@ -35,7 +35,12 @@ def SingleMessageResponse(request):
     print('message id ', content_id)
     description = Content.objects.get(id=content_id).long_description
     print(description)
-    return JsonResponse({})
+    json = {
+        "messages": [
+            {"text": description},
+            ]
+    }
+    return JsonResponse(json)
 
 def CreateGalleryElementFromContentObject(content_object, user):
     title = content_object['title']
