@@ -17,7 +17,7 @@ from service.models import Service
 from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, UserSubscriptionSerializer, UserContentSerializer
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag, get_count_of_gallery_elements
-from chatfuel.views import DisplayGalleryFromContentJson
+
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com'
 DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
@@ -88,10 +88,6 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                     {
                         "title":"Change category",
                         "block_names":["explore_routing"]
-                    },
-                    {
-                        "title":"See watchlist",
-                        "block_names":["watchlist"]
                     },
                     {
                         "title":"Share w/ friends",
