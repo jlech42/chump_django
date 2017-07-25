@@ -57,32 +57,32 @@ def ContentLearnMoreMessageResponse(request):
 def ShowExploreOptions(request):
     json = {
         "messages": [
-            {"text": "What would you like to see?"},
-            {"quick_replies": [
-                {
-                    "title":"Best new shows",
-                    "block_names":["explore_content"],
-                    "set_attributes":
+            {"text": "What would you like to see?",
+                "quick_replies": [
                     {
-                      "explore_tag": "best-new-shows",
-                    }
-                },
-                {
-                    "title":"Flix worth watching",
-                    "block_names":["explore_content"],
-                    "set_attributes":
+                        "title":"Best new shows",
+                        "block_names":["explore_content"],
+                        "set_attributes":
+                        {
+                          "explore_tag": "best-new-shows",
+                        }
+                    },
                     {
-                      "explore_tag": "movies-worth-watching",
-                    }
-                },
-                {
-                    "title":"Leaving soon",
-                    "block_names":["explore_content"],
-                    "set_attributes":
+                        "title":"Flix worth watching",
+                        "block_names":["explore_content"],
+                        "set_attributes":
+                        {
+                          "explore_tag": "movies-worth-watching",
+                        }
+                    },
                     {
-                      "explore_tag": "leaving",
+                        "title":"Leaving soon",
+                        "block_names":["explore_content"],
+                        "set_attributes":
+                        {
+                          "explore_tag": "leaving",
+                        }
                     }
-                }
             ]}
             ]
     }
