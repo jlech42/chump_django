@@ -54,7 +54,6 @@ def ShowWatchlist(request):
     user = request.GET.get('user')
     user_content_objects = UserContent.objects.all().filter(user=user, on_watchlist=True)
     payload = {}
-    payload['user_id'] =
     r = requests.get(ROOT_URL+"/api/user-contents/", params=payload)
     chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
     return JsonResponse(chatfuel_response)
