@@ -177,7 +177,8 @@ def UpdateUserContent(request, **kwargs):
         chatfuel_response = remove_from_watchlist()
         return JsonResponse(chatfuel_response)
     if action == 'add_to_watchlist':
-        print('adding to watchlist')
+        chatfuel_response = add_to_watchlist()
+        return JsonResponse(chatfuel_response)
     return JsonResponse({})
 
 def remove_from_watchlist_message():
