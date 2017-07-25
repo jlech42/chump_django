@@ -86,6 +86,7 @@ def ShowExploreOptions(request):
             ]}
             ]
     }
+    print('response',json)
     return JsonResponse(json)
 
 def CreateGalleryElementFromContentObject(content_object, user):
