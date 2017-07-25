@@ -74,13 +74,19 @@ class ContentViewSet(viewsets.ModelViewSet):
         queryset = Content.objects.all()
         explore_tag = self.request.query_params.get('explore_tag', None)
         query_type = self.request.query_params.get('query_type', None)
+        user_id = self.request.query_params.get('user_id', None)
+        print('user id', user_id)
         print('query_type',query_type)
         if explore_tag is not None:
             tag_id = Tag.objects.get(name=explore_tag).id
             queryset = queryset.filter(contenttag__tag_id=tag_id)
         if query_type is not None:
             if query_type == 'query_watchlist':
+                # takes a user id and returns a watchlist
                 print('type','query watchlist')
+                queryset = queryset.filter(usercontent__user_id=user_id, usercontent__on_watchlist='true')
+                print(queryset)
+                return queryset
 
         '''
         # filter for tags
