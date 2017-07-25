@@ -24,6 +24,8 @@ class UserContent(models.Model):
     shared = models.BooleanField(default=False)
     class Meta:
         unique_together = ('content', 'user')
+    class __str__(self):
+        return self.user.username + self.content.title
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
