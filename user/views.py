@@ -175,6 +175,8 @@ def already_seen_message():
     }
     return json
 
+
+
 @api_view(['GET','POST'])
 @csrf_exempt
 def UpdateUserContent(request, **kwargs):

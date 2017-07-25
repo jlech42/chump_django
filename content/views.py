@@ -36,6 +36,12 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 # Create your views here.
 
+def out_of_recs_redirect():
+    json = {
+        "redirect_to_blocks": ["out_of_recs"]
+    }
+    return json
+
 @api_view(['GET','POST'])
 @csrf_exempt
 def get_content_from_explore_tag_and_user(request):
@@ -48,12 +54,13 @@ def get_content_from_explore_tag_and_user(request):
     user_id = get_user_id_from_messenger_id(username)
     payload['user_id'] = user_id
     subscriptions = GetSubscriptionFromMessengerID(username)
-    print('subs', subscriptions)
-    print(payload)
+    #print('subs', subscriptions)
+    #print(payload)
     #get content from tag
     r = requests.get(PROD_ROOT_URL+uri, params=payload)
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
+    print('response from chatfuel',chatfuel_response)
     return JsonResponse(chatfuel_response)
 
 class TagViewSet(viewsets.ModelViewSet):
