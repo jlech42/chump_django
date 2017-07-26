@@ -161,7 +161,7 @@ def add_to_watchlist_message():
         "messages": [
             {"text": "Awesome! Added."}
             ],
-        "redirect_to_blocks": ["Add to watchlist 2"]
+        "redirect_to_blocks": ["explore_content"]
     }
     return json
 
