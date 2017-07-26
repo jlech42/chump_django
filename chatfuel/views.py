@@ -36,8 +36,8 @@ def ContentLearnMoreMessageResponse(request):
     description = Content.objects.get(id=content_id).long_description
     json = {
         "messages": [
-            {"text": description},
-            {"quick_replies": [
+            {"text": description,
+                "quick_replies": [
                 {
                     "title":"Keep exploring",
                     "block_names":["explore_content"]
