@@ -172,6 +172,7 @@ def watching_now_from_watchlist_message():
     return json
 
 def already_seen_message():
+    print('already seen registered!')
     json = {
         "messages": [
             {"text": "Great! We won't show you this again."}
