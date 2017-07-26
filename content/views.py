@@ -16,7 +16,7 @@ from .models import Content, Tag
 from .serializers import ContentSerializer, TagSerializer
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag
-from user.views import GetSubscriptionFromMessengerID
+#from user.views import GetSubscriptionFromMessengerID
 from user.utilities import get_user_id_from_messenger_id
 from chatfuel.views import DisplayGalleryFromContentJson
 from chatfuel.utilities import get_count_of_gallery_elements
@@ -55,7 +55,7 @@ def get_content_from_explore_tag_and_user(request):
     payload['explore_tag'] = explore_tag
     user_id = get_user_id_from_messenger_id(username)
     payload['user_id'] = user_id
-    subscriptions = GetSubscriptionFromMessengerID(username)
+    subscriptions = get_subscriptions_from_user_id(user_id)
     #print('subs', subscriptions)
     #print(payload)
     #get content from tag
