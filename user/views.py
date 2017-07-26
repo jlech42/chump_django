@@ -219,6 +219,7 @@ def UpdateUserContent(request, **kwargs):
     # create new
     #json = SimpleMessage(action)
     #update_watchlist_reroute
+    print('action is', action)
     if action == 'remove_from_watchlist':
         print('removing from watchlist')
         chatfuel_response = remove_from_watchlist_message()
