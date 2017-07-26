@@ -284,8 +284,7 @@ def IntegrateUserSubscription(request):
     messenger_user_id = data.get('messenger user id')
     print(messenger_user_id)
     user = getUserFromMessengerID(messenger_user_id)
-    print(user.id)
-    user_id = user.id
+    user_id = user
 
     # need to update this code!!
     user_subscription_responses = {"Netflix": have_netflix, "HBO": have_hbo, "Amazon": have_amazon, "Hulu": have_hulu}
