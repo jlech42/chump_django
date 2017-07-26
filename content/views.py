@@ -20,6 +20,7 @@ from user.views import GetSubscriptionFromMessengerID
 from user.utilities import get_user_id_from_messenger_id
 from chatfuel.views import DisplayGalleryFromContentJson
 from chatfuel.utilities import get_count_of_gallery_elements
+from user.views import get_subscriptions_from_user_id
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
 DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
@@ -128,4 +129,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             print('seen', queryset)
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
             print('watchlist', queryset)
+            #filter out by user subscriptions
+            print('subscriptions',get_subscriptions_from_user_id(user_id))
+
         return queryset

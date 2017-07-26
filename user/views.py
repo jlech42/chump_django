@@ -213,7 +213,7 @@ def UpdateUserContent(request, **kwargs):
         post_url = ROOT_URL+'/api/user-contents/'
         r = requests.post(ROOT_URL+'/api/user-contents/', data=payload)
         #json = SimpleMessage(action)
-    
+
     url_pk = str(UserContent.objects.get(content=content,user=user).pk)
     r = requests.patch(ROOT_URL+'/api/user-contents/' + url_pk +'/', data=payload)
     # create new
@@ -241,8 +241,8 @@ def UpdateUserContent(request, **kwargs):
         return JsonResponse(chatfuel_response)
     return JsonResponse({})
 
-def GetSubscriptionFromMessengerID(id):
-    user_id = User.objects.get(username=id).id
+def get_subscriptions_from_user_id(user_id):
+    user_id = user_id
     user_subscriptions = UserSubscription.objects.all().filter(user_id=user_id)
     user_subs = []
     params = []
