@@ -34,6 +34,32 @@ def ContentLearnMoreMessageResponse(request):
     content_id = int(body['content_id'])
     print('message id ', content_id)
     description = Content.objects.get(id=content_id).long_description
+    {
+      "messages": [
+        {
+          "attachment": {
+            "type": "template",
+            "payload": {
+              "template_type": "button",
+              "text": description,
+              "buttons":[
+                  {
+                      "type":"json_plugin_url",
+                      "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
+                      "title":"Add to watchlist"
+                  },
+                  {
+                      "type":"json_plugin_url",
+                      "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&watching_now=true&already_seen=true&action=watching_now_from_watchlist",
+                      "title":"I watched / Im gonna"
+                  }
+                  ]
+            }
+          }
+        }
+      ]
+    }
+    '''
     json = {
         "messages": [
             {"text": description,
@@ -47,7 +73,9 @@ def ContentLearnMoreMessageResponse(request):
                     "type":"json_plugin_url",
                     "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&watching_now=true&already_seen=true&action=watching_now_from_watchlist",
                     "title":"I watched / Im gonna"
-            }]},
+                }
+                ]
+            },
             {"quick_replies": [
                 {
                     "title":"Keep exploring",
@@ -64,6 +92,7 @@ def ContentLearnMoreMessageResponse(request):
             ]}
             ]
     }
+    '''
     return JsonResponse(json)
 
 
