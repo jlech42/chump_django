@@ -127,21 +127,16 @@ class ContentViewSet(viewsets.ModelViewSet):
             user_subs = get_subscriptions_from_user_id(user_id)
             print(user_subs)
             if ('on_netflix' in user_subs) == True:
-                print('netflix in subs')
                 service_id = Service.objects.get(name='Netflix').id
-                print('service_id', service_id)
-                print('queryset before', queryset)
                 queryset = queryset.exclude(servicecontent__service=service_id)
-                print('queryset after', queryset)
-            '''
-            if on_amazon is not None:
-                queryset = queryset.filter(on_amazon=False)
-            if on_hulu is not None:
-                queryset = queryset.filter(on_hulu=False)
-            if on_hbo is not None:
-                queryset = queryset.filter(on_hbo=False)
-            if tag is not None:
-                queryset = queryset.filter(primary_mode=tag)
-            '''
+            if ('on_amazon' in user_subs) == True:
+                service_id = Service.objects.get(name='Amazon').id
+                queryset = queryset.exclude(servicecontent__service=service_id)
+            if ('on_hulu' in user_subs) == True:
+                service_id = Service.objects.get(name='Hulu').id
+                queryset = queryset.exclude(servicecontent__service=service_id)
+            if ('on_hbo' in user_subs) == True:
+                service_id = Service.objects.get(name='HBO').id
+                queryset = queryset.exclude(servicecontent__service=service_id)
 
         return queryset
