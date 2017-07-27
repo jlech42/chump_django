@@ -37,7 +37,18 @@ def ContentLearnMoreMessageResponse(request):
     json = {
         "messages": [
             {"text": description,
-                "quick_replies": [
+            "buttons":[
+                {
+                    "type":"json_plugin_url",
+                    "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
+                    "title":"Add to watchlist"
+                },
+                {
+                    "type":"json_plugin_url",
+                    "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&watching_now=true&already_seen=true&action=watching_now_from_watchlist",
+                    "title":"I watched / Im gonna"
+            }]},
+            {"quick_replies": [
                 {
                     "title":"Keep exploring",
                     "block_names":["explore_content"]
@@ -84,7 +95,10 @@ def ShowExploreOptions(request):
                         "set_attributes":
                         {
                           "explore_tag": "leaving",
-                        }
+                        },
+                    {
+                        "title":"Watchlist",
+                        "block_names":["watchlist"]
                     }
             ]}
             ]
@@ -111,11 +125,11 @@ def CreateGalleryElementFromContentObject(content_object, user):
         {
           "type":"json_plugin_url",
           "url": ROOT_URL+'/api/text-response/'+'?content_id='+content_id,
-          "title":"Learn more"
+          "title":"Read a description"
         },
         {
           "type":"json_plugin_url",
-          "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&was_on_watchlist=true&action=add_to_watchlist",
+          "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
           "title":"Add to watchlist"
         },
         {
@@ -146,10 +160,10 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                 }
             },
             {
-                "text": "Search the gallery above or use the below options",
+                "text": "Scroll through the gallery or use the options below",
                 "quick_replies": [
                     {
-                        "title":"Change category",
+                        "title":"Keep exploring",
                         "block_names":["explore_routing"]
                     },
                     {
@@ -166,3 +180,108 @@ def DisplayGalleryFromContentJson(content_json, user_id):
     }
 
     return chatfuel_response
+
+
+
+# Create your views here.
+
+json = {
+    "messages": [
+        {"text": "We've added to your watchlist"},
+        {"text":  "What would you like to do now?",
+            "quick_replies": [
+                {
+                    "title":"See more recs",
+                    "block_names":["Block1", "Block2"]
+                },
+                {
+                    "type": "show_block",
+                    "block_name": "test",
+                    "title":"Change topics"
+                },
+                {
+                    "title":"See watchlist",
+                    "block_names":["Block1", "Block2"]
+                }
+            ]
+        }
+    ]
+}
+
+
+def QuickReplyFactory():
+    quick_reply = {"quick_replies": []}
+    return quick_reply
+
+def TopicQuickReply():
+    response = {
+        "block_names": ["Topics"],
+        "title":"Change topics"
+
+    }
+    return response
+
+'''
+def GalleryFactory():
+    elements = []
+    chatfuel_response = {
+        "messages": [
+            {
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements":elements
+                    }
+                }
+            },
+            {
+                "text":  "More commands below",
+                    "quick_replies": [
+                        {
+                            "title":"Show an other rec",
+                            "block_names":["Block1", "Block2"]
+                        },
+                        {
+                            "title":"Change topics",
+                            "block_names": ["Topics"]
+
+                        },
+                        {
+                            "title":"See watchlist",
+                            "url": root,
+                            "type":"json_plugin_url"
+                        },
+
+      ]
+    }
+        ]
+    }
+    return chatfuel_response
+
+def QuickReplyFactory():
+    json = {
+        "messages": [
+            {"text": "Great, we won't show you this rec again"},
+            {"text":  "What would you like to do now?",
+                "quick_replies": [
+                    {
+                        "title":"See more recs",
+                        "block_names":["Block1", "Block2"]
+                    },
+                    {
+                        "type": "show_block",
+                        "block_name": "test",
+                        "title":"Change topics"
+
+                    },
+                    {
+                        "title":"See watchlist",
+                        "block_names":["Block1", "Block2"]
+                    }
+                ]
+            }
+        ]
+    }
+    return JsonResponse json
+'''
