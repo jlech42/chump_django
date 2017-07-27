@@ -209,10 +209,12 @@ def UpdateUserContent(request, **kwargs):
         payload['watching_now'] = body['watching_now']
 
     # if user content doesn't exist, create
-    if not UserContent.objects.all().filter(content=content,user=user):
+    if len(UserContent.objects.all().filter(content=content,user=user)) == 0:
+        print('user content doesnt exist')
         post_url = ROOT_URL+'/api/user-contents/'
         r = requests.post(ROOT_URL+'/api/user-contents/', data=payload)
         #json = SimpleMessage(action)
+
 
     url_pk = str(UserContent.objects.get(content=content,user=user).pk)
     r = requests.patch(ROOT_URL+'/api/user-contents/' + url_pk +'/', data=payload)
