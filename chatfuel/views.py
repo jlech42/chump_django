@@ -58,7 +58,24 @@ def ContentLearnMoreMessageResponse(request):
                   ]
             }
           }
+        },
+        {
+            "text":  "You can also use the below options",
+      "quick_replies": [
+        {
+            "title":"Keep exploring",
+            "block_names":["explore_content"]
+        },
+        {
+            "title":"See watchlist",
+            "block_names":["watchlist"]
+        },
+        {
+            "title":"Share w/ friends",
+            "block_names":["Share"]
         }
+      ]
+    }
       ]
     }
     '''
