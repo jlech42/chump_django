@@ -32,7 +32,7 @@ def ContentLearnMoreMessageResponse(request):
     # request has a content id and response with a text of the content description
     body = request.GET
     content_id = int(body['content_id'])
-    print('message id ', content_id)
+    print('request body!!',body)
     description = Content.objects.get(id=content_id).long_description
     {
       "messages": [
