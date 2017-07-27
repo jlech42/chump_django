@@ -36,7 +36,7 @@ def ContentLearnMoreMessageResponse(request):
     user = body['username']
     print('request body!!',body)
     description = Content.objects.get(id=content_id).long_description
-    {
+    json = {
       "messages": [
         {
           "attachment": {
