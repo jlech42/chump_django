@@ -17,7 +17,7 @@ urlpatterns = [
     #url(r'^createuser', views.CreateUser),
     #url(r'^usersubscriptions/manual/create', views.CreateUserSubscription),
     url(r'^integrations/user-subscriptions', views.IntegrateUserSubscription),
-    url(r'^integrations/user-watchlist', views.ShowWatchlistFromMessengerId),
+    url(r'^integrationrks/user-watchlist', views.ShowWatchlistFromMessengerId),
     url(r'^integrations/update-user-content', views.UpdateUserContent),
     #url(r'^custom-views/content-blocks', views.GetContentBlocksFromTags),
     #url(r'^usercontents/manual/update', views.UpdateUserContent),
