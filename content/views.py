@@ -60,12 +60,9 @@ def get_content_from_explore_tag_and_user(request):
     #print('subs', subscriptions)
     #print(payload)
     #get content from tag
-    print('url', ROOT_URL+uri)
-    print('payload', payload)
     r = requests.get(ROOT_URL+uri, params=payload)
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
-    print('chatfuel_response', chatfuel_response)
     # get count of elements in chatfuel gallery response
     count = get_count_of_gallery_elements(chatfuel_response)
     if count == 0:
@@ -94,9 +91,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id', None)
         if explore_tag is not None:
             tag_id = Tag.objects.get(name=explore_tag).id
-            print('tagid', tag_id)
             queryset = queryset.filter(contenttag__tag_id=tag_id)
-            print('explore',queryset)
         if query_type is not None:
             if query_type == 'query_watchlist':
                 # takes a user id and returns a watchlist
@@ -131,7 +126,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             #filter out by user subscriptions
             user_subs = get_subscriptions_from_user_id(user_id)
             print(user_subs)
-            if ('Netflix' in user_subs) == True:
+            if ('on_netflix' in user_subs) == True:
                 print('netflix in subs')
                 service_id = Service.objects.get(name='Netflix').id
                 print('service_id', service_id)
