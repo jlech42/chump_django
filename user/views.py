@@ -242,13 +242,15 @@ def UpdateUserContent(request, **kwargs):
     return JsonResponse({})
 
 def get_subscriptions_from_user_id(user_id):
+    print('in subs', user_id)
     user_id = user_id
     user_subscriptions = UserSubscription.objects.all().filter(user_id=user_id)
+    print(user_subscriptions)
     user_subs = []
-    params = []
     for sub in user_subscriptions:
         user_subs.append(Service.objects.get(id=sub.service_id).name)
     filtered_content = {}
+    print('in subs', user_subs)
     # Need to add case where content is on multiple
     if ("Netflix" in user_subs) == False:
         filtered_content['on_netflix'] = False

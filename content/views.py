@@ -130,6 +130,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
             print('watchlist', queryset)
             #filter out by user subscriptions
+            print('user id in get subs', user_id)
             print('subscriptions',get_subscriptions_from_user_id(user_id))
 
         return queryset
