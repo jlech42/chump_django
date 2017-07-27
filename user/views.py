@@ -242,7 +242,6 @@ def UpdateUserContent(request, **kwargs):
     return JsonResponse({})
 
 def get_subscriptions_from_user_id(user_id):
-    print('in subs', user_id)
     user_id = user_id
     user_subscriptions = UserSubscription.objects.all().filter(user_id=user_id)
     print(user_subscriptions)

@@ -12,6 +12,8 @@ class UserSubscription(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     class Meta:
         unique_together = ('user', 'service',)
+    def __str__(self):
+        return self.user.first_name + self.service.name
 
 class UserContent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
