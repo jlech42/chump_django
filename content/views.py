@@ -131,7 +131,7 @@ class ContentViewSet(viewsets.ModelViewSet):
                 service_id = Service.objects.get(name='Netflix').id
                 print('service_id', service_id)
                 print('queryset before', queryset)
-                queryset = queryset.exlude(servicecontent__service=service_id)
+                queryset = queryset.exclude(servicecontent__service=service_id)
                 print('queryset after', queryset)
             '''
             if on_amazon is not None:
