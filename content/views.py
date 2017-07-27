@@ -21,6 +21,7 @@ from user.utilities import get_user_id_from_messenger_id
 from chatfuel.views import DisplayGalleryFromContentJson
 from chatfuel.utilities import get_count_of_gallery_elements
 from user.views import get_subscriptions_from_user_id
+from service.models import ServiceContent, Service
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
 DEV_ROOT_URL = 'http://a9f4d2d9.ngrok.io'
@@ -126,11 +127,26 @@ class ContentViewSet(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id', None)
         if user_id is not None:
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__already_seen=True)
-            print('seen', queryset)
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
-            print('watchlist', queryset)
             #filter out by user subscriptions
-            print('user id in get subs', user_id)
-            print('subscriptions',get_subscriptions_from_user_id(user_id))
+            user_subs = get_subscriptions_from_user_id(user_id)
+            print(user_subs)
+            if ('Netflix' in user_subs) == True:
+                print('netflix in subs')
+                service_id = Service.objects.get(name='Netflix').id
+                print('service_id', service_id)
+                print('queryset before', queryset)
+                queryset = queryset.exlude(servicecontent__service=service_id)
+                print('queryset after', queryset)
+            '''
+            if on_amazon is not None:
+                queryset = queryset.filter(on_amazon=False)
+            if on_hulu is not None:
+                queryset = queryset.filter(on_hulu=False)
+            if on_hbo is not None:
+                queryset = queryset.filter(on_hbo=False)
+            if tag is not None:
+                queryset = queryset.filter(primary_mode=tag)
+            '''
 
         return queryset
