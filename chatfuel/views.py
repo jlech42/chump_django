@@ -47,7 +47,7 @@ def ContentLearnMoreMessageResponse(request):
               "buttons":[
                   {
                       "type":"json_plugin_url",
-                      "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
+                      "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+str(content_id)+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
                       "title":"Add to watchlist"
                   },
                   {
