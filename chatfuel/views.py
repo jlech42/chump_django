@@ -84,7 +84,10 @@ def ShowExploreOptions(request):
                         "set_attributes":
                         {
                           "explore_tag": "leaving",
-                        }
+                        },
+                    {
+                        "title":"Watchlist",
+                        "block_names":["watchlist"]
                     }
             ]}
             ]
@@ -146,7 +149,7 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                 }
             },
             {
-                "text": "Search the gallery above or use the below options",
+                "text": "Scroll through the gallery or use the options below",
                 "quick_replies": [
                     {
                         "title":"Keep exploring",

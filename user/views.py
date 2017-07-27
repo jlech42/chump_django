@@ -53,7 +53,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
         {
           "type":"json_plugin_url",
           "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&watching_now=true&already_seen=true&action=watching_now_from_watchlist",
-          "title":"Watched / about to"
+          "title":"I watched / Im gonna"
         },
         {
           "type":"json_plugin_url",
