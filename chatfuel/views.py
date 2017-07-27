@@ -36,7 +36,18 @@ def ContentLearnMoreMessageResponse(request):
     description = Content.objects.get(id=content_id).long_description
     json = {
         "messages": [
-            {"text": description},
+            {"text": description,
+            "buttons":[
+                {
+                    "type":"json_plugin_url",
+                    "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
+                    "title":"Add to watchlist"
+                },
+                {
+                    "type":"json_plugin_url",
+                    "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&watching_now=true&already_seen=true&action=watching_now_from_watchlist",
+                    "title":"I watched / Im gonna"
+            }]},
             {"quick_replies": [
                 {
                     "title":"Keep exploring",
@@ -114,7 +125,7 @@ def CreateGalleryElementFromContentObject(content_object, user):
         {
           "type":"json_plugin_url",
           "url": ROOT_URL+'/api/text-response/'+'?content_id='+content_id,
-          "title":"Learn more"
+          "title":"Read a description"
         },
         {
           "type":"json_plugin_url",
