@@ -124,12 +124,14 @@ def ShowExploreOptions(request):
                         "set_attributes":
                         {
                           "explore_tag": "leaving",
+                        }
                         },
                     {
                         "title":"Watchlist",
                         "block_names":["watchlist"]
                     }
-            ]}
+                    ]
+                }
             ]
     }
     print('response',json)
