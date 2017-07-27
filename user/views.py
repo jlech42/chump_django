@@ -213,6 +213,25 @@ def UpdateUserContent(request, **kwargs):
         print('user content doesnt exist')
         post_url = ROOT_URL+'/api/user-contents/'
         r = requests.post(ROOT_URL+'/api/user-contents/', data=payload)
+        if action == 'remove_from_watchlist':
+            print('removing from watchlist')
+            chatfuel_response = remove_from_watchlist_message()
+            print('here', chatfuel_response)
+            return JsonResponse(chatfuel_response)
+
+        if action == 'add_to_watchlist':
+            chatfuel_response = add_to_watchlist_message()
+            print('here', chatfuel_response)
+            return JsonResponse(chatfuel_response)
+
+        if action == 'watching_now_from_watchlist':
+            chatfuel_response = watching_now_from_watchlist_message()
+            return JsonResponse(chatfuel_response)
+
+        if action == 'add_already_seen':
+            print('seen')
+            chatfuel_response = already_seen_message()
+            return JsonResponse(chatfuel_response)
         #json = SimpleMessage(action)
 
 
