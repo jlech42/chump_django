@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'api',
     'user',
     'service',
-    'content'
+    'content',
+    'csvimport.app.CSVImportConf',
 ]
 
 MIDDLEWARE = [
