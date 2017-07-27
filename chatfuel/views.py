@@ -11,6 +11,7 @@ import json
 from django.contrib.auth.models import User, Group
 from user.utilities import get_user_id_from_messenger_id
 from content.models import Content
+from user.utilities import get_user_id_from_messenger_id
 
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com/'
@@ -32,6 +33,7 @@ def ContentLearnMoreMessageResponse(request):
     # request has a content id and response with a text of the content description
     body = request.GET
     content_id = int(body['content_id'])
+    user = body['username']
     print('request body!!',body)
     description = Content.objects.get(id=content_id).long_description
     {
