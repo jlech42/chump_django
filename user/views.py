@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 import os
@@ -38,18 +38,12 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 @api_view(['GET','POST'])
 def add_to_watchlist_from_messenger_id_and_content_id(request):
     username = request.POST.get('username')
-    print(username)
     user_id = getUserFromMessengerID(username)
     content_id = request.GET.get('content_id')
-    print(content_id)
-    payload = {}
-    payload['user'] = user_id
-    payload['content'] = content_id
-    payload['on_watchlist'] = True
-    payload['action'] = 'add_to_watchlist'
-    r = requests.get(ROOT_URL+"/api/integrations/update-user-content", params=payload)
-    print(r.json())
-    return JsonResponse({})
+    params = '?user=' + user_id + '&contet=' + content_id + '&on_watchlist=true' + '&action=add_to_watchlist'
+    redirect_url = ROOT_URL + '/api/integrations/update-user-content/' + params
+    print(redirect_url)
+    return redirect(redirect_url)
 
 def create_watchlist_gallery_element_from_content_object(content_object, user):
     title = content_object['title']
