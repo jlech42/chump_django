@@ -117,6 +117,7 @@ def ContentLearnMoreMessageResponse(request):
 
 @api_view(['GET','POST'])
 def ShowExploreOptions(request):
+    print('username',request.GET.get('username'))
     json = {
         "messages": [
             {"text": "What would you like to see?",
