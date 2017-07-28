@@ -117,7 +117,9 @@ def ContentLearnMoreMessageResponse(request):
 
 @api_view(['GET','POST'])
 def ShowExploreOptions(request):
-    print('username',request.GET.get('username'))
+    username = request.GET.get('username')
+    user_id = get_user_id_from_messenger_id(username)
+    print('user',user_id)
     json = {
         "messages": [
             {"text": "What would you like to see?",
@@ -127,7 +129,7 @@ def ShowExploreOptions(request):
                         {
                           "explore_tag": "best-new-shows",
                         },
-                        "url": 'http://desolate-basin-19172.herokuapp.com/api/explore-content-selection-from-tag/?username=1&explore_tag=best-new-shows',
+                        "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + user_id + '&explore_tag=best-new-shows',
                         "type":"json_plugin_url",
                         "title":"Best new shows"
                     },
