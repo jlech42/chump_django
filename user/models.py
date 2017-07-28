@@ -27,7 +27,7 @@ class UserContent(models.Model):
     class Meta:
         unique_together = ('content', 'user')
     def __str__(self):
-        return self.user.username.first_name + ' ' + self.user.username.last_name + ' ' + self.content.title
+        return self.user.first_name + ' ' + self.user.last_name + ' ' + self.content.title
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
