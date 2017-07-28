@@ -204,6 +204,10 @@ def UpdateUserContent(request):
     print('body',body)
     payload = {}
     user = body.get('user', None)
+    username = body.get('username', None)
+    if username:
+        print('username in body')
+        user = getUserFromMessengerID(username)
     print('user',user)
     content = body.get('content')
     print('content',content)
