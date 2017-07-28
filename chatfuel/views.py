@@ -129,7 +129,7 @@ def ShowExploreOptions(request):
                         {
                           "explore_tag": "best-new-shows",
                         },
-                        "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + user_id + '&explore_tag=best-new-shows',
+                        "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + str(user_id) + '&explore_tag=best-new-shows',
                         "type":"json_plugin_url",
                         "title":"Best new shows"
                     },
@@ -138,16 +138,20 @@ def ShowExploreOptions(request):
                         {
                           "explore_tag": "movies-worth-watching",
                         },
-                        "title":"Flix worth watching",
-                        "block_names":["explore_content"]
+
+                        "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + str(user_id) + '&explore_tag=movies-worth-watching',
+                        "type":"json_plugin_url",
+                        "title":"Flix worth watching"
                     },
                     {
                         "set_attributes":
                         {
                           "explore_tag": "leaving",
                         },
-                        "title":"Leaving soon",
-                        "block_names":["explore_content"]
+                        "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + str(user_id) + '&explore_tag=leaving',
+                        "type":"json_plugin_url",
+                        "title":"Leaving soon"
+
                     },
                     {
                         "title":"Watchlist",
