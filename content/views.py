@@ -45,9 +45,10 @@ def out_of_recs_redirect():
     }
     return json
 
-@api_view(['GET','POST'])
 @csrf_exempt
+@api_view(['GET','POST'])
 def get_content_from_explore_tag_and_user(request):
+    print('getting content')
     body = request.GET
     username = body['username']
     explore_tag = body['explore_tag']

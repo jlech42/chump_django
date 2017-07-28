@@ -128,7 +128,6 @@ def ShowExploreOptions(request):
                         },
                         "title":"Best new shows",
                         "block_names":["explore_content"]
-
                     },
                     {
                         "set_attributes":
