@@ -145,7 +145,7 @@ def ShowExploreOptions(request):
                           "explore_tag": "leaving",
                         },
                         "title":"Leaving soon",
-                        "block_names":["explore_content"],
+                        "block_names":["explore_content"]
 
                         },
                     {
