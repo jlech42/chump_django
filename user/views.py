@@ -64,7 +64,7 @@ def create_watchlist_gallery_element_from_content_object(content_object, user):
         {
           "type":"json_plugin_url",
           "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&watching_now=true&already_seen=true&action=watching_now_from_watchlist",
-          "title":"I watched / Im gonna"
+          "title":"I watched this"
         },
         {
           "type":"json_plugin_url",
