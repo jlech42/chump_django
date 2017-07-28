@@ -218,7 +218,7 @@ def DisplayGalleryFromContentJson(content_json, user_id):
                 }
             },
             {
-                "text": "Scroll through the gallery or use the options below",
+                "text": "Check out our recs above or keep exploring with the options below",
                 "quick_replies": [
                     {
                         "title":"Keep exploring",
