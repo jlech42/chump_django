@@ -122,28 +122,31 @@ def ShowExploreOptions(request):
             {"text": "What would you like to see?",
                 "quick_replies": [
                     {
-                        "title":"Best new shows",
-                        "block_names":["explore_content"],
                         "set_attributes":
                         {
                           "explore_tag": "best-new-shows",
-                        }
+                        },
+                        "title":"Best new shows",
+                        "block_names":["explore_content"]
+
                     },
                     {
-                        "title":"Flix worth watching",
-                        "block_names":["explore_content"],
                         "set_attributes":
                         {
                           "explore_tag": "movies-worth-watching",
-                        }
+                        },
+                        "title":"Flix worth watching",
+                        "block_names":["explore_content"],
+
                     },
                     {
-                        "title":"Leaving soon",
-                        "block_names":["explore_content"],
                         "set_attributes":
                         {
                           "explore_tag": "leaving",
-                        }
+                        },
+                        "title":"Leaving soon",
+                        "block_names":["explore_content"],
+
                         },
                     {
                         "title":"Watchlist",
