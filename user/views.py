@@ -220,6 +220,7 @@ def UpdateUserContent(request):
     if 'on_watchlist' in body:
         print('in watchlist!')
         payload['on_watchlist'] = body['on_watchlist']
+        payload['was_on_watchlist'] = 'true'
 
     #check if already seen
     if 'already_seen' in body:
