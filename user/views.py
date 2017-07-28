@@ -283,7 +283,7 @@ def UpdateUserContent(request):
     if action == 'add_to_watchlist_rec_of_week':
         print('add to watchlist rec of week')
         #chatfuel_response = already_seen_message()
-        return JsonResponse({}})
+        return JsonResponse({})
     return JsonResponse({})
 
 def get_subscriptions_from_user_id(user_id):
