@@ -37,7 +37,14 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 @csrf_exempt
 @api_view(['GET','POST'])
 def add_to_watchlist_from_messenger_id_and_content_id(request):
-    print(request.POST)
+    username = request.POST.get('username')
+    print(username)
+
+    user_id = get_user_id_from_messenger_id(username)
+    print(user_id)
+    print(request.GET)
+
+
     return JsonResponse({})
 
 def create_watchlist_gallery_element_from_content_object(content_object, user):
