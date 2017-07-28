@@ -40,7 +40,7 @@ def add_to_watchlist_from_messenger_id_and_content_id(request):
     username = request.POST.get('username')
     user_id = getUserFromMessengerID(username)
     content_id = request.GET.get('content_id')
-    params = '?user=' + user_id + '&contet=' + content_id + '&on_watchlist=true' + '&action=add_to_watchlist'
+    params = '?user=' + str(user_id) + '&contet=' + str(content_id) + '&on_watchlist=true' + '&action=add_to_watchlist'
     redirect_url = ROOT_URL + '/api/integrations/update-user-content/' + params
     print(redirect_url)
     return redirect(redirect_url)
