@@ -34,6 +34,12 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 
+@csrf_exempt
+@api_view(['GET','POST'])
+def add_to_watchlist_from_messenger_id_and_content_id(request):
+    print(request.POST)
+    return JsonResponse({})
+
 def create_watchlist_gallery_element_from_content_object(content_object, user):
     title = content_object['title']
     image_link = content_object['image_link']

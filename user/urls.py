@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^integrations/user-subscriptions', views.IntegrateUserSubscription),
     url(r'^integrations/user-watchlist', views.ShowWatchlistFromMessengerId),
     url(r'^integrations/update-user-content', views.UpdateUserContent),
+    url(r'^integrations/add-to-watchlist-from-messenger-id', views.add_to_watchlist_from_messenger_id_and_content_id),
     #url(r'^custom-views/content-blocks', views.GetContentBlocksFromTags),
     #url(r'^usercontents/manual/update', views.UpdateUserContent),
     #url(r'^custom-views/show-watchlist', views.ShowWatchlist),
