@@ -201,13 +201,14 @@ def UpdateUserContent(request):
     API endpoint that takes in content and username and returns a relationship between a piece of content and user
     """
     body = request.GET
+    print('body',body)
     payload = {}
     user = body.get('user', None)
-    print(user)
+    print('user',user)
     content = body.get('content')
-    print(content)
+    print('content',content)
     action = body.get('action')
-    print(action)
+    print('action',action)
     payload['content'] = content
     payload['user'] = user
     print('here in method')
