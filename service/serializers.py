@@ -5,4 +5,4 @@ from .models import Service, ServiceContent
 class ServiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service
-        fields = ('pk','url', 'name', 'content')
+        fields = ('pk','url', 'name')
