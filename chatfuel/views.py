@@ -126,8 +126,9 @@ def ShowExploreOptions(request):
                         {
                           "explore_tag": "best-new-shows",
                         },
-                        "title":"Best new shows",
-                        "block_names":["explore_content"]
+                        "url": 'http://desolate-basin-19172.herokuapp.com/api/explore-content-selection-from-tag/?username=1&explore_tag=best-new-shows',
+                        "type":"json_plugin_url",
+                        "title":"Best new shows"
                     },
                     {
                         "set_attributes":
@@ -135,8 +136,7 @@ def ShowExploreOptions(request):
                           "explore_tag": "movies-worth-watching",
                         },
                         "title":"Flix worth watching",
-                        "block_names":["explore_content"],
-
+                        "block_names":["explore_content"]
                     },
                     {
                         "set_attributes":
@@ -145,8 +145,7 @@ def ShowExploreOptions(request):
                         },
                         "title":"Leaving soon",
                         "block_names":["explore_content"]
-
-                        },
+                    },
                     {
                         "title":"Watchlist",
                         "block_names":["watchlist"]
