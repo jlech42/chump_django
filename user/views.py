@@ -42,9 +42,13 @@ def add_to_watchlist_from_messenger_id_and_content_id(request):
     user_id = getUserFromMessengerID(username)
     content_id = request.GET.get('content_id')
     print(content_id)
-    #ROOT_URL+"/api/integrations/update-user-content/"+"?content="+str(content_id)+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
-
-
+    payload = {}
+    payload['user'] = user_id
+    payload['content'] = content_id
+    payload['on_watchlist'] = True
+    payload['action'] = 'add_to_watchlist'
+    r = requests.get(ROOT_URL+"/api/integrations/update-user-content", params=payload)
+    print(r.json())
     return JsonResponse({})
 
 def create_watchlist_gallery_element_from_content_object(content_object, user):
@@ -198,7 +202,7 @@ def already_seen_message():
 
 @api_view(['GET','POST'])
 @csrf_exempt
-def UpdateUserContent(request, **kwargs):
+def UpdateUserContent(request):
     """
     API endpoint that takes in content and username and returns a relationship between a piece of content and user
     """
@@ -209,9 +213,10 @@ def UpdateUserContent(request, **kwargs):
     action = body.get('action')
     payload['content'] = content
     payload['user'] = user
-
+    print('here in method')
     # check if adding to watchlist
     if 'on_watchlist' in body:
+        print('in watchlist!')
         payload['on_watchlist'] = body['on_watchlist']
 
     #check if already seen
