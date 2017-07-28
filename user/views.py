@@ -251,7 +251,7 @@ def UpdateUserContent(request):
         if action == 'add_to_watchlist_rec_of_week':
             print('add to watchlist rec of week')
             #chatfuel_response = already_seen_message()
-            return JsonResponse({}})
+            return JsonResponse({})
         #json = SimpleMessage(action)
 
 
