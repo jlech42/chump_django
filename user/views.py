@@ -40,9 +40,10 @@ def add_to_watchlist_from_messenger_id_and_content_id(request):
     username = request.POST.get('username')
     print(username)
 
-    user_id = get_user_id_from_messenger_id(username)
+    user_id = getUserFromMessengerID(username)
     print(user_id)
     print(request.GET)
+    #ROOT_URL+"/api/integrations/update-user-content/"+"?content="+str(content_id)+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
 
 
     return JsonResponse({})
