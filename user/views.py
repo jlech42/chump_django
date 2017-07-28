@@ -248,6 +248,10 @@ def UpdateUserContent(request):
             print('seen')
             chatfuel_response = already_seen_message()
             return JsonResponse(chatfuel_response)
+        if action == 'add_to_watchlist_rec_of_week':
+            print('add to watchlist rec of week')
+            #chatfuel_response = already_seen_message()
+            return JsonResponse({}})
         #json = SimpleMessage(action)
 
 
@@ -276,6 +280,10 @@ def UpdateUserContent(request):
         print('seen')
         chatfuel_response = already_seen_message()
         return JsonResponse(chatfuel_response)
+    if action == 'add_to_watchlist_rec_of_week':
+        print('add to watchlist rec of week')
+        #chatfuel_response = already_seen_message()
+        return JsonResponse({}})
     return JsonResponse({})
 
 def get_subscriptions_from_user_id(user_id):
