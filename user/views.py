@@ -39,10 +39,9 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 def add_to_watchlist_from_messenger_id_and_content_id(request):
     username = request.POST.get('username')
     print(username)
-
     user_id = getUserFromMessengerID(username)
-    print(user_id)
-    print(request.GET)
+    content_id = request.GET.get('content_id')
+    print(content_id)
     #ROOT_URL+"/api/integrations/update-user-content/"+"?content="+str(content_id)+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
 
 
