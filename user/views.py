@@ -202,9 +202,12 @@ def UpdateUserContent(request):
     """
     body = request.GET
     payload = {}
-    user = body.get('user')
+    user = body.get('user', None)
+    print(user)
     content = body.get('content')
+    print(content)
     action = body.get('action')
+    print(action)
     payload['content'] = content
     payload['user'] = user
     print('here in method')
