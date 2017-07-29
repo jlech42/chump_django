@@ -41,6 +41,7 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 
+'''
 @csrf_exempt
 @api_view(['GET','POST'])
 def facebook_webhooks(request):
@@ -60,7 +61,40 @@ def facebook_webhooks(request):
         print('failed')
     #console.error("Failed validation. Make sure the validation tokens match.");
     #res.sendStatus(403);
-    return JsonResponse({})
+'''
+
+# Create your views here.
+class FacebookWebhook(generic.View):
+    def get(self, request, *args, **kwargs):
+        if self.request.GET['hub.verify_token'] == VERIFY_TOKEN:
+            return HttpResponse(self.request.GET['hub.challenge'])
+        else:
+            return HttpResponse('Error, invalid token')
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return generic.View.dispatch(self, request, *args, **kwargs)
+
+    # Post function to handle Facebook messages
+    def post(self, request, *args, **kwargs):
+        # Converts the text payload into a python dictionary
+        incoming_message = json.loads(self.request.body.decode('utf-8'))
+        # Facebook recommends going through every entry since they might send
+        # multiple messages in a single call during high load
+        print('posting', incoming_message)
+        '''
+        for entry in incoming_message['entry']:
+            for message in entry['messaging']:
+                # Check to make sure the received call is a message call
+                # This might be delivery, optin, postback for other events
+                if 'message' in message:
+                    # Print the message to the terminal
+                    pprint(message)
+                    # Assuming the sender only sends text. Non-text messages like stickers, audio, pictures
+                    # are sent as attachments and must be handled accordingly.
+                    post_facebook_message(message['sender']['id'], message['message']['text'])
+        '''
+        return HttpResponse()
 
 @csrf_exempt
 @api_view(['GET','POST'])
