@@ -44,7 +44,9 @@ def facebook_webhooks(request):
     print(body)
     if (body.get('hub.mode') == 'subscribe') & (body.get('hub.verify_token') =='test_token'):
         print('verified!!')
-
+        challenge_response = body.get('hub.challenge')
+        print('challenge response', challenge_response)
+        return JsonResponse(challenge_response)
     #res.status(200).send(req.query['hub.challenge']);
     else:
         print('failed')
