@@ -63,15 +63,19 @@ def get_content_from_explore_tag_and_user(request):
 
     request_json_response = r.json()
     print('json content!',request_json_response)
+
     json_count = len(request_json_response)
-    print('json_count',json_count)
-    #display gallery of content
-    chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
-    # get count of elements in chatfuel gallery response
-    count = get_count_of_gallery_elements(chatfuel_response)
-    if count == 0:
+    print('json_count', json_count)
+
+    if json_count == 0:
         out_of_recs = out_of_recs_redirect()
         return JsonResponse(out_of_recs)
+
+    #display gallery of content
+    chatfuel_response = DisplayGalleryFromContentJson(request_json_response, user_id)
+    # get count of elements in chatfuel gallery response
+    count = get_count_of_gallery_elements(chatfuel_response)
+
     return JsonResponse(chatfuel_response)
 
 class TagViewSet(viewsets.ModelViewSet):
