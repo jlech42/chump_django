@@ -58,11 +58,13 @@ def get_content_from_explore_tag_and_user(request):
     user_id = get_user_id_from_messenger_id(username)
     payload['user_id'] = user_id
     subscriptions = get_subscriptions_from_user_id(user_id)
-    #print('subs', subscriptions)
-    #print(payload)
     #get content from tag
     r = requests.get(ROOT_URL+uri, params=payload)
-    print(r.json())
+
+    request_json_response = r.json()
+    print('json content!',request_json_response)
+    json_count = len(request_json_response)
+    print('json_count',json_count)
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
     # get count of elements in chatfuel gallery response
