@@ -43,6 +43,8 @@ def facebook_webhooks(request):
     body = request.GET
     post_body = request.POST
     print(body)
+    messages = json.loads(request.body.decode('utf-8'))
+    print('messages', messages)
     print('post body', post_body)
     if (body.get('hub.mode') == 'subscribe') & (body.get('hub.verify_token') =='test_token'):
         print('verified!!')
