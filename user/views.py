@@ -41,8 +41,8 @@ FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 def facebook_webhooks(request):
     print('fb webhook')
     body = request.GET
-    print('request',request)
-    if (body.get['hub.mode'] == 'subscribe') & (body.get['hub.verify_token'] =='test_token'):
+    print(body)
+    if (body.get('hub.mode') == 'subscribe') & (body.get('hub.verify_token') =='test_token'):
         print('verified!!')
 
     #res.status(200).send(req.query['hub.challenge']);
