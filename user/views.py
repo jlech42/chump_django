@@ -6,17 +6,22 @@ from rest_framework import viewsets, status, generics
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.http.response import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin
 import requests
-import json
+import json, requests, random, re
 from rest_framework.decorators import detail_route, list_route
 from .models import UserSubscription, Profile, UserContent
 from service.models import Service
 from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, UserSubscriptionSerializer, UserContentSerializer
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag, get_count_of_gallery_elements
+from pprint import pprint
+from django.views import generic
+
+from django.utils.decorators import method_decorator
 
 
 PROD_ROOT_URL = 'http://desolate-basin-19172.herokuapp.com'
@@ -43,7 +48,6 @@ def facebook_webhooks(request):
     body = request.GET
     post_body = request.POST
     print(body)
-    messages = json.loads(request.POST.decode('utf-8'))
     print('messages', messages)
     print('post body', post_body)
     if (body.get('hub.mode') == 'subscribe') & (body.get('hub.verify_token') =='test_token'):
