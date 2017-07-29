@@ -26,6 +26,8 @@ ROOT_URL = DEV_ROOT_URL
 if 'ROOT_URL' in os.environ:
     ROOT_URL = os.environ['ROOT_URL']
 
+FB_ACCESS = 'EAADZAPRSvqasBALH2s3tcNiXVXp8ZC1iHZBvlHjQSesLoOc19PNcBfy7hFVk8wBIPnxDeJkIWxF5d2unK3xBPCKAmZBPGobG89oGg3jNyAxZAR7eAGsFszJh1X3nN5MXIIylDecPUpZAeqgTuWuEjH6b1vXUjvAr61LmKvekicyQZDZD'
+
 FB_ID_RAW = 'https://graph.facebook.com/v2.6/1241145236012339/?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WTIhFv0L2hm8keNhUnYMUOOtS0aZARHFiSyh8gVAOh1xE0TXM6dLrxk21bqBl0kZBJyqvf7dDNSFZBHDasLTqhZCry871iMqHznpLr7rrWQOmpQj7c1njc8gZDZD'
 USER_ID = '1241145236012339'
 FB_URL_ROOT = "https://graph.facebook.com/v2.6/" + USER_ID
@@ -33,6 +35,13 @@ FB_PAGE_ACCESS_TOKEN = 'EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WT
 FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token="+FB_PAGE_ACCESS_TOKEN
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
+
+@csrf_exempt
+@api_view(['GET','POST'])
+def facebook_webhooks(request):
+    print('fb webhook')
+    print('request',request)
+    return JsonResponse({})
 
 @csrf_exempt
 @api_view(['GET','POST'])
