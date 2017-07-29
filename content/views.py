@@ -62,6 +62,7 @@ def get_content_from_explore_tag_and_user(request):
     #print(payload)
     #get content from tag
     r = requests.get(ROOT_URL+uri, params=payload)
+    print(r.json())
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(r.json(), user_id)
     # get count of elements in chatfuel gallery response
