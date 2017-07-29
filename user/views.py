@@ -46,7 +46,7 @@ def facebook_webhooks(request):
         print('verified!!')
         challenge_response = body.get('hub.challenge')
         print('challenge response', challenge_response)
-        return (challenge_response)
+        return HttpResponse(challenge_response)
     #res.status(200).send(req.query['hub.challenge']);
     else:
         print('failed')
