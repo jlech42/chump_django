@@ -72,7 +72,7 @@ def get_content_from_explore_tag_and_user(request):
         return JsonResponse(out_of_recs)
 
     #display gallery of content
-    chatfuel_response = DisplayGalleryFromContentJson(request_json_response, user_id)
+    chatfuel_response = DisplayGalleryFromContentJson(request_json_response , user_id)
     # get count of elements in chatfuel gallery response
     count = get_count_of_gallery_elements(chatfuel_response)
 

@@ -143,6 +143,8 @@ def DisplayWatchlistGalleryFromContentJson(content_json, user_id):
     for content in content_json:
         elements.append(create_watchlist_gallery_element_from_content_object(content, user_id))
     print('elements',elements)
+    elements_count = len(elements)
+    print('elements length', elements_count)
 
     chatfuel_response = {
         "messages": [
