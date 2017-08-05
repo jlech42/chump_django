@@ -62,8 +62,6 @@ def get_content_from_explore_tag_and_user(request):
     r = requests.get(ROOT_URL+uri, params=payload)
 
     request_json_response = r.json()
-    print('json content!',request_json_response)
-
     json_count = len(request_json_response)
     print('json_count', json_count)
 
@@ -150,4 +148,5 @@ class ContentViewSet(viewsets.ModelViewSet):
                 service_id = Service.objects.get(name='HBO').id
                 queryset = queryset.exclude(servicecontent__service=service_id)
 
+        print('final queryset count', len(queryset))
         return queryset
