@@ -55,3 +55,5 @@ class ContentTag(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     class Meta:
         unique_together = ('content', 'tag',)
+    def __str__(self):
+        return self.content.title + ' ' + self.tag.name
