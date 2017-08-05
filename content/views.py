@@ -135,7 +135,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__on_watchlist=True)
             #filter out by user subscriptions
             user_subs = get_subscriptions_from_user_id(user_id)
-            print(user_subs)
+            print('user subscriptions',user_subs)
             if ('on_netflix' in user_subs) == True:
                 service_id = Service.objects.get(name='Netflix').id
                 queryset = queryset.exclude(servicecontent__service=service_id)
