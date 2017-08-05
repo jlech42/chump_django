@@ -102,6 +102,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         if explore_tag is not None:
             tag_id = Tag.objects.get(name=explore_tag).id
             queryset = queryset.filter(contenttag__tag_id=tag_id)
+            print('queryset count', len(queryset))
         if query_type is not None:
             if query_type == 'query_watchlist':
                 # takes a user id and returns a watchlist
