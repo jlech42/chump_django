@@ -8,4 +8,5 @@ from rest_framework_bulk.routes import BulkRouter
 urlpatterns = [
     url(r'^text-response', views.ContentLearnMoreMessageResponse),
     url(r'^explore-options', views.ShowExploreOptions),
+    url(r'^watchlist-text', views.watchlist_text),
 ]

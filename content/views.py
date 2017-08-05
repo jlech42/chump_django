@@ -71,6 +71,8 @@ def get_content_from_explore_tag_and_user(request):
         out_of_recs = out_of_recs_redirect()
         return JsonResponse(out_of_recs)
 
+    request_json_response = request_json_response[::-1]
+    request_json_response = request_json_response[0:9]
     #display gallery of content
     chatfuel_response = DisplayGalleryFromContentJson(request_json_response , user_id)
     # get count of elements in chatfuel gallery response

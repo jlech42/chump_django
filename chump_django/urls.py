@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from chatfuel import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,4 +24,5 @@ urlpatterns = [
     url(r'^api/', include('content.urls')),
     url(r'^api/', include('service.urls')),
     url(r'^api/', include('chatfuel.urls')),
+    url(r'^webviews/watchlist', views.watchlist_webview)
 ]

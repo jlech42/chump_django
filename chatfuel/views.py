@@ -29,6 +29,49 @@ FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
 
 @api_view(['GET','POST'])
+def watchlist_text(request):
+    body = request.GET
+    username = body.get('username')
+    print(username)
+    user_id = get_user_id_from_messenger_id(username)
+    print('username',user_id)
+    #print(username)
+
+    json = {
+      "messages": [
+        {
+          "attachment": {
+            "type": "template",
+            "payload": {
+              "template_type": "button",
+              "text": "see the watchlist",
+              "buttons":[
+                  {
+                      "type":"json_plugin_url",
+                      "url": "www.google.com",
+                      "title":"Test"
+                  },
+                  {
+                      "type":"web_url",
+                      "url":"http://490be929.ngrok.io/webviews/watchlist/?user_id="+str(user_id),
+                      "title":"See watchlist"
+                  }
+                  ]
+            }
+          }
+        }]}
+
+    return JsonResponse(json)
+
+
+@api_view(['GET','POST'])
+def watchlist_webview(request):
+
+    user_id = request.GET.get('user_id')
+    print('webview body', user_id)
+    return render(request, 'base.html', {'user_id': user_id})
+
+@api_view(['GET','POST'])
 def ContentLearnMoreMessageResponse(request):
     # request has a content id and response with a text of the content description
     body = request.GET
