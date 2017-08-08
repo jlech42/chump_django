@@ -47,11 +47,10 @@ class UserLog(models.Model):
         (EXPLORE_MODE_SELECTED, 'Explore Mode Selected'),
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     action = models.CharField(max_length=100, choices=ACTION_CHOICES)
     explore_tag = models.CharField(max_length=100, blank=True)
-
-
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, null=True, blank=True)
 
     #chatfuel_user_id = models.BigIntegerField # from chatfuel
     #messenger_user_id = models.BigIntegerField # from chatfuel
