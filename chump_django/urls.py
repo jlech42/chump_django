@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^api/', include('content.urls')),
     url(r'^api/', include('service.urls')),
     url(r'^api/', include('chatfuel.urls')),
-    url(r'^webviews/watchlist', views.watchlist_webview)
+    url(r'^webviews/watchlist', views.watchlist_webview),
+    url(r'^webviews/services', views.services_webview)
 ]

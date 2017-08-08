@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^text-response', views.ContentLearnMoreMessageResponse),
     url(r'^explore-options', views.ShowExploreOptions),
     url(r'^watchlist-text', views.watchlist_text),
+    url(r'^webview-services', views.webview_services),
 ]

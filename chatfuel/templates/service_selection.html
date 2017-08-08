@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="services-container">
+  <script>
+    let x = 0;
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }
+    (document, 'script', 'Messenger'));
+  </script>
+  <div class="col-xs-12">
+    <h1 class="services-header">Select your services:</h1>
+  </div>
+  <div class="col-xs-12">
+    <label class="big-checkbox"><input type="checkbox" value="">
+      <img class="service-logo" src="{% static 'logos/netflix_logo.png' %}"/>
+    </label>
+  </div>
+  <div class="col-xs-12">
+    <label class="big-checkbox"><input type="checkbox" value="">
+      <img class="service-logo" src="{% static 'logos/amazon_logo.jpg' %}"/>
+    </label>
+  </div>
+  <div class="col-xs-12">
+    <label class="big-checkbox"><input type="checkbox" value="">
+      <img class="service-logo" src="{% static 'logos/hbo_logo.png' %}"/>
+    </label>
+  </div>
+  <div class="col-xs-12">
+    <label class="big-checkbox"><input type="checkbox" value="">
+      <img class="service-logo" src="{% static 'logos/hulu_logo.jpeg' %}"/>
+    </label>
+  </div>
+  <button id="sub-btn" class="btn btn-primary btn-lg" type="submit">Submit</button>
+</div>
+<script>
+  window.extAsyncInit = function() {
+    console.log('loaded');
+    MessengerExtensions.getUserID(function success(uids) {
+
+    // User ID was successfully obtained.
+        var psid = uids.psid;
+        console.log('user id script', psid);
+
+    }, function error(err, errorMessage) {
+    // Error handling code
+        console.log('failed');
+    });
+
+    $("#sub-btn").on('touchstart click', function() {
+      console.log('closing');
+      MessengerExtensions.requestCloseBrowser();
+    });
+    };
+</script>
+{% endblock %}

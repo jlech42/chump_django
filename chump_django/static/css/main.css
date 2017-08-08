@@ -1,0 +1,22 @@
+.services-header{
+  font-size: 5em;
+}
+
+.service-logo{
+  width: 50vw;
+  padding: 50px;
+}
+
+.services-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.big-checkbox  > input {
+  width: 100px;
+  height: 100px;
+}
+
+.service-checkbox{
+  font-size: 10em;
+}

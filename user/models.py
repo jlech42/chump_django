@@ -37,6 +37,27 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+class UserLog(models.Model):
+    EXPLORE_TAG_SELECTED = 'explore_tag_selected'
+    WATCHLIST_VIEWED = 'watchlist_viewed'
+    EXPLORE_MODE_SELECTED = 'explore_mode_selected'
+    ACTION_CHOICES = (
+        (EXPLORE_TAG_SELECTED, 'Explore Tag Selected'),
+        (WATCHLIST_VIEWED, 'Watchlist Viewed'),
+        (EXPLORE_MODE_SELECTED, 'Explore Mode Selected'),
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    action = models.CharField(max_length=100, choices=ACTION_CHOICES)
+    explore_tag = models.CharField(max_length=100, blank=True)
+
+
+
+    #chatfuel_user_id = models.BigIntegerField # from chatfuel
+    #messenger_user_id = models.BigIntegerField # from chatfuel
+    def __str__(self):
+        return self.user.first_name
+
 # signals to hook up user to profile
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
