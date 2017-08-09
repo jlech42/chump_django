@@ -41,16 +41,28 @@ class UserLog(models.Model):
     EXPLORE_TAG_SELECTED = 'explore_tag_selected'
     WATCHLIST_VIEWED = 'watchlist_viewed'
     EXPLORE_MODE_SELECTED = 'explore_mode_selected'
+    WATCHLIST_ADD = 'watchlist_add'
+    ALREADY_SEEN_ADD = 'already_seen_add'
+    BROADCAST_RESPONSE = 'broadcast_response'
+    USER_SHARED = 'user_shared'
+    WEEKLY_REC_ACTION = 'weekly_rec_action'
     ACTION_CHOICES = (
         (EXPLORE_TAG_SELECTED, 'Explore Tag Selected'),
         (WATCHLIST_VIEWED, 'Watchlist Viewed'),
         (EXPLORE_MODE_SELECTED, 'Explore Mode Selected'),
+        (WATCHLIST_ADD, 'Watchlist Add'),
+        (ALREADY_SEEN_ADD, 'Already Seen Add'),
+        (BROADCAST_RESPONSE, 'Broadcast Response'),
+        (USER_SHARED, 'User Shared'),
+        (WEEKLY_REC_ACTION, 'Weekly Rec Action'),
     )
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     action = models.CharField(max_length=100, choices=ACTION_CHOICES)
     explore_tag = models.CharField(max_length=100, blank=True)
     content = models.ForeignKey(Content, on_delete=models.CASCADE, null=True, blank=True)
+    broadcast_response_type = models.CharField(max_length=100, blank=True)
+    weekly_rec_response = models.CharField(max_length=100, blank=True)
 
     #chatfuel_user_id = models.BigIntegerField # from chatfuel
     #messenger_user_id = models.BigIntegerField # from chatfuel

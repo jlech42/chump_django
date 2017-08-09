@@ -50,13 +50,18 @@
 
     }, function error(err, errorMessage) {
     // Error handling code
-        console.log('failed');
+        console.log('failed to find user id');
     });
 
     $("#sub-btn").on('touchstart click', function() {
       console.log('closing');
-      MessengerExtensions.requestCloseBrowser();
-    });
+      MessengerExtensions.requestCloseBrowser(function success() {
+          console.log('success');
+        }, function error(err,errorMessage){
+            console.log('failed');
+            window.top.close();
+        });
+      });
     };
 </script>
 {% endblock %}

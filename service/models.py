@@ -16,3 +16,5 @@ class ServiceContent(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     class Meta:
         unique_together = ('content', 'service',)
+    def __str__(self):
+        return self.content.title + ' ' + self.service.name

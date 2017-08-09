@@ -27,6 +27,9 @@ FB_URL_ROOT = "https://graph.facebook.com/v2.6/" + USER_ID
 FB_PAGE_ACCESS_TOKEN = 'EAADZAPRSvqasBAHQ7TiSRlEsBMT55CHOyfrLYAoDZAnEM74ZC2ct3WTIhFv0L2hm8keNhUnYMUOOtS0aZARHFiSyh8gVAOh1xE0TXM6dLrxk21bqBl0kZBJyqvf7dDNSFZBHDasLTqhZCry871iMqHznpLr7rrWQOmpQj7c1njc8gZDZD'
 FB_URL_PARAMS = "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token="+FB_PAGE_ACCESS_TOKEN
 FB_USER_API = FB_URL_ROOT+FB_URL_PARAMS
+from django.views.decorators.clickjacking import xframe_options_exempt
+
+
 
 @api_view(['GET','POST'])
 def webview_services(request):
@@ -53,7 +56,7 @@ def webview_services(request):
                   },
                   {
                       "type":"web_url",
-                      "url":"http://9eead19e.ngrok.io/webviews/services/?user_id="+str(user_id),
+                      "url":"http://6ba1c310.ngrok.io/webviews/services/?user_id="+str(user_id),
                       "title":"See watchlist"
                   }
                   ]
@@ -88,7 +91,7 @@ def watchlist_text(request):
                   },
                   {
                       "type":"web_url",
-                      "url":"http://9eead19e.ngrok.io/webviews/watchlist/?user_id="+str(user_id),
+                      "url":"http://6ba1c310.ngrok.io/webviews/watchlist/?user_id="+str(user_id),
                       "title":"See watchlist"
                   }
                   ]
