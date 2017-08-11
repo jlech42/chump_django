@@ -335,7 +335,7 @@ def UpdateUserContent(request):
 
         if action == 'add_to_watchlist':
             chatfuel_response = add_to_watchlist_message()
-            print('here', chatfuel_response)
+            log_watchlist_add(user, content)
             return JsonResponse(chatfuel_response)
 
         if action == 'watching_now_from_watchlist':
@@ -343,18 +343,14 @@ def UpdateUserContent(request):
             return JsonResponse(chatfuel_response)
 
         if action == 'add_already_seen':
-            print('seen')
             chatfuel_response = already_seen_message()
             return JsonResponse(chatfuel_response)
         if action == 'add_to_watchlist_rec_of_week':
-            print('add to watchlist rec of week')
             #chatfuel_response = already_seen_message()
             return JsonResponse({})
         if action == 'add_to_gonna_watch_rec_of_week':
-            print('add_to_gonna_watch_rec_of_week')
             return JsonResponse({})
         if action == 'add_to_already_seen_rec_of_week':
-            print('add_to_already_seen_rec_of_week')
             return JsonResponse({})
         #json = SimpleMessage(action)
 
