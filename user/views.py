@@ -103,6 +103,7 @@ def add_to_watchlist_from_messenger_id_and_content_id(request):
     user_id = getUserFromMessengerID(username)
     content_id = request.GET.get('content_id')
     params = '?user=' + str(user_id) + '&contet=' + str(content_id) + '&on_watchlist=true' + '&action=add_to_watchlist'
+    log_watchlist_add(user_id, content_id)
     redirect_url = ROOT_URL + '/api/integrations/update-user-content/' + params
     print(redirect_url)
     return redirect(redirect_url)
@@ -184,6 +185,17 @@ def empty_watchlist_redirect():
     }
     return json
 
+def log_watchlist_add(user_id, content_id):
+    #update user log with explore tag selected
+    user_log_action = 'watchlist_add'
+    post_url = ROOT_URL + '/api/user-logs/'
+    post_data = {}
+    post_data['user'] = user_id
+    post_data['action'] = user_log_action
+    post_data['content'] = content_id
+    print('about to post watchlist viewed')
+    r = requests.post(post_url, data=post_data)
+    return
 
 def log_watchlist_view(user_id):
     #update user log with explore tag selected
