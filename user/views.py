@@ -184,6 +184,19 @@ def empty_watchlist_redirect():
     }
     return json
 
+
+def log_watchlist_view(user_id):
+    #update user log with explore tag selected
+    user_log_action = 'watchlist_viewed'
+    post_url = ROOT_URL + '/api/user-logs/'
+    post_data = {}
+    post_data['user'] = user_id
+    post_data['action'] = user_log_action
+    print('about to post watchlist viewed')
+    r = requests.post(post_url, data=post_data)
+    return
+
+
 @api_view(['GET'])
 def ShowWatchlistFromMessengerId(request):
     messenger_user_id = request.GET.get('username')
@@ -203,6 +216,7 @@ def ShowWatchlistFromMessengerId(request):
         return JsonResponse(json)
     #print('watchlist', user_content_objects)
     #chatfuel_response = DisplayGalleryFromContentObjects(user_content_objects, user=user)
+    log_watchlist_view(user_id)
     return JsonResponse(chatfuel_response)
 
 def getUserFromMessengerID(messenger_id):
