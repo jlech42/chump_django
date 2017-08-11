@@ -193,7 +193,7 @@ def log_watchlist_add(user_id, content_id):
     post_data['user'] = user_id
     post_data['action'] = user_log_action
     post_data['content'] = content_id
-    print('about to post watchlist viewed')
+    print('about to post watchlist add')
     r = requests.post(post_url, data=post_data)
     return
 
