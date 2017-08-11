@@ -61,8 +61,8 @@ class UserLog(models.Model):
     action = models.CharField(max_length=100, choices=ACTION_CHOICES)
     explore_tag = models.CharField(max_length=100, blank=True)
     content = models.ForeignKey(Content, on_delete=models.CASCADE, null=True, blank=True)
-    broadcast_response_type = models.CharField(max_length=100, blank=True)
-    weekly_rec_response = models.CharField(max_length=100, blank=True)
+    broadcast_response_type = models.CharField(max_length=100, blank=True) #what action did people take on each broadcast
+    weekly_rec_response = models.CharField(max_length=100, blank=True) #what action did people take on the weekly rec
 
     #chatfuel_user_id = models.BigIntegerField # from chatfuel
     #messenger_user_id = models.BigIntegerField # from chatfuel

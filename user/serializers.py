@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User, Group
-from .models import Profile, UserSubscription, UserContent
+from .models import Profile, UserSubscription, UserContent, UserLog
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -26,3 +26,8 @@ class UserContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserContent
         fields = ('content','user', 'on_watchlist', 'already_seen', 'watching_now', 'was_on_watchlist', 'shared', 'not_interested')
+
+class UserLogSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = UserLog
+        fields = '__all__'

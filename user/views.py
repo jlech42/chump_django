@@ -13,9 +13,9 @@ from rest_framework.mixins import UpdateModelMixin
 import requests
 import json, requests, random, re
 from rest_framework.decorators import detail_route, list_route
-from .models import UserSubscription, Profile, UserContent
+from .models import UserSubscription, Profile, UserContent, UserLog
 from service.models import Service
-from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, UserSubscriptionSerializer, UserContentSerializer
+from .serializers import UserSerializer, GroupSerializer, ProfileSerializer, UserSubscriptionSerializer, UserContentSerializer, UserLogSerialzier
 from django.contrib.auth.models import User, Group
 from chatfuel.utilities import TranslateTopicButtonToTag, get_count_of_gallery_elements
 from pprint import pprint
@@ -484,3 +484,11 @@ class UserSubscriptionViewSet(viewsets.ModelViewSet):
     """
     queryset = UserSubscription.objects.all()
     serializer_class = UserSubscriptionSerializer
+
+
+class UserLogViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows userlogs to be viewed or edited.
+    """
+    queryset = UserLog.objects.all()
+    serializer_class = UserLogSerialzier

@@ -43,7 +43,20 @@ def out_of_recs_redirect():
     json = {
         "redirect_to_blocks": ["out_of_recs"]
     }
+
     return json
+
+def update_user_log_with_explore_tag(user_id, explore_tag):
+    #update user log with explore tag selected
+    user_log_action = 'explore_tag_selected'
+    post_url = ROOT_URL + '/api/user-logs/'
+    post_data = {}
+    post_data['user'] = user_id
+    post_data['explore_tag'] = explore_tag
+    post_data['action'] = user_log_action
+    print('about to post')
+    r = requests.post(post_url, data=post_data)
+    return
 
 @csrf_exempt
 @api_view(['GET','POST'])
@@ -60,11 +73,9 @@ def get_content_from_explore_tag_and_user(request):
     subscriptions = get_subscriptions_from_user_id(user_id)
     #get content from tag
     r = requests.get(ROOT_URL+uri, params=payload)
-
     request_json_response = r.json()
     json_count = len(request_json_response)
     print('json_count', json_count)
-
     if json_count == 0:
         out_of_recs = out_of_recs_redirect()
         return JsonResponse(out_of_recs)
@@ -75,7 +86,8 @@ def get_content_from_explore_tag_and_user(request):
     chatfuel_response = DisplayGalleryFromContentJson(request_json_response , user_id)
     # get count of elements in chatfuel gallery response
     count = get_count_of_gallery_elements(chatfuel_response)
-
+    print('explore tag', explore_tag)
+    update_user_log_with_explore_tag(user_id, explore_tag)
     return JsonResponse(chatfuel_response)
 
 class TagViewSet(viewsets.ModelViewSet):
