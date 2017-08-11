@@ -119,27 +119,6 @@ class ContentViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(usercontent__user_id=user_id, usercontent__on_watchlist=True)
                 return queryset
 
-        '''
-        # filter for tags
-        tag = self.request.query_params.get('content_tag', None)
-
-        # filter for user services - needs to be tested
-        on_netflix = self.request.query_params.get('on_netflix', None)
-        on_hulu = self.request.query_params.get('on_hulu', None)
-        on_hbo = self.request.query_params.get('on_hbo', None)
-        on_amazon = self.request.query_params.get('on_amazon', None)
-        if on_netflix is not None:
-            queryset = queryset.filter(on_netflix=False)
-        if on_amazon is not None:
-            queryset = queryset.filter(on_amazon=False)
-        if on_hulu is not None:
-            queryset = queryset.filter(on_hulu=False)
-        if on_hbo is not None:
-            queryset = queryset.filter(on_hbo=False)
-        if tag is not None:
-            queryset = queryset.filter(primary_mode=tag)
-
-        '''
         user_id = self.request.query_params.get('user_id', None)
         if user_id is not None:
             queryset = queryset.exclude(usercontent__user=user_id, usercontent__already_seen=True)
@@ -159,6 +138,4 @@ class ContentViewSet(viewsets.ModelViewSet):
             if ('on_hbo' in user_subs) == True:
                 service_id = Service.objects.get(name='HBO').id
                 queryset = queryset.exclude(servicecontent__service=service_id)
-
-        print('final queryset count', len(queryset))
         return queryset

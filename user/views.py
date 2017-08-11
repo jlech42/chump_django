@@ -208,6 +208,16 @@ def log_watchlist_view(user_id):
     r = requests.post(post_url, data=post_data)
     return
 
+def log_already_seen_add(user_id, content_id):
+    #update user log with explore tag selected
+    user_log_action = 'already_seen_add'
+    post_url = ROOT_URL + '/api/user-logs/'
+    post_data = {}
+    post_data['user'] = user_id
+    post_data['action'] = user_log_action
+    post_data['content'] = content_id
+    r = requests.post(post_url, data=post_data)
+    return
 
 @api_view(['GET'])
 def ShowWatchlistFromMessengerId(request):
@@ -344,6 +354,7 @@ def UpdateUserContent(request):
 
         if action == 'add_already_seen':
             chatfuel_response = already_seen_message()
+            log_already_seen_add(user,content)
             return JsonResponse(chatfuel_response)
         if action == 'add_to_watchlist_rec_of_week':
             #chatfuel_response = already_seen_message()

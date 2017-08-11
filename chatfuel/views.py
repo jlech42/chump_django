@@ -166,40 +166,6 @@ def ContentLearnMoreMessageResponse(request):
             }
         ]
     }
-    '''
-    json = {
-        "messages": [
-            {"text": description,
-            "buttons":[
-                {
-                    "type":"json_plugin_url",
-                    "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=true&action=add_to_watchlist",
-                    "title":"Add to watchlist"
-                },
-                {
-                    "type":"json_plugin_url",
-                    "url": ROOT_URL+"/api/integrations/update-user-content/"+"?content="+content_id+"&user="+str(user)+"&on_watchlist=false&watching_now=true&already_seen=true&action=watching_now_from_watchlist",
-                    "title":"I watched / Im gonna"
-                }
-                ]
-            },
-            {"quick_replies": [
-                {
-                    "title":"Keep exploring",
-                    "block_names":["explore_content"]
-                },
-                {
-                    "title":"See watchlist",
-                    "block_names":["watchlist"]
-                },
-                {
-                    "title":"Share w/ friends",
-                    "block_names":["Share"]
-                }
-            ]}
-            ]
-    }
-    '''
     return JsonResponse(json)
 
 
@@ -259,7 +225,6 @@ def ShowExploreOptions(request):
                 }
             ]
     }
-    print('response',json)
     return JsonResponse(json)
 
 def CreateGalleryElementFromContentObject(content_object, user):
@@ -302,8 +267,6 @@ def DisplayGalleryFromContentJson(content_json, user_id):
     # need to make sure gallery can hold unlimited elements
     for content in content_json:
         elements.append(CreateGalleryElementFromContentObject(content, user_id))
-    print('elements',elements)
-
     chatfuel_response = {
         "messages": [
             {
