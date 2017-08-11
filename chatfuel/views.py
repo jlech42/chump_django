@@ -242,6 +242,16 @@ def ShowExploreOptions(request):
 
                     },
                     {
+                        "set_attributes":
+                        {
+                          "explore_tag": "leaving",
+                        },
+                        "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + str(user_id) + '&explore_tag=Sundance',
+                        "type":"json_plugin_url",
+                        "title":"Sundance picks"
+
+                    },
+                    {
                         "title":"Watchlist",
                         "block_names":["watchlist"]
                     }
