@@ -181,6 +181,16 @@ def ShowExploreOptions(request):
                     {
                         "set_attributes":
                         {
+                          "explore_tag": "Sundance",
+                        },
+                        "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + str(user_id) + '&explore_tag=Sundance',
+                        "type":"json_plugin_url",
+                        "title":"Sundance picks"
+
+                    },
+                    {
+                        "set_attributes":
+                        {
                           "explore_tag": "best-new-shows",
                         },
                         "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + str(user_id) + '&explore_tag=best-new-shows',
@@ -205,16 +215,6 @@ def ShowExploreOptions(request):
                         "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + str(user_id) + '&explore_tag=leaving',
                         "type":"json_plugin_url",
                         "title":"Leaving soon"
-
-                    },
-                    {
-                        "set_attributes":
-                        {
-                          "explore_tag": "leaving",
-                        },
-                        "url":  ROOT_URL + '/api/explore-content-selection-from-tag/?username=' + str(user_id) + '&explore_tag=Sundance',
-                        "type":"json_plugin_url",
-                        "title":"Sundance picks"
 
                     },
                     {
